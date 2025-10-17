@@ -1,0 +1,435 @@
+/* Enhanced Beautiful Sidebar Styling - Fully Responsive */
+
+/* Sidebar container with stunning gradient */
+.stdsidebar {
+  height: 100vh;
+  width: 280px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%); */
+  background: black;
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); */
+  color: #fff;
+  padding-top: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1000;
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.15);
+}
+/* Decorative overlay pattern */
+.stdsidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Collapsed sidebar on desktop */
+.stdsidebar.collapsed {
+  width: 80px;
+}
+
+/* Sidebar header */
+.stdsidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.stdsidebar-header .logo {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.4s ease;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #fff, #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stdsidebar.collapsed .logo {
+  font-size: 18px;
+}
+
+/* Toggle button with beautiful animation */
+.toggle-btn {
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1) rotate(90deg);
+}
+
+/* Menu container */
+.stdmenu {
+  padding: 10px 15px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Links with stunning hover effects */
+.stdsidebar .link {
+  display: flex;
+  align-items: center;
+  padding: 16px 18px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 14px;
+  margin: 8px 0;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+/* Hover shine effect */
+.stdsidebar .link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.stdsidebar .link:hover::before {
+  left: 100%;
+}
+
+.stdsidebar .link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: translateX(8px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Active link with gradient and shadow */
+.stdsidebar .link.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  color: #667eea;
+  font-weight: 700;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateX(5px);
+}
+
+.stdsidebar .link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: linear-gradient(to bottom, #667eea, #764ba2);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Icons with beautiful styling */
+.stdsidebar .link .icon {
+  margin-right: 16px;
+  font-size: 20px;
+  min-width: 28px;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stdsidebar .link:hover .icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.stdsidebar .link.active .icon {
+  transform: scale(1.15);
+}
+
+/* Text styling */
+.stdsidebar .link .text {
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+/* Hide text when collapsed */
+.stdsidebar.collapsed .link .text {
+  opacity: 0;
+  width: 0;
+  margin: 0;
+}
+
+.stdsidebar.collapsed .link .icon {
+  margin-right: 0;
+}
+
+/* Tooltip for collapsed state */
+.stdsidebar.collapsed .link {
+  position: relative;
+  justify-content: center;
+}
+
+.stdsidebar.collapsed .link:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 15px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: 14px;
+  opacity: 0;
+  animation: fadeInTooltip 0.3s forwards;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+@keyframes fadeInTooltip {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Main content */
+.main {
+  margin-left: 280px;
+  padding: 30px;
+  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.main.collapsed {
+  margin-left: 80px;
+}
+
+/* Scrollbar styling */
+.stdsidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stdsidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.stdsidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.stdsidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Dashboard layout */
+.dashboard-layout {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Mobile Menu Button - Hidden on desktop, visible on mobile */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.mobile-menu-btn:active {
+  transform: scale(0.95);
+}
+
+/* Mobile overlay backdrop */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Responsive Design */
+/* Tablet */
+@media screen and (max-width: 1024px) {
+  .stdsidebar {
+    width: 250px;
+  }
+  
+  .stdsidebar.collapsed {
+    width: 80px;
+  }
+  
+  .main {
+    margin-left: 250px;
+  }
+  
+  .main.collapsed {
+    margin-left: 80px;
+  }
+}
+
+/* Mobile - Hide sidebar by default */
+@media screen and (max-width: 768px) {
+  /* Show mobile menu button */
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .stdsidebar {
+    width: 280px;
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+  
+  /* Show sidebar when NOT collapsed (button clicked) */
+  .stdsidebar:not(.collapsed) {
+    transform: translateX(0);
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .main {
+    margin-left: 0 !important;
+    padding: 80px 20px 20px 20px; /* Extra top padding for mobile menu button */
+  }
+  
+  /* Mobile overlay shown when sidebar is open */
+  .stdsidebar:not(.collapsed)::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 280px;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+  
+  /* Adjust link hover on mobile */
+  .stdsidebar .link:hover {
+    transform: translateX(5px);
+  }
+  
+  .stdsidebar .link.active {
+    transform: translateX(3px);
+  }
+}
+
+/* Small Mobile */
+@media screen and (max-width: 480px) {
+  .stdsidebar {
+    width: 85%;
+    max-width: 280px;
+  }
+  
+  .stdsidebar:not(.collapsed)::after {
+    left: 85%;
+  }
+  
+  .stdsidebar-header {
+    padding: 20px 15px;
+  }
+  
+  .stdsidebar-header .logo {
+    font-size: 18px;
+  }
+  
+  .stdsidebar .link {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  
+  .stdmenu {
+    padding: 10px 10px;
+  }
+  
+  .main {
+    padding: 15px;
+  }
+}
+
+/* Very small screens */
+@media screen and (max-width: 360px) {
+  .stdsidebar {
+    width: 90%;
+  }
+  
+  .stdsidebar:not(.collapsed)::after {
+    left: 90%;
+  }
+  
+  .stdsidebar-header .logo {
+    font-size: 16px;
+  }
+  
+  .stdsidebar .link {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+}

@@ -1,0 +1,1072 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+.times-navbar {
+  background-color: white !important;
+  padding: 0.4rem 1rem !important; /* Compact height */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.times-logo {
+  height: 50px;
+  object-fit: contain;
+}
+
+.times-nav .nav-link {
+  margin: 0 0.75rem;
+  font-size: 0.95rem;
+  color: #333;
+  font-family: sans-serif;
+  text-transform: capitalize;
+}
+
+.times-nav .nav-link:hover,
+.times-nav .nav-link.active {
+  color: #007bff !important;
+  border-bottom: 2px solid #007bff;
+  border-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .times-navbar {
+    padding: 0.5rem 0.5rem;
+  }
+  .times-logo {
+    height: 45px;
+  }
+}
+/* ------------------------ */
+.custom-navbar {
+  background: linear-gradient(90deg, #8e0e00, #1f1c18);
+  padding: 0.7rem 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: all 0.4s ease-in-out;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Mega menu default hidden */
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+.mega-menu.open {
+  display: grid;
+}
+
+.menu-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-heading {
+  font-weight: 700;
+  color: #b1002e;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #b1002e;
+  padding-bottom: 5px;
+}
+
+.menu-row a {
+  color: #333;
+  text-decoration: none;
+  margin: 4px 0;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.menu-row a:hover {
+  color: #b1002e;
+  padding-left: 5px;
+}
+@media (max-width: 767px) {
+  .mega-menu {
+    position: relative;
+    top: 0;
+    padding: 20px;
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+/* ==============Apply Now Form ============ */
+.step-progress {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  text-align: center;
+}
+
+.step-progress::before {
+  content: "";
+  position: absolute;
+  top: 20px; /* aligns with circles */
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background: #e0e0e0; /* grey line */
+  z-index: 1;
+}
+
+.progress-step {
+  position: relative;
+  z-index: 2;
+}
+
+.step-number {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  background: #e0e0e0;
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active .step-number {
+  background: #0d6efd; /* bootstrap blue */
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.progress-step h6 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Fill line up to active step */
+.step-progress .progress-step.active::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -50%;
+  width: 100%;
+  height: 4px;
+  background: #0d6efd;
+  z-index: -1;
+}
+
+.step-progress .progress-step:first-child::after {
+  display: none; /* no line before first step */
+}
+
+
+/* ===============Hero Section Styling==================.... */
+
+.hero-container{
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  display: block;
+}
+/* Floating container */
+.hero-floating-buttons {
+  position: fixed;
+  top: 40%;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 999;
+}
+/* 🔹 Carousel container layout */
+.carousel-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* 🔹 Each card */
+.carousel-card {
+  flex: 1 1 180px; /* grow, shrink, min width */
+  max-width: 220px;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #fff;
+}
+
+/* 🔹 Image styling */
+.carousel-card img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  padding: 10px;
+  background: linear-gradient(135deg, #f5f5f5, #eaeaea);
+}
+
+/* 🔹 Hover effect */
+.carousel-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* 🔹 Medium screens (tablets) */
+@media (max-width: 992px) {
+  .carousel-card-container {
+    gap: 1.2rem;
+  }
+
+  .carousel-card {
+    flex: 1 1 160px;
+    max-width: 180px;
+  }
+}
+
+/* 🔹 Small screens (mobiles) */
+@media (max-width: 576px) {
+  .carousel-card-container {
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+
+  .carousel-card {
+    flex: 1 1 45%; /* 2 per row */
+    max-width: 48%;
+  }
+
+  .carousel-card img {
+    padding: 8px;
+  }
+}
+
+/* 🔹 Extra small screens */
+@media (max-width: 400px) {
+  .carousel-card {
+    flex: 1 1 100%; /* 1 per row */
+    max-width: 100%;
+  }
+}
+
+/* Gradient buttons (overriding MDB defaults) */
+.hero-floating-buttons .App-Pros-btn {
+  background: linear-gradient(135deg, #969394, #150b04);
+  color: #fff !important;
+  border: none !important;
+  padding: 12px 20px !important;
+  border-radius: 5px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Hover Animation */
+.hero-floating-buttons .App-Pros-btn:hover {
+  transform: translateX(-6px) scale(1.05);
+  background: linear-gradient(135deg, #ee0979, #ff6a00);
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Icons inside buttons */
+.hero-floating-buttons .App-Pros-btn i {
+  font-size: 18px;
+}
+
+/* 📱 Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-floating-buttons {
+    top: 35%;  /* slightly lower for better fit */
+    right: 10px; /* adjust margin */
+    flex-direction: column; /* keep vertical */
+    gap: 10px;
+  }
+
+  .hero-floating-buttons .App-Pros-btn {
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    border-radius: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-floating-buttons {
+    top: 30%; /* adjust for very small screens */
+    right: 8px;
+  }
+
+  .hero-floating-buttons .App-Pros-btn {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+  }
+}
+
+
+/* COntent of Hero Page...... */
+.content-of-university {
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  
+}
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left; /* Align text to left */
+}
+
+.sub-heading,
+.main-heading {
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.sub-heading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #b1002e;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.main-heading {
+  font-size: 1.5rem;
+  color: #1f1c18;
+  font-weight: 700;
+  margin: 0.5rem 0 1rem 0;
+}
+
+/* Bottom line effect aligned left */
+.sub-heading::after,
+.main-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;             /* Line starts from left of heading */
+  bottom: -5px;
+  width: 0%;           /* Start with 0 width */
+  height: 4px;
+  background: linear-gradient(90deg, #8e0e00, #b1002e);
+  transition: width 0.3s ease; /* Animate width */
+  border-radius: 2
+}
+.sub-heading:hover::after,
+.main-heading:hover::after {
+  width: 100px; /* Expand line on hover */
+}
+.paragraph {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.load-btn {
+  background: #0a74da;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.load-btn:hover {
+  background: #084a96;
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ============================== */
+
+/* carousel section  */
+
+/* .card-wrapper{
+  display: flex;
+} */
+
+
+/* This is the Cards Section */
+.cards-wrapper {
+  padding: 60px 20px;
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+/* Responsive grid system */
+.cards-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  padding: 40px 60px;
+  justify-items: center;
+}
+
+/* Card styling */
+.custom-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.custom-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Header (top section) */
+.card-header {
+  background-color: crimson;
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 10px 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #e2e2e2;
+}
+
+/* Image styling */
+/* Image styling — perfectly aligned and equal height */
+.custom-card-image {
+  width: 100%;
+  height: 240px; /* slightly increased for better visual balance */
+  object-fit:contain; /* ensures image fills the area proportionally */
+  object-position: center center; /* centers important content */
+  display: block; /* removes inline gap issues */
+  cursor: pointer;
+  transition: transform 0.35s ease, filter 0.35s ease;
+  border-bottom: 3px solid #f1f1f1; /* optional subtle border separator */
+}
+
+.custom-card:hover .custom-card-image {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
+
+/* Text content */
+.person-name {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  color: #333;
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
+
+.person-name:hover {
+  color: #007bff;
+}
+
+.person-role {
+  font-size: 15px;
+  text-align: center;
+  color: #d92353;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  .cards-section {
+    padding: 30px;
+    gap: 30px;
+  }
+
+  .custom-card-image {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-wrapper {
+    padding: 40px 15px;
+  }
+
+  .custom-card {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-section {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .card-header {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .person-name {
+    font-size: 16px;
+  }
+
+  .person-role {
+    font-size: 14px;
+  }
+}
+
+
+/* CAROUSEL MISSION AND VISION SECTION */
+
+.Carousel-mision-vision-section {
+  background: linear-gradient(135deg, #f3f3f3, #ffffff);
+  padding: 60px 20px;
+}
+
+.mission-vision-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.1);
+  transition: all 0.4s ease-in-out;
+}
+
+.mission-vision-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+}
+
+.mission-vision-content h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: black;
+  position: relative;
+  display: inline-block;
+}
+
+.mission-vision-content h3::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 3px;
+  background: #c11502;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.mission-vision-content h6 {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #444;
+  font-weight: 400;
+  padding: 0 15px;
+}
+/* 🌟 Explore Our Courses Section */
+.explore-our-courses-Main {
+  padding: 60px 40px;
+  margin: 40px auto;
+  background: linear-gradient(to bottom, #f8fafc, #eef2f3);
+}
+
+/* ✨ Section Heading */
+.explore-our-courses-Main h2 {
+  margin-bottom: 40px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1a2133;
+  text-transform: uppercase;
+  border-left: 5px solid #243949;
+  padding-left: 15px;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+/* 🧩 Responsive Grid Layout */
+.card-courses-sub {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  justify-items: center;
+}
+
+/* 🎓 Course Card Design */
+.cards-courses {
+  width: 100%;
+  max-width: 300px;
+  height: 260px;
+  background: linear-gradient(145deg, #1a2133, #2e3b4e);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 🖼️ Image Styling */
+.cards-courses img,
+.cards-courses .mdb-card-image,
+.cards-courses .MDBCardImage {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  transition: transform 0.4s ease;
+}
+
+.cards-courses:hover img {
+  transform: scale(1.08);
+}
+
+/* 🏷️ Course Title */
+.cards-courses .card-title {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 12px 10px 18px;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+/* ✨ Hover Effects */
+.cards-courses:hover {
+  transform: translateY(-8px) scale(1.03);
+  background: linear-gradient(145deg, #243949, #517fa4);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* 🧠 Smooth Animations */
+.cards-courses,
+.cards-courses img {
+  transition: all 0.4s ease-in-out;
+}
+
+/* 📱 Responsive Tweaks */
+@media (max-width: 992px) {
+  .explore-our-courses-Main {
+    padding: 50px 30px;
+  }
+  .explore-our-courses-Main h2 {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .explore-our-courses-Main {
+    padding: 40px 20px;
+  }
+  .explore-our-courses-Main h2 {
+    text-align: center;
+    border-left: none;
+    border-bottom: 3px solid #243949;
+    display: inline-block;
+    padding-bottom: 8px;
+  }
+  .card-courses-sub {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .explore-our-courses-Main {
+    padding: 30px 15px;
+  }
+  .explore-our-courses-Main h2 {
+    font-size: 22px;
+  }
+  .cards-courses {
+    max-width: 100%;
+    height: auto;
+  }
+  .cards-courses img {
+    height: 180px;
+  }
+  .cards-courses .card-title {
+    font-size: 15px;
+  }
+}
+
+/* Quick Fact Sectoin  */
+
+/* ===== Section Background & Layout ===== */
+.Quick-Fact-Section {
+  /* background: linear-gradient(135deg, #fdfdfd 0%, #f3f4f7 100%); */
+background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative subtle background shapes */
+.Quick-Fact-Section::before,
+.Quick-Fact-Section::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(193, 21, 2, 0.07);
+  z-index: 0;
+}
+.Quick-Fact-Section::before {
+  width: 250px;
+  height: 250px;
+  top: -80px;
+  left: -80px;
+}
+.Quick-Fact-Section::after {
+  width: 300px;
+  height: 300px;
+  bottom: -100px;
+  right: -100px;
+}
+
+/* ===== Heading ===== */
+.quick-heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #333333;
+
+
+
+  position: relative;
+  z-index: 2;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Underline Accent */
+.quick-heading::after {
+  content: "";
+  width: 90px;
+  height: 4px;
+  background: #333333;
+  display: block;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* ===== Paragraph ===== */
+.quick-para {
+  max-width: 720px;
+  margin: 0 auto 50px;
+  color: #333333;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  z-index: 2;
+  position: relative;
+}
+
+/* ===== Carousel Wrapper ===== */
+.carousel-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Carousel Card */
+.quick-carousel {
+  width: 75%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  background:#ffff;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.quick-carousel:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+}
+
+/* ===== Carousel Inner Content ===== */
+.quick-CText {
+  margin-top: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  animation: fadeInUp 0.8s ease;
+}
+
+.quick-CText h2 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: crimson;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+.quick-CText h2:hover {
+  transform: scale(1.1);
+}
+
+/* Card Text */
+.quick-CText h5 {
+  font-size: 1.05rem;
+  font-weight: 600;
+color: crimson;
+  margin: 5px 0;
+  letter-spacing: 0.5px;
+}
+/* ===== New Icon & Description Styling ===== */
+.icon-style {
+  color:crimson;
+  margin-bottom: 10px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.icon-style:hover {
+  transform: rotate(10deg) scale(1.2);
+}
+
+.quick-CText p {
+  font-size: 0.95rem;
+  color: black;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============This is the Student Portal Cards======================= */
+
+.Portal-Section-STTCCAF {
+  width: 100%;
+  padding: 60px 40px;
+ background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Grid Layout */
+.grid-Container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+}
+
+/* Card Styling */
+.portal-cards {
+  border-radius: 20px;
+ background: linear-gradient(145deg, #1e293b, #334155); /* dark bluish gradient */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 25px 15px;
+  text-align: center;
+  color: #1e1e2f;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Card Hover */
+.portal-cards:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+}
+
+/* Card Images */
+.portal-images {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 15px;
+filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.5));
+}
+
+/* Title Text */
+.portal-cards .mdb-card-title,
+.portal-cards h5 {
+   font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #ffffff; /* light slate text */
+  margin-top: 8px;
+  transition: color 0.3s ease;
+}
+
+/* ==============Student Registration Form================ */
+/* Form container */
+form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease-in-out;
+}
+
+/* Titles */
+form .title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0d6efd;
+  margin-bottom: 20px;
+  display: block;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* Labels */
+.form-label {
+  font-weight: 500;
+  color: #333;
+}
+
+/* Inputs */
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 6px rgba(13, 110, 253, 0.25);
+}
+
+/* Buttons */
+button.nextBtn, button.backBtn, button.submitBtn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+button.nextBtn {
+  background-color: #0d6efd;
+  color: white;
+}
+button.nextBtn:hover {
+  background-color: #084298;
+}
+
+button.backBtn {
+  background-color: #adb5bd;
+  color: white;
+}
+button.backBtn:hover {
+  background-color: #6c757d;
+}
+
+button.submitBtn {
+  background-color: #198754;
+  color: white;
+}
+button.submitBtn:hover {
+  background-color: #145c32;
+}
+
+/* Step Progress Enhancements */
+.step-progress {
+  position: relative;
+  margin: 40px 0;
+}
+
+.step-progress::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background: #dee2e6;
+  z-index: 1;
+}
+
+.progress-step {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+}
+
+.step-number {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #dee2e6;
+  color: #495057;
+  line-height: 45px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active .step-number {
+  background: #0d6efd;
+  color: #fff;
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+}
+
+.progress-step h6 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #212529;
+}
+/* ================ SignUp Page===================== */

@@ -1,0 +1,143 @@
+/* Sidebar container */
+.sidebar {
+  height: 100vh;
+  width: 220px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(180deg, #1e3c72, #2a5298); /* New elegant blue gradient */
+  color: #fff;
+  padding-top: 20px;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* Sidebar header */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  margin-bottom: 30px;
+}
+
+.sidebar-header .logo {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s ease-in-out;
+  color: #fff;
+}
+
+/* Toggle button */
+.toggle-btn {
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.toggle-btn:hover {
+  transform: rotate(90deg);
+  color: #ff9800; /* highlight */
+}
+
+/* Links */
+.sidebar .link {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  color: #e0e6ed;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s;
+  border-radius: 8px;
+  margin: 5px 4px;
+}
+
+.sidebar .link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.sidebar .link.active {
+  background: #ff9800; /* active link orange */
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(255, 152, 0, 0.4);
+}
+
+/* Icons */
+.sidebar .link .icon {
+  margin-right: 15px;
+  font-size: 18px;
+  min-width: 25px;
+  text-align: center;
+  color: #fff;
+}
+
+/* Collapse - hide text */
+.sidebar.collapsed .link .text {
+  display: none;
+}
+
+/* Main content */
+.main {
+  margin-left: 220px;
+  padding: 20px;
+  transition: margin-left 0.3s;
+  background: #f4f7fb; /* light professional background */
+  min-height: 100vh;
+}
+
+.main.collapsed {
+  margin-left: 70px;
+}
+
+
+
+/* ---------- Sidebar (already styled before) ---------- */
+
+/* ---------- Top Navbar ---------- */
+.top-navbar {
+  height: 60px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-navbar h5 {
+  color: #2a5298;
+  font-weight: 600;
+}
+
+.top-navbar .faculty-name {
+  color: #ff9800; /* highlight faculty name */
+}
+
+.logout-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #e68900;
+}
