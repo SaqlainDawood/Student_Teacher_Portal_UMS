@@ -13,6 +13,7 @@ import StudentFee from './StudentDashboard/StudentFee'
 import StudentResult from './StudentDashboard/StudentResult'
 import StudentNotes from './StudentDashboard/StudentNotes'
 import StudentAttendance from './StudentDashboard/StudentAttendance'
+import FacultyLogin from './FacultyDashboard/Form/Login'
 import FacultyDashboard from './FacultyDashboard/Pages/FacultyDashboard'
 import FacultyProfile from './FacultyDashboard/Pages/FacultyProfile'
 import AddClass from './FacultyDashboard/Pages/AddNewClass'
@@ -22,14 +23,9 @@ import FacDashHome from './FacultyDashboard/Pages/FacDashHome'
 import MultiPartForm from './Forms/Multipartform/Multi_part_form'
 import StudentReg from './Forms/Student/StudentReg'
 import { useEffect , useState } from 'react'
+import Login from './FacultyDashboard/Form/Login'
 
 function App() {
-    // const isAuth = !!localStorage.getItem("studentToken"); 
-    const [isAuth , setIsAuth] = useState(false);
-    useEffect(()=>{
-      const token = localStorage.getItem("studentToken")
-        if (token) setIsAuth(true);
-    } , []);
    return (
     <>
      <Router>
@@ -38,9 +34,9 @@ function App() {
         <Route  path='/' element={<Hero/>}/>
         <Route path = '/student/enroll' element = {<StudentReg/>}/>
          <Route path = '/student/register' element = {<MultiPartForm/>}/>
-         <Route path='/student/login' element = {<LoginPage setIsAuth = {setIsAuth}/>}/>
+         <Route path='/student/login' element = {<LoginPage/>}/>
         {/* Student Dashboard Layout with Nested Routes */}
-          <Route path="/std"element={isAuth ? <StdDashboard /> : <Navigate to="/student/login" />}>
+          <Route path="/std"element={<StdDashboard/>}>
             <Route path="dashboard" element={<DashboardHome />} />
             <Route path="profile" element={<StudentProfile />} />
             <Route path="feehistory" element={<StudentFee />} />
@@ -49,14 +45,15 @@ function App() {
             <Route path="attendance" element={<StudentAttendance />} />
           </Route>
                {/* Facult Dashbaord */}
-           <Route path="/faculty" element={<FacultyDashboard />}>
+           
+           <Route path='/faculty/login'element = {<FacultyLogin/>}/>
+           <Route path="/faculty" element={ <FacultyDashboard />}>
             <Route path="dashboard" element={<FacDashHome />} />
             <Route path="addnewclass" element={<AddClass />} />
             <Route path="markattendance" element={<MarkAttendance />} />
             <Route path="addresult" element={<AddResult />} />
             <Route path="profile" element={<FacultyProfile />} />
           </Route>
-
       </Routes>
 
       {/* <Footer/> */}

@@ -191,7 +191,7 @@ const Hero = () => {
       id: 7,
       img: Faculty,
       title: 'Faculty Portal',
-      path:'/faculty/dashboard',
+      path:'/faculty/login',
     },
 
   ]

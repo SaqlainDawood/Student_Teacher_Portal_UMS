@@ -29,24 +29,58 @@ const StudentReg = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+     // Validation
+    if (!stdreg.cnic || !stdreg.email || !stdreg.password || !stdreg.confirmedPass) {
+      toast.error('All fields are required!');
+      return;
+    }
+    
+    // CNIC validation
+    if (!/^\d{13}$/.test(stdreg.cnic)) {
+      toast.error('CNIC must be exactly 13 digits!');
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(stdreg.email)) {
+      toast.error('Please enter a valid email address!');
+      return;
+    }
+    
+    // Password validation
+    if (stdreg.password.length < 6) {
+      toast.error('Password must be at least 6 characters!');
+      return;
+    }
     if (stdreg.password !== stdreg.confirmedPass) {
       toast.info('Passwords do not match!')
       return;
     }
+
     try {
       const res = await API.post(`/set-credentials`, {
         cnic: stdreg.cnic,
-        email: stdreg.email,
+        email: stdreg.email.toLowerCase().trim(),
         password: stdreg.password,
       })
       if (res.data.success) {
-        toast.success("Credentials set successfully! Redirecting to login...")
+        toast.success(res.data.message || "Credentials set successfully! Redirecting to login...")
+         setStdReg({
+          email: '',
+          cnic: '',
+          password: '',
+          confirmedPass: '',
+        });
         setTimeout(() => {
           navigate("/student/login");
         }, 2000);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Something went wrong");
+        const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          "Something went wrong";
+      toast.error(errorMessage);
     }
   }
   return (
