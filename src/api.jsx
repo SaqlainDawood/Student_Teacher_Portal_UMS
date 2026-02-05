@@ -5,8 +5,6 @@ const API = axios.create({
    withCredentials: true,
   // headers for json requests will be set per-request
 });
-
-
 API.interceptors.request.use((config)=>{
   const token = localStorage.getItem('studentToken');
   if(token){
@@ -14,9 +12,6 @@ API.interceptors.request.use((config)=>{
   }
   return config;
 })
-
-
-
 // Handle authentication errors
 API.interceptors.response.use(
   (response) => response,

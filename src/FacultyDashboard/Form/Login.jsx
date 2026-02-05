@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios'
 import './FacultyLogin.css';
+import FacultyAPI from '../../FacAPI/facultyApi'
 
 export default function FacultyLogin() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function FacultyLogin() {
     setLoading(true);
     
     try {
-      const res = await axios.post('http://localhost:8000/api/faculty/portal/login', {
+      const res = await FacultyAPI.post('/login', {
         userName: login.userName,
         password: login.password,
       });
