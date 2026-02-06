@@ -22,7 +22,7 @@ const handleStep1Submit = async (formData) => {
     try {
       setLoading(true);
       const res = await API.post('/step1', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        withCredentials: true
       });
       if (res.data.success) {
         setStudentId(res.data.studentId);
