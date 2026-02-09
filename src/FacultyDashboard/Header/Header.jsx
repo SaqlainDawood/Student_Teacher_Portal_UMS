@@ -56,7 +56,18 @@ const navigate = useNavigate();
      fetchFaculty();
   } ,[navigate])
   
-  if (loading) return <div>Loading faculty data...</div>;
+   if (loading) {
+    return (
+      <div className="approvals-container">
+        <div className="container-fluid text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <MDBNavbar light bgColor='success p-2' style={{ "--mdb-bg-opacity": "0.29" }}>

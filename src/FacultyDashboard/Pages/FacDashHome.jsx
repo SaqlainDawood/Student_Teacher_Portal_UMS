@@ -9,7 +9,9 @@ import {
   MDBTable, MDBTableHead, MDBTableBody,
 } from 'mdb-react-ui-kit';
 
+
 const FacDashHome = () => {
+ 
   return (
     <>
       <MDBTable bordered responsive borderColor='dark' className='mt-4'>
