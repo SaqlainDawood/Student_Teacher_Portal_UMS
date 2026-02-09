@@ -29,7 +29,7 @@ const navigate = useNavigate();
     }
     const fetchFaculty = async()=>{
       try {
-          setLoading(true);
+          // setLoading(true);
           const res = await FacultyAPI.get("/me",{
             headers:{
               Authorization:`Bearer ${token}`,
@@ -49,25 +49,25 @@ const navigate = useNavigate();
             navigate("/faculty/login");
         }
         }
-            finally {
-              setLoading(false);
-            }
+            // finally {
+            //   setLoading(false);
+            // }
     }
      fetchFaculty();
   } ,[navigate])
   
-   if (loading) {
-    return (
-      <div className="approvals-container">
-        <div className="container-fluid text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  //  if (loading) {
+  //   return (
+  //     <div className="approvals-container">
+  //       <div className="container-fluid text-center py-5">
+  //         <div className="spinner-border text-primary" role="status">
+  //           <span className="visually-hidden">Loading...</span>
+  //         </div>
+  //         <p className="">Loading...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <MDBNavbar light bgColor='success p-2' style={{ "--mdb-bg-opacity": "0.29" }}>
