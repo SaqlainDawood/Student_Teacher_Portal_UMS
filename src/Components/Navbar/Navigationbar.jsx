@@ -21,7 +21,7 @@ const Navbar = () => {
       <MDBNavbar expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
         <MDBContainer>
           <MDBNavbarBrand tag={Link} to="/" className="navbar-brand">
-            <img src={logoImg} alt="TIMES University" className="navbar-logo" />
+            {/* <img src={logoImg} alt="TIMES University" className="navbar-logo" /> */}
             <div className="logo-text">
               <h5>TIMES UNIVERSITY</h5>
               <p className="m-0">Multan</p>
