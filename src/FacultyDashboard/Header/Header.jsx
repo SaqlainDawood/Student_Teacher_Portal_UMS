@@ -14,6 +14,8 @@ import {
   MDBTable, MDBTableHead, MDBTableBody,
 } from 'mdb-react-ui-kit';
 import axios from 'axios';
+import FacultyAPI from '../../FacAPI/facultyApi';
+
 
 const Header = () => {
   const [faculty , setFaculty] = useState();
@@ -28,7 +30,7 @@ const navigate = useNavigate();
     const fetchFaculty = async()=>{
       try {
           setLoading(true);
-          const res = await axios.get("http://localhost:8000/api/faculty/portal/me",{
+          const res = await FacultyAPI.get("/me",{
             headers:{
               Authorization:`Bearer ${token}`,
             }

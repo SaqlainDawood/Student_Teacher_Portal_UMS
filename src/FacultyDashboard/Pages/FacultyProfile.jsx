@@ -3,6 +3,8 @@ import { MDBNavbar, MDBContainer, MDBTable, MDBTableHead, MDBTableBody, MDBNavba
 import { useNavigate } from "react-router-dom";
 import { useEffect , useState } from "react";
 import axios from 'axios'
+import FacultyAPI from "../../FacAPI/facultyApi";
+
 
 export default function FacultyProfile() {
    const [faculty , setFaculty] = useState();
@@ -18,7 +20,7 @@ export default function FacultyProfile() {
       const fetchtFacultyProfile = async()=>{
         try {
             setLoading(true);
-            const res = await axios.get('http://localhost:8000/api/faculty/portal/me',{
+            const res = await FacultyAPI.get('/me',{
               headers:{
                 Authorization:`Bearer ${token}`
               }
