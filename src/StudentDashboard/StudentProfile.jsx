@@ -151,7 +151,7 @@ const StudentProfile = () => {
                   <th>Last Name</th>
                   <td>{student.lastName}</td>
                   <th>Email</th>
-                  <td className="text-success fw-bold">{student.email}</td>
+                  <td className="text-success fw-bold">{student.user?.email}</td>
                 </tr>
                 <tr>
                   <th>Present Address</th>
