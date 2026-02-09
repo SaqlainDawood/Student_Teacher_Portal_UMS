@@ -2,7 +2,7 @@ import React from "react";
 import { MDBNavbar, MDBContainer, MDBTable, MDBTableHead, MDBTableBody, MDBNavbarBrand, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import { useNavigate } from "react-router-dom";
 import { useEffect , useState } from "react";
-import axios from 'axios'
+
 import FacultyAPI from "../../FacAPI/facultyApi";
 
 
@@ -52,7 +52,7 @@ export default function FacultyProfile() {
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
-          <p className="mt-3">Loading pending approvals...</p>
+          <p className="mt-3">Loading Faculty...</p>
         </div>
       </div>
     );
