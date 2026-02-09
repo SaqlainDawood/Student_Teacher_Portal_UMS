@@ -2,107 +2,133 @@ import React, { useState, useEffect } from "react";
 import logoImg from "../../assets/LOGO/logo.png";
 import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBIcon } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-
+import "./Navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Detect screen size for responsiveness
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
-        setMenuOpen(false); // reset menu on desktop resize
-      }
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      <MDBNavbar light className="custom-navbar">
-        <MDBContainer fluid className="d-flex justify-content-between align-items-center">
-          {/* Logo */}
-          <MDBNavbarBrand>
-            {/* <Link to='/home'> */}
-            <img src={logoImg} alt="Times University" style={{ height: "40px" }} />
-            {/* </Link> */}
-          </MDBNavbarBrand>
-          {/* Social icons - hide on mobile */}
-          {!isMobile && (
-            <div className="d-flex align-items-right me-1">
-              {/* <MDBIcon fab icon="facebook-f" className="text-white mx-2 fs-5" />
-              <MDBIcon fab icon="instagram" className="text-white mx-2 fs-5" />
-              <MDBIcon fab icon="youtube" className="text-white mx-2 fs-5" /> */}
+      <MDBNavbar expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
+        <MDBContainer>
+          <MDBNavbarBrand tag={Link} to="/" className="navbar-brand">
+            <img src={logoImg} alt="TIMES University" className="navbar-logo" />
+            <div className="logo-text">
+              <h5>TIMES UNIVERSITY</h5>
+              <p className="m-0">Multan</p>
             </div>
-          )}
+          </MDBNavbarBrand>
 
-          {/* Toggle button */}
-          <div onClick={() => setMenuOpen(!menuOpen)} className="cursor-pointer">
-            {menuOpen ? (
-              <MDBIcon icon="times" fas className="text-white fs-3" />
-            ) : (
-              <MDBIcon icon="bars" fas className="text-white fs-3" />
-            )}
+          <div className="navbar-toggler" onClick={() => setMenuOpen(!menuOpen)}>
+            <div className={`hamburger ${menuOpen ? 'active' : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div className={`navbar-collapse ${menuOpen ? 'show' : ''}`}>
+            <div className="navbar-nav">
+              <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>
+                <MDBIcon icon="home" className="me-2" />
+                Home
+              </Link>
+              <div className="nav-item dropdown">
+                <span className="nav-link dropdown-toggle">
+                  <MDBIcon icon="graduation-cap" className="me-2" />
+                  Admissions
+                </span>
+                <div className="dropdown-menu">
+                  <Link to="/student/enroll" className="dropdown-item">Apply Now</Link>
+                  <Link to="#" className="dropdown-item">Programs</Link>
+                  <Link to="#" className="dropdown-item">Scholarships</Link>
+                  <Link to="#" className="dropdown-item">How to Apply</Link>
+                </div>
+              </div>
+              <div className="nav-item dropdown">
+                <span className="nav-link dropdown-toggle">
+                  <MDBIcon icon="university" className="me-2" />
+                  About
+                </span>
+                <div className="dropdown-menu">
+                  <Link to="#" className="dropdown-item">About University</Link>
+                  <Link to="#" className="dropdown-item">Leadership</Link>
+                  <Link to="#" className="dropdown-item">Accreditation</Link>
+                  <Link to="#" className="dropdown-item">Facilities</Link>
+                </div>
+              </div>
+              <Link to="/student/login" className="nav-link">
+                <MDBIcon icon="sign-in-alt" className="me-2" />
+                Student Login
+              </Link>
+              <Link to="/faculty/login" className="nav-link">
+                <MDBIcon icon="chalkboard-teacher" className="me-2" />
+                Faculty Login
+              </Link>
+              <Link to="#" className="nav-link contact-link">
+                <MDBIcon icon="phone-alt" className="me-2" />
+                Contact
+              </Link>
+            </div>
           </div>
         </MDBContainer>
       </MDBNavbar>
 
-      {/* Mega Menu */}
-      <div className={`mega-menu ${menuOpen ? "open" : ""}`}>
-        <div className="menu-row">
-          <h6 className="menu-heading">Discover TUM</h6>
-          <a href="#">About Times University</a>
-          <a href="#">Meet the Team</a>
-          <a href="#">HEC, Islamabad</a>
-          <a href="#">The Legal Authority</a>
-          <a href="#">Statutory Bodies</a>
-          <a href="#">Accreditation From Councils</a>
-          <a href="#">Clinical Attachment</a>
-        </div>
-
-        <div className="menu-row">
-          <h6 className="menu-heading">Messages</h6>
-          <a href="#">Chancellor / Governor Punjab</a>
-          <a href="#">Chief Minister Punjab</a>
-          <a href="#">Vice Chancellor / Chairman</a>
-          <a href="#">Executive Director</a>
-          <a href="#">Pro Vice Chancellor (Academics)</a>
-          <a href="#">Registrar</a>
-        </div>
-
-        <div className="menu-row">
-          <h6 className="menu-heading">Admissions</h6>
-          <a href="#">MS/M.Phil. Programs</a>
-          <a href="#">PhD Programs</a>
-          <a href="#">Scholarships</a>
-          <a href="#">How to Apply</a>
-          <a href="#">Apply for Admission</a>
-        </div>
-
-        <div className="menu-row">
-          <h6 className="menu-heading">Faculties & Departments</h6>
-          <a href="#">Faculty of Law</a>
-          <a href="#">Faculty of Management Sciences</a>
-          <a href="#">Faculty of Medicine & Allied Health Sciences</a>
-          <a href="#">Faculty of Pharmaceutical Science</a>
-          <a href="#">Faculty of Social Sciences</a>
-          <a href="#">Faculty of Science & Technology</a>
-        </div>
-
-        <div className="menu-row">
-          <h6 className="menu-heading">Careers</h6>
-          <a href="#">Job Opportunities</a>
-          <a href="#">Internships</a>
-        </div>
-        <div className="menu-row">
-          <h6 className="menu-heading">Contact</h6>
-          <a href="#">Contact Us</a>
-          <a href="#">Location & Map</a>
-        </div>
+      {/* Mega Menu for mobile */}
+      <div className={`mega-menu ${menuOpen ? 'open' : ''}`}>
+        <MDBContainer>
+          <div className="mega-grid">
+            <div className="mega-column">
+              <h6 className="mega-heading">
+                <MDBIcon icon="graduation-cap" className="me-2" />
+                Admissions
+              </h6>
+              <Link to="/student/enroll" onClick={() => setMenuOpen(false)}>Apply Now</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>MS/M.Phil Programs</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>PhD Programs</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Scholarships</Link>
+            </div>
+            <div className="mega-column">
+              <h6 className="mega-heading">
+                <MDBIcon icon="book" className="me-2" />
+                Academics
+              </h6>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Faculty of Law</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Faculty of Management</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Faculty of Medicine</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Faculty of Science</Link>
+            </div>
+            <div className="mega-column">
+              <h6 className="mega-heading">
+                <MDBIcon icon="info-circle" className="me-2" />
+                About
+              </h6>
+              <Link to="#" onClick={() => setMenuOpen(false)}>About University</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Leadership</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Accreditation</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Careers</Link>
+            </div>
+            <div className="mega-column">
+              <h6 className="mega-heading">
+                <MDBIcon icon="link" className="me-2" />
+                Quick Links
+              </h6>
+              <Link to="/student/login" onClick={() => setMenuOpen(false)}>Student Portal</Link>
+              <Link to="/faculty/login" onClick={() => setMenuOpen(false)}>Faculty Portal</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>Library</Link>
+              <Link to="#" onClick={() => setMenuOpen(false)}>News & Events</Link>
+            </div>
+          </div>
+        </MDBContainer>
       </div>
     </>
   );
