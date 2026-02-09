@@ -63,7 +63,7 @@ const navigate = useNavigate();
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
-          <p className="mt-3">Loading...</p>
+          <p className="">Loading...</p>
         </div>
       </div>
     );
