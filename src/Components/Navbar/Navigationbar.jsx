@@ -23,7 +23,7 @@ const Navbar = () => {
           <MDBNavbarBrand tag={Link} to="/" className="navbar-brand">
             {/* <img src={logoImg} alt="TIMES University" className="navbar-logo" /> */}
             <div className="logo-text">
-              <h5>TIMES UNIVERSITY</h5>
+              <h5>UNIVERSITY Management System</h5>
               <p className="m-0">Multan</p>
             </div>
           </MDBNavbarBrand>
