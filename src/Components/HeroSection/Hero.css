@@ -16,7 +16,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('../../assets/HeroSection/Hero-Section-Img.jpg') center/cover;
+  /* background: url('../../assets/HeroSection/Hero-Section-Img.jpg') center/cover; */
   opacity: 0.15;
   z-index: 1;
 }

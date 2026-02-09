@@ -115,7 +115,7 @@ const Hero = () => {
               <MDBCol lg="6" className="mb-5 mb-lg-0">
                 <div className="hero-content" data-aos="fade-right">
                   <h1 className="hero-title">
-                    <span className="gradient-text">TIMES University</span>
+                    <span className="gradient-text">University Management</span>
                     <br />
                     Shaping Future Leaders
                   </h1>
