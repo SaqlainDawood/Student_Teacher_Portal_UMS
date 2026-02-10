@@ -85,7 +85,7 @@ const Hero = () => {
   ];
 
   const StudentPortal = [
-    { id: 1, img: student, title: 'Student Portal', path: '/std/dashboard' },
+    { id: 1, img: student, title: 'Student Portal', path: '/student/login' },
     { id: 2, img: Job, title: 'Job Application', path: '/' },
     { id: 3, img: Time, title: 'Times Journal', path: '/' },
     { id: 4, img: Conovocation, title: 'Convocation Portal', path: '/' },
