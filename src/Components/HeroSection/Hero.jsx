@@ -224,7 +224,7 @@ const Hero = () => {
                   Where Excellence Meets <span className="highlight">Opportunity</span>
                 </h2>
                 <p className="lead-text mb-4">
-                  TIMES University Multan stands as a beacon of academic excellence and innovation, 
+                   University Multan stands as a beacon of academic excellence and innovation, 
                   dedicated to shaping the future of education in Southern Punjab.
                 </p>
                 <p className="mb-4">
