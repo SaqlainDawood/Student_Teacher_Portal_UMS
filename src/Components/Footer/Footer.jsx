@@ -79,7 +79,7 @@ const Footer = () => {
                     <div className="contact-content">
                       <span className="contact-label">UAN:</span>
                       <a href="tel:+926111111111" className="contact-value">
-                        +92-61-111-1111
+                        +92-303-0769752   
                       </a>
                     </div>
                   </div>
@@ -92,7 +92,7 @@ const Footer = () => {
                       </div>
                       <div className="contact-content">
                         <a href="tel:+923410017777" className="contact-value">
-                          +92-341-0017777
+                          +92-319-7111422
                         </a>
                       </div>
                     </div>
@@ -102,7 +102,7 @@ const Footer = () => {
                       </div>
                       <div className="contact-content">
                         <a href="tel:+923410017777" className="contact-value">
-                          +92-341-0017777
+                          +92 303 0769752
                         </a>
                       </div>
                     </div>
@@ -115,7 +115,7 @@ const Footer = () => {
                     <div className="contact-content">
                       <span className="contact-label">Email:</span>
                       <a href="mailto:info@times.edu.pk" className="contact-value">
-                        info@times.edu.pk
+                       saqlaindawood123@gmai.com
                       </a>
                     </div>
                   </div>
@@ -251,7 +251,7 @@ const Footer = () => {
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
             <div className="copyright mb-2 mb-md-0">
               <p className="mb-0">
-                © {new Date().getFullYear()} TIMES University, Multan. All Rights Reserved.
+                © {new Date().getFullYear()} University Management, Multan. All Rights Reserved.
               </p>
             </div>
             <div className="footer-links">

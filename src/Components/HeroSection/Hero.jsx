@@ -219,7 +219,7 @@ const Hero = () => {
           <MDBRow className="align-items-center">
             <MDBCol lg="6" className="mb-5 mb-lg-0">
               <div className="about-content" data-aos="fade-right">
-                <h6 className="section-subtitle">ABOUT TIMES UNIVERSITY</h6>
+                <h6 className="section-subtitle">ABOUT UNIVERSITY Management</h6>
                 <h2 className="section-title mb-4">
                   Where Excellence Meets <span className="highlight">Opportunity</span>
                 </h2>
@@ -409,7 +409,7 @@ const Hero = () => {
               <MDBCol lg="8" className="mb-4 mb-lg-0">
                 <h2 className="cta-title">Ready to Start Your Journey?</h2>
                 <p className="cta-text">
-                  Join thousands of successful graduates who started their career at TIMES University
+                  Join thousands of successful graduates who started their career at University Management System
                 </p>
               </MDBCol>
               <MDBCol lg="4" className="text-lg-end">
@@ -417,7 +417,7 @@ const Hero = () => {
                   <MDBIcon icon="calendar-alt" className="me-2" />
                   Schedule Visit
                 </MDBBtn>
-                <MDBBtn color="primary" size="lg" tag={Link} to="/student/enroll">
+                <MDBBtn color="primary" size="lg" tag={Link} to="/student/login">
                   <MDBIcon icon="user-plus" className="me-2" />
                   Apply Now
                 </MDBBtn>
