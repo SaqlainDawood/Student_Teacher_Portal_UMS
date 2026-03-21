@@ -19,8 +19,8 @@ import {
   MDBTabsContent,
   MDBTabsPane,
 } from 'mdb-react-ui-kit';
-import { toast } from "react-toastify";
-import AdminAPI from "../../../api";
+// import { toast } from "react-toastify";
+// import AdminAPI from "../../../api";
 import "./FacDashHome.css";
 
 const FacDashHome = () => {
