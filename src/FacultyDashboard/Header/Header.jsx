@@ -13,13 +13,11 @@ import {
   MDBDropdownMenu,
   MDBTable, MDBTableHead, MDBTableBody,
 } from 'mdb-react-ui-kit';
-import axios from 'axios';
 import FacultyAPI from '../../FacAPI/facultyApi';
 
 
 const Header = () => {
   const [faculty , setFaculty] = useState();
-  const [loading , setLoading] = useState(true);
 const navigate = useNavigate();
   useEffect(()=>{
     const token = localStorage.getItem("facultyToken");
