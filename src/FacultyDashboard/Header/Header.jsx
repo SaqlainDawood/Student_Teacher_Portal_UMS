@@ -54,51 +54,52 @@ const navigate = useNavigate();
      fetchFaculty();
   } ,[navigate])
   
-  //  if (loading) {
-  //   return (
-  //     <div className="approvals-container">
-  //       <div className="container-fluid text-center py-5">
-  //         <div className="spinner-border text-primary" role="status">
-  //           <span className="visually-hidden">Loading...</span>
-  //         </div>
-  //         <p className="">Loading...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <MDBNavbar light bgColor='success p-2' style={{ "--mdb-bg-opacity": "0.29" }}>
            <MDBContainer fluid>
              <MDBNavbarBrand className='fw-bold mb-0'>Welcome to Mr.{faculty?.firstName} {faculty?.lastName} </MDBNavbarBrand>
-             <MDBDropdown>
-               <MDBDropdownToggle tag='a' className='d-flex w-auto mb-3 nav-link'>
-                 <img
-                   src={faculty?.profileImage}
-                   alt="profile"
-                   className="rounded-circle"
-                   style={{
-                     width: "40px",
-                     height: "40px",
-                     objectFit: "cover",
-                     border: "2px solid #ddd"
-                   }}
-                 />
-               </MDBDropdownToggle>
-               <MDBDropdownMenu>
-                 <MDBDropdownItem>
-                   <Link to="/std/profile" className="dropdown-item">Profile</Link>
-                 </MDBDropdownItem>
-                 <MDBDropdownItem>
-                   <Link to="/std/changpassword" className="dropdown-item">Email</Link>
-                 </MDBDropdownItem>
-                 
-                 <MDBDropdownItem>
-                    <Link to='/std/logout' className='dropdown-item'> Logout</Link>
-                    </MDBDropdownItem>
-               </MDBDropdownMenu>
-   
-             </MDBDropdown>
+            <MDBDropdown className="custom-dropdown">
+  <MDBDropdownToggle tag='a' className='d-flex w-auto mb-3 nav-link' style={{ cursor: 'pointer' }}>
+    <img
+      src={faculty?.profileImage || "https://via.placeholder.com/40"}
+      alt="profile"
+      className="rounded-circle"
+      style={{
+        width: "40px",
+        height: "40px",
+        objectFit: "cover",
+        border: "2px solid #20c997"
+      }}
+    />
+  </MDBDropdownToggle>
+  <MDBDropdownMenu>
+    <MDBDropdownItem>
+      <Link to="/profile" className="dropdown-item">
+        <i className="fas fa-user me-2"></i>
+        Profile
+      </Link>
+    </MDBDropdownItem>
+    <MDBDropdownItem>
+      <Link to="/faculty/settings" className="dropdown-item">
+        <i className="fas fa-cog me-2"></i>
+        Settings
+      </Link>
+    </MDBDropdownItem>
+    <MDBDropdownItem>
+      <Link to="/faculty/change-password" className="dropdown-item">
+        <i className="fas fa-key me-2"></i>
+        Change Password
+      </Link>
+    </MDBDropdownItem>
+    <div className="dropdown-divider"></div>
+    <MDBDropdownItem>
+      <Link to='/logout' className='dropdown-item text-danger'>
+        <i className="fas fa-sign-out-alt me-2"></i>
+        Logout
+      </Link>
+    </MDBDropdownItem>
+  </MDBDropdownMenu>
+</MDBDropdown>
            </MDBContainer>
          </MDBNavbar>
   )
