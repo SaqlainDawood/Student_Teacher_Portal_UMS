@@ -19,8 +19,8 @@ import {
   MDBTabsContent,
   MDBTabsPane,
 } from 'mdb-react-ui-kit';
-// import { toast } from "react-toastify";
-// import AdminAPI from "../../../api";
+import { toast } from "react-toastify";
+import FacultyAPI from "../../FacAPI/facultyApi";
 import "./FacDashHome.css";
 const FacDashHome = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -37,7 +37,7 @@ const FacDashHome = () => {
       const token = localStorage.getItem("facultyToken");
       const facultyId = localStorage.getItem("facultyId");
       
-      const response = await AdminAPI.get(`/faculty/dashboard/${facultyId}`, {
+      const response = await FacultyAPI.get(`/dashboard/${facultyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
