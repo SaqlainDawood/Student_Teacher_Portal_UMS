@@ -32,26 +32,26 @@ const FacDashHome = () => {
   }, []);
 
   const fetchDashboardData = async () => {
-    // try {
-    //   setLoading(true);
-    //   const token = localStorage.getItem("facultyToken");
-    //   const facultyId = localStorage.getItem("facultyId");
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("facultyToken");
+      const facultyId = localStorage.getItem("facultyId");
       
-    //   const response = await AdminAPI.get(`/faculty/dashboard/${facultyId}`, {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   });
+      const response = await AdminAPI.get(`/faculty/dashboard/${facultyId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    //   if (response.data && response.data.success) {
-    //     setDashboardData(response.data.data);
-    //   } else {
-    //     toast.error("Failed to load dashboard data");
-    //   }
-    // } catch (error) {
-    //   console.error("Error fetching dashboard:", error);
-    //   toast.error("Error loading dashboard");
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (response.data && response.data.success) {
+        setDashboardData(response.data.data);
+      } else {
+        toast.error("Failed to load dashboard data");
+      }
+    } catch (error) {
+      console.error("Error fetching dashboard:", error);
+      toast.error("Error loading dashboard");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
