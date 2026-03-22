@@ -12,7 +12,6 @@ import {
   MDBDropdownMenu,
   MDBTable, MDBTableHead, MDBTableBody,
 } from 'mdb-react-ui-kit';
-import './Header.css'
 import FacultyAPI from '../../FacAPI/facultyApi';
 const Header = () => {
   const [faculty , setFaculty] = useState();
@@ -72,19 +71,19 @@ const navigate = useNavigate();
   </MDBDropdownToggle>
   <MDBDropdownMenu>
     <MDBDropdownItem>
-      <Link to="/profile" className="dropdown-item">
+      <Link to="/profile" className="dropdown-item text-primary">
         <i className="fas fa-user me-2"></i>
         Profile
       </Link>
     </MDBDropdownItem>
     <MDBDropdownItem>
-      <Link to="/faculty/settings" className="dropdown-item">
+      <Link to="/faculty/settings" className="dropdown-item text-primary">
         <i className="fas fa-cog me-2"></i>
         Settings
       </Link>
     </MDBDropdownItem>
     <MDBDropdownItem>
-      <Link to="/faculty/change-password" className="dropdown-item">
+      <Link to="/faculty/change-password" className="dropdown-item text-primary">
         <i className="fas fa-key me-2"></i>
         Change Password
       </Link>
