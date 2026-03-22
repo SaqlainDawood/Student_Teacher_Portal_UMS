@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import profileImg from '../../assets/FacultyDashboard/img.jpeg'
 import {useState , useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {
@@ -13,9 +12,8 @@ import {
   MDBDropdownMenu,
   MDBTable, MDBTableHead, MDBTableBody,
 } from 'mdb-react-ui-kit';
+import './Header.css'
 import FacultyAPI from '../../FacAPI/facultyApi';
-
-
 const Header = () => {
   const [faculty , setFaculty] = useState();
 const navigate = useNavigate();
