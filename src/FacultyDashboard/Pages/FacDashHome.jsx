@@ -13,11 +13,6 @@ import {
   MDBTableBody,
   MDBProgress,
   MDBProgressBar,
-  MDBTabs,
-  MDBTabsItem,
-  MDBTabsLink,
-  MDBTabsContent,
-  MDBTabsPane,
 } from 'mdb-react-ui-kit';
 import { toast } from "react-toastify";
 import FacultyAPI from "../../FacAPI/facultyApi";
@@ -26,21 +21,36 @@ import "./FacDashHome.css";
 const FacDashHome = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("overview");
+  const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
+    // Set greeting based on time of day
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting("Good Morning");
+    else if (hour < 17) setGreeting("Good Afternoon");
+    else setGreeting("Good Evening");
+    
     fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      let facultyId = localStorage.getItem("facultyId");
       const token = localStorage.getItem("facultyToken");
-      const facultyId = localStorage.getItem("facultyId");
       
-      // Debug logs
-      console.log("Fetching dashboard for faculty ID:", facultyId);
-      console.log("Token exists:", !!token);
+      // If facultyId not found, try to get it from facultyData
+      if (!facultyId) {
+        const facultyDataStr = localStorage.getItem("facultyData");
+        if (facultyDataStr) {
+          try {
+            const facultyData = JSON.parse(facultyDataStr);
+            facultyId = facultyData._id;
+          } catch (e) {
+            console.error("Error parsing facultyData:", e);
+          }
+        }
+      }
       
       if (!token || !facultyId) {
         toast.error("Please login again");
@@ -52,10 +62,7 @@ const FacDashHome = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Dashboard response:", response.data);
-
       if (response.data && response.data.success) {
-        // Ensure all data exists with defaults
         const safeData = {
           facultyInfo: response.data.data.facultyInfo || {
             name: "Faculty Member",
@@ -76,21 +83,16 @@ const FacDashHome = () => {
         };
         
         setDashboardData(safeData);
-        toast.success(`Welcome ${safeData.facultyInfo.name}`);
       } else {
         toast.error(response.data?.message || "Failed to load dashboard data");
       }
     } catch (error) {
       console.error("Error fetching dashboard:", error);
-      console.error("Error response:", error.response?.data);
       
       if (error.response?.status === 401) {
         toast.error("Session expired. Please login again.");
-        localStorage.removeItem("facultyToken");
-        localStorage.removeItem("facultyId");
+        localStorage.clear();
         window.location.href = "/faculty/login";
-      } else if (error.response?.status === 404) {
-        toast.error("Faculty not found. Please contact admin.");
       } else {
         toast.error("Error loading dashboard. Please try again.");
       }
@@ -101,8 +103,8 @@ const FacDashHome = () => {
 
   if (loading) {
     return (
-      <div className="dashboard-loading">
-        <MDBSpinner role="status" color="primary" size="lg">
+      <div className="loading-container">
+        <MDBSpinner role="status" color="success" size="lg">
           <span className="visually-hidden">Loading...</span>
         </MDBSpinner>
         <p className="mt-3">Loading your dashboard...</p>
@@ -112,12 +114,12 @@ const FacDashHome = () => {
 
   if (!dashboardData) {
     return (
-      <div className="dashboard-error">
+      <div className="error-container">
         <MDBIcon fas icon="exclamation-circle" size="3x" className="text-danger mb-3" />
         <h4>Unable to load dashboard</h4>
         <p>Please try again later</p>
         <button 
-          className="btn btn-primary mt-3"
+          className="btn btn-success mt-3"
           onClick={() => window.location.reload()}
         >
           <MDBIcon fas icon="sync" className="me-2" />
@@ -128,367 +130,322 @@ const FacDashHome = () => {
   }
 
   const { facultyInfo, statistics, departmentStats, semesterStats, todaysClasses, classList } = dashboardData;
+  const firstName = facultyInfo.name?.split(' ')[0] || 'Faculty';
 
   return (
-    <div className="faculty-dashboard">
-      <MDBContainer fluid className="py-4">
-        {/* Welcome Section */}
-        <div className="welcome-section mb-4">
-          <div className="welcome-card">
-            <div className="welcome-content">
-              <div className="welcome-text">
-                <h1 className="display-5 fw-bold">
-                  Welcome back, {facultyInfo.name?.split(' ')[0] || 'Faculty'}!
-                </h1>
-                <p className="lead text-muted mb-0">
-                  {facultyInfo.designation || 'N/A'} • {facultyInfo.department || 'N/A'}
-                </p>
-                <p className="text-muted">
-                  <MDBIcon fas icon="id-card" className="me-2" />
-                  Employee ID: {facultyInfo.employeeID || 'N/A'}
-                </p>
-              </div>
-              <div className="welcome-avatar">
-                {facultyInfo.profileImage ? (
-                  <img src={facultyInfo.profileImage} alt={facultyInfo.name} />
-                ) : (
-                  <div className="avatar-placeholder">
-                    {facultyInfo.name?.charAt(0) || 'F'}
-                  </div>
-                )}
-              </div>
+    <div className="dashboard-content">
+      {/* Welcome Banner */}
+      <div className="welcome-banner">
+        <div className="banner-content">
+          <div className="greeting-section">
+            <h1 className="greeting-title">
+              {greeting}, <span className="faculty-name">{firstName}!</span>
+            </h1>
+            <p className="greeting-subtitle">
+              Here's your teaching overview for today
+            </p>
+          </div>
+          <div className="stats-badge">
+            <div className="badge-item">
+              <MDBIcon fas icon="calendar-alt" className="badge-icon" />
+              <span>{new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Statistics Cards */}
+      <div className="stats-grid">
+        <div className="stat-card-primary">
+          <div className="stat-card-content">
+            <div className="stat-info">
+              <h3>{statistics.totalClasses}</h3>
+              <p>Total Classes</p>
+              <span className="stat-trend">Active Courses</span>
+            </div>
+            <div className="stat-icon-wrapper">
+              <MDBIcon fas icon="chalkboard-teacher" className="stat-icon-large" />
             </div>
           </div>
         </div>
 
-        {/* Statistics Cards */}
-        <MDBRow className="g-4 mb-4">
-          <MDBCol lg="3" md="6">
-            <MDBCard className="stat-card stat-primary">
-              <MDBCardBody>
-                <div className="stat-content">
-                  <div className="stat-info">
-                    <h6>Total Classes</h6>
-                    <h2 className="fw-bold">{statistics.totalClasses || 0}</h2>
-                    <small>Active Classes</small>
-                  </div>
-                  <MDBIcon fas icon="chalkboard-teacher" size="3x" className="stat-icon" />
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
+        <div className="stat-card-success">
+          <div className="stat-card-content">
+            <div className="stat-info">
+              <h3>{statistics.totalCreditHours}</h3>
+              <p>Credit Hours</p>
+              <span className="stat-trend">Teaching Load</span>
+            </div>
+            <div className="stat-icon-wrapper">
+              <MDBIcon fas icon="book-open" className="stat-icon-large" />
+            </div>
+          </div>
+        </div>
 
-          <MDBCol lg="3" md="6">
-            <MDBCard className="stat-card stat-success">
-              <MDBCardBody>
-                <div className="stat-content">
-                  <div className="stat-info">
-                    <h6>Credit Hours</h6>
-                    <h2 className="fw-bold">{statistics.totalCreditHours || 0}</h2>
-                    <small>Teaching Load</small>
-                  </div>
-                  <MDBIcon fas icon="book-open" size="3x" className="stat-icon" />
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
+        <div className="stat-card-info">
+          <div className="stat-card-content">
+            <div className="stat-info">
+              <h3>{statistics.totalStudents}</h3>
+              <p>Total Students</p>
+              <span className="stat-trend">Across All Classes</span>
+            </div>
+            <div className="stat-icon-wrapper">
+              <MDBIcon fas icon="users" className="stat-icon-large" />
+            </div>
+          </div>
+        </div>
 
-          <MDBCol lg="3" md="6">
-            <MDBCard className="stat-card stat-info">
-              <MDBCardBody>
-                <div className="stat-content">
-                  <div className="stat-info">
-                    <h6>Total Students</h6>
-                    <h2 className="fw-bold">{statistics.totalStudents || 0}</h2>
-                    <small>Across All Classes</small>
-                  </div>
-                  <MDBIcon fas icon="users" size="3x" className="stat-icon" />
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
+        <div className="stat-card-warning">
+          <div className="stat-card-content">
+            <div className="stat-info">
+              <h3>{statistics.averageClassSize}</h3>
+              <p>Avg Class Size</p>
+              <span className="stat-trend">Students/Class</span>
+            </div>
+            <div className="stat-icon-wrapper">
+              <MDBIcon fas icon="user-graduate" className="stat-icon-large" />
+            </div>
+          </div>
+        </div>
+      </div>
 
-          <MDBCol lg="3" md="6">
-            <MDBCard className="stat-card stat-warning">
-              <MDBCardBody>
-                <div className="stat-content">
-                  <div className="stat-info">
-                    <h6>Avg Class Size</h6>
-                    <h2 className="fw-bold">{statistics.averageClassSize || 0}</h2>
-                    <small>Students/Class</small>
-                  </div>
-                  <MDBIcon fas icon="user-graduate" size="3x" className="stat-icon" />
+      {/* Today's Schedule Section */}
+      {todaysClasses && todaysClasses.length > 0 && (
+        <div className="schedule-section">
+          <div className="section-header">
+            <h3>
+              <MDBIcon fas icon="calendar-day" className="section-icon" />
+              Today's Schedule
+            </h3>
+            <span className="schedule-count">{todaysClasses.length} Classes</span>
+          </div>
+          <div className="schedule-list">
+            {todaysClasses.map((cls, idx) => (
+              <div key={idx} className="schedule-item">
+                <div className="schedule-time">
+                  <MDBIcon far icon="clock" />
+                  <span>{cls.startTime} - {cls.endTime}</span>
                 </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-
-        {/* Today's Schedule Alert */}
-        {todaysClasses && todaysClasses.length > 0 && (
-          <MDBCard className="today-schedule-card mb-4">
-            <MDBCardBody>
-              <div className="today-header">
-                <MDBIcon fas icon="calendar-day" className="me-2 text-primary" />
-                <h5 className="mb-0">Today's Schedule</h5>
+                <div className="schedule-details">
+                  <div className="schedule-subject">{cls.subject}</div>
+                  <div className="schedule-meta">
+                    <MDBIcon fas icon="tag" size="sm" />
+                    <span>{cls.classCode}</span>
+                    <MDBIcon fas icon="door-open" size="sm" className="ms-2" />
+                    <span>Room {cls.room}</span>
+                    <MDBIcon fas icon="layer-group" size="sm" className="ms-2" />
+                    <span>Section {cls.section}</span>
+                  </div>
+                </div>
+                <MDBBadge color="success" pill className="schedule-status">
+                  Upcoming
+                </MDBBadge>
               </div>
-              <div className="today-classes">
-                {todaysClasses.map((cls, idx) => (
-                  <div key={idx} className="today-class-item">
-                    <div className="class-time">
-                      <MDBIcon far icon="clock" className="me-1" />
-                      {cls.startTime} - {cls.endTime}
-                    </div>
-                    <div className="class-details">
-                      <strong>{cls.subject}</strong>
-                      <span className="mx-2">•</span>
-                      <span>{cls.classCode}</span>
-                      <span className="mx-2">•</span>
-                      <span>Room {cls.room}</span>
-                    </div>
-                    <MDBBadge color="primary" pill>
-                      {cls.section}
-                    </MDBBadge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Department & Semester Stats */}
+      <div className="stats-row">
+        <div className="stats-card">
+          <div className="stats-card-header">
+            <MDBIcon fas icon="building" />
+            <h4>By Department</h4>
+          </div>
+          <div className="stats-card-body">
+            {departmentStats && departmentStats.length > 0 ? (
+              departmentStats.map((dept, idx) => (
+                <div key={idx} className="stat-bar-item">
+                  <div className="stat-bar-header">
+                    <span className="stat-bar-label">{dept.department}</span>
+                    <span className="stat-bar-value">{dept.classCount} Classes</span>
                   </div>
-                ))}
-              </div>
-            </MDBCardBody>
-          </MDBCard>
-        )}
-
-        {/* Main Tabs */}
-        <MDBCard className="dashboard-card">
-          <MDBCardBody>
-            <MDBTabs className="dashboard-tabs mb-4">
-              <MDBTabsItem>
-                <MDBTabsLink
-                  onClick={() => setActiveTab("overview")}
-                  active={activeTab === "overview"}
-                >
-                  <MDBIcon fas icon="chart-line" className="me-2" />
-                  Overview
-                </MDBTabsLink>
-              </MDBTabsItem>
-              <MDBTabsItem>
-                <MDBTabsLink
-                  onClick={() => setActiveTab("classes")}
-                  active={activeTab === "classes"}
-                >
-                  <MDBIcon fas icon="table-list" className="me-2" />
-                  All Classes ({classList?.length || 0})
-                </MDBTabsLink>
-              </MDBTabsItem>
-              <MDBTabsItem>
-                <MDBTabsLink
-                  onClick={() => setActiveTab("schedule")}
-                  active={activeTab === "schedule"}
-                >
-                  <MDBIcon fas icon="calendar-week" className="me-2" />
-                  Full Schedule
-                </MDBTabsLink>
-              </MDBTabsItem>
-            </MDBTabs>
-
-            <MDBTabsContent>
-              {/* Overview Tab */}
-              <MDBTabsPane open={activeTab === "overview"}>
-                <MDBRow>
-                  <MDBCol md="6">
-                    <div className="stats-section">
-                      <h6 className="section-title">
-                        <MDBIcon fas icon="building" className="me-2" />
-                        By Department
-                      </h6>
-                      {departmentStats && departmentStats.length > 0 ? (
-                        departmentStats.map((dept, idx) => (
-                          <div key={idx} className="stat-item">
-                            <div className="stat-header">
-                              <span className="stat-label">{dept.department}</span>
-                              <span className="stat-value">{dept.classCount} Classes</span>
-                            </div>
-                            <div className="stat-sub">
-                              <span>{dept.totalStudents} Students</span>
-                              <span>{dept.totalCreditHours} Credits</span>
-                            </div>
-                            <MDBProgress className="stat-progress">
-                              <MDBProgressBar
-                                width={`${(dept.classCount / (statistics.totalClasses || 1)) * 100}%`}
-                                valuemin={0}
-                                valuemax={100}
-                              />
-                            </MDBProgress>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-muted text-center py-4">No department data available</p>
-                      )}
-                    </div>
-                  </MDBCol>
-
-                  <MDBCol md="6">
-                    <div className="stats-section">
-                      <h6 className="section-title">
-                        <MDBIcon fas icon="layer-group" className="me-2" />
-                        By Semester
-                      </h6>
-                      {semesterStats && semesterStats.length > 0 ? (
-                        semesterStats.map((sem, idx) => (
-                          <div key={idx} className="stat-item">
-                            <div className="stat-header">
-                              <span className="stat-label">Semester {sem.semester}</span>
-                              <span className="stat-value">{sem.classCount} Classes</span>
-                            </div>
-                            <div className="stat-sub">
-                              <span>{sem.totalStudents} Students</span>
-                              <span>{sem.totalCreditHours} Credits</span>
-                            </div>
-                            <MDBProgress className="stat-progress">
-                              <MDBProgressBar
-                                width={`${(sem.classCount / (statistics.totalClasses || 1)) * 100}%`}
-                                valuemin={0}
-                                valuemax={100}
-                              />
-                            </MDBProgress>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-muted text-center py-4">No semester data available</p>
-                      )}
-                    </div>
-                  </MDBCol>
-                </MDBRow>
-              </MDBTabsPane>
-
-              {/* All Classes Tab */}
-              <MDBTabsPane open={activeTab === "classes"}>
-                {classList && classList.length > 0 ? (
-                  <div className="table-responsive">
-                    <MDBTable hover className="classes-table">
-                      <MDBTableHead>
-                        <tr className="table-header">
-                          <th>#</th>
-                          <th>Class Details</th>
-                          <th>Department</th>
-                          <th>Semester</th>
-                          <th>Section</th>
-                          <th>Credits</th>
-                          <th>Students</th>
-                          <th>Schedule</th>
-                        </tr>
-                      </MDBTableHead>
-                      <MDBTableBody>
-                        {classList.map((cls, idx) => (
-                          <tr key={cls.id || idx}>
-                            <td className="serial-number">{idx + 1}</td>
-                            <td>
-                              <div className="class-detail">
-                                <strong>{cls.subject || 'N/A'}</strong>
-                                <div className="small text-muted">
-                                  {cls.className || 'N/A'} ({cls.classCode || 'N/A'})
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <MDBBadge color="info" pill>
-                                {cls.department || 'N/A'}
-                              </MDBBadge>
-                            </td>
-                            <td>
-                              <MDBBadge color="primary" pill>
-                                {cls.semester || 'N/A'}
-                              </MDBBadge>
-                            </td>
-                            <td>
-                              <MDBBadge color="secondary" pill>
-                                {cls.section || 'N/A'}
-                              </MDBBadge>
-                            </td>
-                            <td>{cls.creditHours || 0} hrs</td>
-                            <td>
-                              <div className="student-count">
-                                <span>{cls.enrolledStudents || 0}</span>
-                                <span className="text-muted"> / {cls.capacity || 0}</span>
-                                <MDBProgress className="mt-1" height="4px">
-                                  <MDBProgressBar
-                                    width={`${((cls.enrolledStudents || 0) / (cls.capacity || 1)) * 100}%`}
-                                    valuemin={0}
-                                    valuemax={100}
-                                  />
-                                </MDBProgress>
-                              </div>
-                            </td>
-                            <td>
-                              {cls.schedule && cls.schedule.length > 0 ? (
-                                <>
-                                  {cls.schedule.slice(0, 1).map((s, i) => (
-                                    <div key={i} className="schedule-preview">
-                                      <MDBIcon far icon="clock" className="me-1" size="sm" />
-                                      <small>{s.day}, {s.startTime}</small>
-                                    </div>
-                                  ))}
-                                  {cls.schedule.length > 1 && (
-                                    <small className="text-muted">+{cls.schedule.length - 1} more</small>
-                                  )}
-                                </>
-                              ) : (
-                                <small className="text-muted">No schedule</small>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </MDBTableBody>
-                    </MDBTable>
+                  <div className="stat-bar-progress">
+                    <div 
+                      className="stat-bar-fill"
+                      style={{ width: `${(dept.classCount / statistics.totalClasses) * 100}%` }}
+                    ></div>
                   </div>
-                ) : (
-                  <div className="text-center py-5">
-                    <MDBIcon far icon="calendar-times" size="3x" className="text-muted mb-3" />
-                    <h5>No Classes Assigned</h5>
-                    <p className="text-muted">You haven't been assigned any classes yet.</p>
+                  <div className="stat-bar-footer">
+                    <span>{dept.totalStudents} Students</span>
+                    <span>{dept.totalCreditHours} Credits</span>
                   </div>
-                )}
-              </MDBTabsPane>
+                </div>
+              ))
+            ) : (
+              <p className="text-muted text-center py-4">No department data available</p>
+            )}
+          </div>
+        </div>
 
-              {/* Full Schedule Tab */}
-              <MDBTabsPane open={activeTab === "schedule"}>
-                {classList && classList.length > 0 ? (
-                  <div className="full-schedule">
-                    {classList.map((cls, idx) => (
-                      <div key={idx} className="schedule-card">
-                        <div className="schedule-card-header">
-                          <div>
-                            <h6 className="mb-0">{cls.subject || 'N/A'}</h6>
-                            <small className="text-muted">{cls.classCode} • {cls.className}</small>
-                          </div>
-                          <MDBBadge color="primary">{cls.creditHours || 0} Credits</MDBBadge>
-                        </div>
-                        <div className="schedule-times">
-                          {cls.schedule && cls.schedule.length > 0 ? (
-                            cls.schedule.map((s, i) => (
-                              <div key={i} className="schedule-time-slot">
-                                <MDBBadge color="light" className="day-badge">{s.day}</MDBBadge>
-                                <span className="time-range">{s.startTime} - {s.endTime}</span>
-                                <span className="room-info">Room {s.room}</span>
-                              </div>
-                            ))
-                          ) : (
-                            <p className="text-muted">No schedule available</p>
-                          )}
+        <div className="stats-card">
+          <div className="stats-card-header">
+            <MDBIcon fas icon="layer-group" />
+            <h4>By Semester</h4>
+          </div>
+          <div className="stats-card-body">
+            {semesterStats && semesterStats.length > 0 ? (
+              semesterStats.map((sem, idx) => (
+                <div key={idx} className="stat-bar-item">
+                  <div className="stat-bar-header">
+                    <span className="stat-bar-label">Semester {sem.semester}</span>
+                    <span className="stat-bar-value">{sem.classCount} Classes</span>
+                  </div>
+                  <div className="stat-bar-progress">
+                    <div 
+                      className="stat-bar-fill"
+                      style={{ width: `${(sem.classCount / statistics.totalClasses) * 100}%` }}
+                    ></div>
+                  </div>
+                  <div className="stat-bar-footer">
+                    <span>{sem.totalStudents} Students</span>
+                    <span>{sem.totalCreditHours} Credits</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-muted text-center py-4">No semester data available</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Classes Table */}
+      <div className="classes-section">
+        <div className="section-header">
+          <h3>
+            <MDBIcon fas icon="table-list" className="section-icon" />
+            All Classes
+          </h3>
+          <span className="class-count">{classList?.length || 0} Classes</span>
+        </div>
+        
+        {classList && classList.length > 0 ? (
+          <div className="table-responsive">
+            <table className="custom-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Class Details</th>
+                  <th>Department</th>
+                  <th>Semester</th>
+                  <th>Section</th>
+                  <th>Credits</th>
+                  <th>Students</th>
+                  <th>Schedule</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classList.map((cls, idx) => (
+                  <tr key={cls.id || idx}>
+                    <td className="serial-number">{idx + 1}</td>
+                    <td>
+                      <div className="class-detail">
+                        <strong>{cls.subject || 'N/A'}</strong>
+                        <div className="class-meta">
+                          {cls.className || 'N/A'} ({cls.classCode || 'N/A'})
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-5">
-                    <MDBIcon far icon="calendar-times" size="3x" className="text-muted mb-3" />
-                    <h5>No Schedule Available</h5>
-                    <p className="text-muted">No classes have been scheduled yet.</p>
-                  </div>
-                )}
-              </MDBTabsPane>
-            </MDBTabsContent>
-          </MDBCardBody>
-        </MDBCard>
-      </MDBContainer>
+                    </td>
+                    <td>
+                      <span className="department-badge">{cls.department || 'N/A'}</span>
+                    </td>
+                    <td>
+                      <span className="semester-badge">Semester {cls.semester || 'N/A'}</span>
+                    </td>
+                    <td>
+                      <span className="section-badge">{cls.section || 'N/A'}</span>
+                    </td>
+                    <td>{cls.creditHours || 0} hrs</td>
+                    <td>
+                      <div className="student-progress">
+                        <span className="student-count">{cls.enrolledStudents || 0}</span>
+                        <span className="student-capacity"> / {cls.capacity || 0}</span>
+                        <div className="progress-bar">
+                          <div 
+                            className="progress-fill"
+                            style={{ width: `${((cls.enrolledStudents || 0) / (cls.capacity || 1)) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      {cls.schedule && cls.schedule.length > 0 ? (
+                        <div className="schedule-preview">
+                          <MDBIcon far icon="clock" className="me-1" size="sm" />
+                          <span>{cls.schedule[0].day}, {cls.schedule[0].startTime}</span>
+                          {cls.schedule.length > 1 && (
+                            <span className="more-schedule">+{cls.schedule.length - 1}</span>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-muted">No schedule</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <MDBIcon far icon="calendar-times" size="3x" className="empty-icon" />
+            <h5>No Classes Assigned</h5>
+            <p>You haven't been assigned any classes yet.</p>
+          </div>
+        )}
+      </div>
+
+      {/* Faculty Info Card */}
+      <div className="faculty-card">
+        <div className="faculty-card-header">
+          <MDBIcon fas icon="user-circle" className="faculty-icon" />
+          <h4>Faculty Information</h4>
+        </div>
+        <div className="faculty-card-body">
+          <div className="faculty-info-row">
+            <div className="info-label">
+              <MDBIcon fas icon="user" />
+              <span>Name:</span>
+            </div>
+            <div className="info-value">{facultyInfo.name}</div>
+          </div>
+          <div className="faculty-info-row">
+            <div className="info-label">
+              <MDBIcon fas icon="id-card" />
+              <span>Employee ID:</span>
+            </div>
+            <div className="info-value">{facultyInfo.employeeID}</div>
+          </div>
+          <div className="faculty-info-row">
+            <div className="info-label">
+              <MDBIcon fas icon="building" />
+              <span>Department:</span>
+            </div>
+            <div className="info-value">{facultyInfo.department}</div>
+          </div>
+          <div className="faculty-info-row">
+            <div className="info-label">
+              <MDBIcon fas icon="briefcase" />
+              <span>Designation:</span>
+            </div>
+            <div className="info-value">{facultyInfo.designation}</div>
+          </div>
+          <div className="faculty-info-row">
+            <div className="info-label">
+              <MDBIcon fas icon="envelope" />
+              <span>Email:</span>
+            </div>
+            <div className="info-value">{facultyInfo.email}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
