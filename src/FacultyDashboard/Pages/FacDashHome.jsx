@@ -22,7 +22,6 @@ import {
 // import { toast } from "react-toastify";
 // import AdminAPI from "../../../api";
 import "./FacDashHome.css";
-
 const FacDashHome = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
