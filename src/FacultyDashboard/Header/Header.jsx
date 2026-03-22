@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import {useState , useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MDBContainer,
   MDBNavbar,
@@ -10,153 +10,143 @@ import {
   MDBDropdownToggle,
   MDBDropdownItem,
   MDBDropdownMenu,
-  MDBTable, MDBTableHead, MDBTableBody,
-} from 'mdb-react-ui-kit';
-import FacultyAPI from '../../FacAPI/facultyApi';
+  MDBTable,
+  MDBTableHead,
+  MDBTableBody,
+} from "mdb-react-ui-kit";
+import { toast } from "react-toastify";
+import FacultyAPI from "../../FacAPI/facultyApi";
 const Header = () => {
-  const [faculty , setFaculty] = useState();
-const navigate = useNavigate();
-  useEffect(()=>{
+  const [faculty, setFaculty] = useState();
+  const navigate = useNavigate();
+  useEffect(() => {
     const token = localStorage.getItem("facultyToken");
     if (!token) {
-    navigate("/faculty/login");
-    return;
+      navigate("/faculty/login");
+      return;
     }
-    const fetchFaculty = async()=>{
+    const fetchFaculty = async () => {
       try {
-          // setLoading(true);
-          const res = await FacultyAPI.get("/me",{
-            headers:{
-              Authorization:`Bearer ${token}`,
-            }
-          })
-            if (res.data.success) {
+        const res = await FacultyAPI.get("/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res.data.success) {
           setFaculty(res.data.faculty);
-          } else {
+        } else {
           localStorage.removeItem("facultyToken");
           navigate("/faculty/login");
-           }
         }
-       catch (error) {
-           console.error("Fetch faculty error:", error);
-            if (error.response?.status === 401) {
-            localStorage.removeItem("facultyToken");
-            navigate("/faculty/login");
+      } catch (error) {
+        console.error("Fetch faculty error:", error);
+        if (error.response?.status === 401) {
+          localStorage.removeItem("facultyToken");
+          navigate("/faculty/login");
         }
-        }
-            // finally {
-            //   setLoading(false);
-            // }
+      }
+    };
+    fetchFaculty();
+  }, [navigate]);
+  const handleLogout = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to logout from your faculty account?",
+      )
+    ) {
+      try {
+        localStorage.removeItem("facultyToken");
+        localStorage.removeItem("facultyId");
+        localStorage.removeItem("facultyData");
+        localStorage.removeItem("facultyName");
+        localStorage.removeItem("facultyEmail");
+        sessionStorage.clear();
+        toast.success("Logout Successfully");
+        navigate("/faculty/login");
+      } catch (error) {
+        console.error("Faculty Logout Error!!!");
+        toast.error("Error during logout. Please try again.");
+      }
     }
-     fetchFaculty();
-  } ,[navigate])
-  
+  };
   return (
-    <MDBNavbar light bgColor='success p-2' style={{ "--mdb-bg-opacity": "0.29" }}>
-           <MDBContainer fluid>
-             <MDBNavbarBrand className='fw-bold mb-0'>Welcome to Mr.{faculty?.firstName} {faculty?.lastName} </MDBNavbarBrand>
-            <MDBDropdown className="custom-dropdown">
-  <MDBDropdownToggle tag='a' className='d-flex w-auto mb-3 nav-link' style={{ cursor: 'pointer' }}>
-    <img
-      src={faculty?.profileImage || "https://via.placeholder.com/40"}
-      alt="profile"
-      className="rounded-circle"
-      style={{
-        width: "40px",
-        height: "40px",
-        objectFit: "cover",
-        border: "2px solid #20c997"
-      }}
-    />
-  </MDBDropdownToggle>
-  <MDBDropdownMenu>
-    <MDBDropdownItem>
-      <Link to="/profile" className="dropdown-item text-primary">
-        <i className="fas fa-user me-2"></i>
-        Profile
-      </Link>
-    </MDBDropdownItem>
-    <MDBDropdownItem>
-      <Link to="/faculty/settings" className="dropdown-item text-primary">
-        <i className="fas fa-cog me-2"></i>
-        Settings
-      </Link>
-    </MDBDropdownItem>
-    <MDBDropdownItem>
-      <Link to="/faculty/change-password" className="dropdown-item text-primary">
-        <i className="fas fa-key me-2"></i>
-        Change Password
-      </Link>
-    </MDBDropdownItem>
-    <div className="dropdown-divider"></div>
-    <MDBDropdownItem>
-      <Link to='/logout' className='dropdown-item text-danger'>
-        <i className="fas fa-sign-out-alt me-2"></i>
-        Logout
-      </Link>
-    </MDBDropdownItem>
-  </MDBDropdownMenu>
-</MDBDropdown>
-           </MDBContainer>
-         </MDBNavbar>
-  )
-}
+    <MDBNavbar
+      light
+      bgColor="success p-2"
+      style={{ "--mdb-bg-opacity": "0.29" }}
+    >
+      <MDBContainer fluid>
+        <MDBNavbarBrand className="fw-bold mb-0">
+          Welcome to Mr.{faculty?.firstName} {faculty?.lastName}{" "}
+        </MDBNavbarBrand>
+        <MDBDropdown className="custom-dropdown">
+          <MDBDropdownToggle
+            tag="a"
+            className="d-flex w-auto mb-3 nav-link"
+            style={{ cursor: "pointer" }}
+          >
+            <img
+              src={faculty?.profileImage || "https://via.placeholder.com/40"}
+              alt="profile"
+              className="rounded-circle"
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
+                border: "2px solid #20c997",
+              }}
+            />
+          </MDBDropdownToggle>
+          <MDBDropdownMenu>
+            <MDBDropdownItem>
+              <Link to="/profile" className="dropdown-item text-primary">
+                <i className="fas fa-user me-2"></i>
+                Profile
+              </Link>
+            </MDBDropdownItem>
+            <MDBDropdownItem>
+              <Link
+                to="/faculty/settings"
+                className="dropdown-item text-primary"
+              >
+                <i className="fas fa-cog me-2"></i>
+                Settings
+              </Link>
+            </MDBDropdownItem>
+            <MDBDropdownItem>
+              <Link
+                to="/faculty/change-password"
+                className="dropdown-item text-primary"
+              >
+                <i className="fas fa-key me-2"></i>
+                Change Password
+              </Link>
+            </MDBDropdownItem>
+            <div className="dropdown-divider"></div>
+            <MDBDropdownItem>
+              <button 
+              onClick={handleLogout}
+              className="dropdown-item text-danger"
+              style={{ 
+                width: '100%', 
+                textAlign: 'left',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <i className="fas fa-sign-out-alt me-2"></i>
+              Logout
+            </button>
+            </MDBDropdownItem>
+          </MDBDropdownMenu>
+        </MDBDropdown>
+      </MDBContainer>
+    </MDBNavbar>
+  );
+};
 
-export default Header
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Header;
 
 // import React from 'react'
 // import './Header.css'
@@ -188,7 +178,7 @@ export default Header
 // //         <div className="header-left">
 // //           <h4>University Management</h4>
 // //         </div>
-  
+
 // //         {/* Right - User & Actions */}
 // //         <div className="header-right">
 // //           <button className="icon-btn">
@@ -202,7 +192,7 @@ export default Header
 // //           <button className="logout-btn" onClick={handleLogout}>
 // //             <FaSignOutAlt /> Logout
 // //           </button>
-  
+
 // //           {/* Hamburger for mobile */}
 // //           <button
 // //             className="menu-toggle"
@@ -212,7 +202,7 @@ export default Header
 // //             {menuOpen ? <FaTimes /> : <FaBars />}
 // //           </button>
 // //         </div>
-  
+
 // //         {/* Dropdown Menu for Mobile */}
 // //         {menuOpen && (
 // //           <div className="dropdown-menu">
@@ -222,7 +212,7 @@ export default Header
 // //             <button className="dropdown-item">
 // //               <FaUserCircle /> Profile
 // //             </button>
-          
+
 // //             <button className="dropdown-item logout" onClick={handleLogout}>
 // //               <FaSignOutAlt /> Logout
 // //             </button>
@@ -235,33 +225,8 @@ export default Header
 //                 className='btn btn-primary'>
 //                    Logout
 //                 </button>
-                
+
 //             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //   )
 // }
