@@ -32,11 +32,29 @@ export default function FacultyLogin() {
         userName: login.userName,
         password: login.password,
       });
-      
-      if (res.data.success) {
+        console.log("Login response:", res.data);
+       if (res.data.success) {
         toast.success(res.data.message);
+        
+        // Clear any existing data
+        localStorage.clear();
+        
+        // Store token
         localStorage.setItem("facultyToken", res.data.token);
-        localStorage.setItem("facultyData", JSON.stringify(res.data.faculty));
+        
+        // Store faculty data
+        const facultyData = res.data.faculty;
+        localStorage.setItem("facultyData", JSON.stringify(facultyData));
+        
+        // Store individual fields for easy access
+        localStorage.setItem("facultyId", facultyData._id);
+        localStorage.setItem("facultyName", facultyData.name);
+        localStorage.setItem("facultyEmail", facultyData.email);
+        
+        // Verify storage
+        console.log("Stored facultyId:", localStorage.getItem("facultyId"));
+        console.log("Stored token:", localStorage.getItem("facultyToken") ? "Present" : "Missing");
+        
         setTimeout(() => {
           navigate('/faculty/dashboard');
         }, 2000);
