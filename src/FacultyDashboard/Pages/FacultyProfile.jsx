@@ -74,7 +74,7 @@ export default function FacultyProfile() {
           <MDBTable responsive hover bordered className="align-middle custom-table">
              <MDBTableHead>
                 <tr className='text-center table-info'>
-                  <th colSpan={4}><i className="fas fa-user me-2"></i>Personal Information</th>
+                  <th colSpan={4} className="text-center text-info"><i className="fas fa-user me-2"></i>Personal Information</th>
                 </tr>
               </MDBTableHead>
                <MDBTableBody>
