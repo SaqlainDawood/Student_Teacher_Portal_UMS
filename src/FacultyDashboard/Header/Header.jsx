@@ -10,14 +10,13 @@ import {
   MDBDropdownToggle,
   MDBDropdownItem,
   MDBDropdownMenu,
-  MDBTable,
-  MDBTableHead,
-  MDBTableBody,
 } from "mdb-react-ui-kit";
 import { toast } from "react-toastify";
 import FacultyAPI from "../../FacAPI/facultyApi";
+import { useContext } from "react";
+import { AuthConext } from "../Context/AuthContext";
 const Header = () => {
-  const [faculty, setFaculty] = useState();
+  const {faculty , setFaculty} = useContext(AuthConext);
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("facultyToken");
@@ -99,7 +98,7 @@ const Header = () => {
           </MDBDropdownToggle>
           <MDBDropdownMenu>
             <MDBDropdownItem>
-              <Link to="/profile" className="dropdown-item text-primary">
+              <Link to="/faculty/profile" className="dropdown-item text-primary">
                 <i className="fas fa-user me-2"></i>
                 Profile
               </Link>

@@ -3,8 +3,10 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
 import './Faculty.css';
 import Header from "../Header/Header";
-
+import { useContext } from "react";
+import { AuthConext } from "../Context/AuthContext";
 export default function FacultyDashboard() {
+  const {faculty} = useContext(AuthConext);
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -67,7 +69,7 @@ export default function FacultyDashboard() {
                 <MDBIcon fas icon="user-graduate" />
               </div>
               <div className="user-details">
-                <span className="user-name">MR. {} </span>
+                <span className="user-name">MR. {faculty?.firstName} {faculty?.lastName} </span>
                 <span className="user-role"></span>
               </div>
             </div>
