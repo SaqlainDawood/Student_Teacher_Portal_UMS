@@ -46,7 +46,7 @@ const Header = () => {
       }
     };
     fetchFaculty();
-  }, [navigate]);
+  }, [navigate , setFaculty]);
   const handleLogout = () => {
     if (
       window.confirm(
