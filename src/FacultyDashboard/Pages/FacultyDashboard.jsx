@@ -4,9 +4,9 @@ import { MDBIcon } from "mdb-react-ui-kit";
 import './Faculty.css';
 import Header from "../Header/Header";
 import { useContext } from "react";
-import { AuthConext } from "../Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 export default function FacultyDashboard() {
-  const {faculty} = useContext(AuthConext);
+  const {faculty} = useContext(AuthContext);
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 

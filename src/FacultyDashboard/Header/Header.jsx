@@ -14,9 +14,9 @@ import {
 import { toast } from "react-toastify";
 import FacultyAPI from "../../FacAPI/facultyApi";
 import { useContext } from "react";
-import { AuthConext } from "../Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 const Header = () => {
-  const {faculty , setFaculty} = useContext(AuthConext);
+  const {faculty , setFaculty} = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("facultyToken");
