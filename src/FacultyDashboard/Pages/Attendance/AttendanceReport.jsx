@@ -14,7 +14,7 @@ import {
   MDBProgressBar,
 } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
-import FacultyAPI from '../../FacAPI/facultyApi';
+import FacultyAPI from '../../../FacAPI/facultyApi';
 import './AttendanceReport.css';
 
 const AttendanceReport = () => {
