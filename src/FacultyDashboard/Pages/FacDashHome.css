@@ -240,6 +240,96 @@
   font-size: 12px;
   padding: 4px 12px;
 }
+/* ============================================
+   ATTENDANCE BUTTONS STYLES
+   ============================================ */
+
+.schedule-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-attendance {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-attendance:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.action-buttons-table {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-attendance-sm {
+  background: #10b981;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-attendance-sm:hover {
+  background: #059669;
+  transform: scale(1.05);
+}
+
+.btn-report-sm {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-report-sm:hover {
+  background: #2563ed;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .schedule-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .btn-attendance {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+  
+  .action-buttons-table {
+    flex-direction: column;
+  }
+}
 
 /* Stats Row */
 .stats-row {

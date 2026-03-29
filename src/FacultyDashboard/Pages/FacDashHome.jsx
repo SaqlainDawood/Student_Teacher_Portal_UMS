@@ -13,18 +13,20 @@ import {
   MDBTableBody,
   MDBProgress,
   MDBProgressBar,
+  MDBBtn,
 } from 'mdb-react-ui-kit';
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 import FacultyAPI from "../../FacAPI/facultyApi";
 import "./FacDashHome.css";
 
 const FacDashHome = () => {
+  const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
-    // Set greeting based on time of day
     const hour = new Date().getHours();
     if (hour < 12) setGreeting("Good Morning");
     else if (hour < 17) setGreeting("Good Afternoon");
@@ -39,7 +41,6 @@ const FacDashHome = () => {
       let facultyId = localStorage.getItem("facultyId");
       const token = localStorage.getItem("facultyToken");
       
-      // If facultyId not found, try to get it from facultyData
       if (!facultyId) {
         const facultyDataStr = localStorage.getItem("facultyData");
         if (facultyDataStr) {
@@ -54,7 +55,7 @@ const FacDashHome = () => {
       
       if (!token || !facultyId) {
         toast.error("Please login again");
-        window.location.href = "/faculty/login";
+        navigate("/faculty/login");
         return;
       }
       
@@ -92,13 +93,25 @@ const FacDashHome = () => {
       if (error.response?.status === 401) {
         toast.error("Session expired. Please login again.");
         localStorage.clear();
-        window.location.href = "/faculty/login";
+        navigate("/faculty/login");
       } else {
         toast.error("Error loading dashboard. Please try again.");
       }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleMarkAttendance = (classId, className, classCode) => {
+    // Store class info in localStorage or state for the attendance page
+    localStorage.setItem('selectedClassId', classId);
+    localStorage.setItem('selectedClassName', className);
+    localStorage.setItem('selectedClassCode', classCode);
+    navigate(`/faculty/attendance/mark/${classId}`);
+  };
+
+  const handleViewReport = (classId) => {
+    navigate(`/faculty/attendance/report/${classId}`);
   };
 
   if (loading) {
@@ -214,7 +227,7 @@ const FacDashHome = () => {
         </div>
       </div>
 
-      {/* Today's Schedule Section */}
+      {/* Today's Schedule Section with Attendance Button */}
       {todaysClasses && todaysClasses.length > 0 && (
         <div className="schedule-section">
           <div className="section-header">
@@ -242,81 +255,25 @@ const FacDashHome = () => {
                     <span>Section {cls.section}</span>
                   </div>
                 </div>
-                <MDBBadge color="success" pill className="schedule-status">
-                  Upcoming
-                </MDBBadge>
+                <div className="schedule-actions">
+                  <MDBBadge color="success" pill className="schedule-status me-2">
+                    Upcoming
+                  </MDBBadge>
+                  <button 
+                    className="btn-attendance"
+                    onClick={() => handleMarkAttendance(cls.id || cls._id, cls.subject, cls.classCode)}
+                  >
+                    <MDBIcon fas icon="clipboard-check" className="me-1" />
+                    Mark Attendance
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Department & Semester Stats */}
-      <div className="stats-row">
-        <div className="stats-card">
-          <div className="stats-card-header">
-            <MDBIcon fas icon="building" />
-            <h4>By Department</h4>
-          </div>
-          <div className="stats-card-body">
-            {departmentStats && departmentStats.length > 0 ? (
-              departmentStats.map((dept, idx) => (
-                <div key={idx} className="stat-bar-item">
-                  <div className="stat-bar-header">
-                    <span className="stat-bar-label">{dept.department}</span>
-                    <span className="stat-bar-value">{dept.classCount} Classes</span>
-                  </div>
-                  <div className="stat-bar-progress">
-                    <div 
-                      className="stat-bar-fill"
-                      style={{ width: `${(dept.classCount / statistics.totalClasses) * 100}%` }}
-                    ></div>
-                  </div>
-                  <div className="stat-bar-footer">
-                    <span>{dept.totalStudents} Students</span>
-                    <span>{dept.totalCreditHours} Credits</span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-muted text-center py-4">No department data available</p>
-            )}
-          </div>
-        </div>
-
-        <div className="stats-card">
-          <div className="stats-card-header">
-            <MDBIcon fas icon="layer-group" />
-            <h4>By Semester</h4>
-          </div>
-          <div className="stats-card-body">
-            {semesterStats && semesterStats.length > 0 ? (
-              semesterStats.map((sem, idx) => (
-                <div key={idx} className="stat-bar-item">
-                  <div className="stat-bar-header">
-                    <span className="stat-bar-label">Semester {sem.semester}</span>
-                    <span className="stat-bar-value">{sem.classCount} Classes</span>
-                  </div>
-                  <div className="stat-bar-progress">
-                    <div 
-                      className="stat-bar-fill"
-                      style={{ width: `${(sem.classCount / statistics.totalClasses) * 100}%` }}
-                    ></div>
-                  </div>
-                  <div className="stat-bar-footer">
-                    <span>{sem.totalStudents} Students</span>
-                    <span>{sem.totalCreditHours} Credits</span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-muted text-center py-4">No semester data available</p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Classes Table */}
+      {/* Classes Table with Attendance Actions */}
       <div className="classes-section">
         <div className="section-header">
           <h3>
@@ -338,7 +295,7 @@ const FacDashHome = () => {
                   <th>Section</th>
                   <th>Credits</th>
                   <th>Students</th>
-                  <th>Schedule</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -367,26 +324,25 @@ const FacDashHome = () => {
                       <div className="student-progress">
                         <span className="student-count">{cls.enrolledStudents || 0}</span>
                         <span className="student-capacity"> / {cls.capacity || 0}</span>
-                        <div className="progress-bar">
-                          <div 
-                            className="progress-fill"
-                            style={{ width: `${((cls.enrolledStudents || 0) / (cls.capacity || 1)) * 100}%` }}
-                          ></div>
-                        </div>
                       </div>
                     </td>
                     <td>
-                      {cls.schedule && cls.schedule.length > 0 ? (
-                        <div className="schedule-preview">
-                          <MDBIcon far icon="clock" className="me-1" size="sm" />
-                          <span>{cls.schedule[0].day}, {cls.schedule[0].startTime}</span>
-                          {cls.schedule.length > 1 && (
-                            <span className="more-schedule">+{cls.schedule.length - 1}</span>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-muted">No schedule</span>
-                      )}
+                      <div className="action-buttons-table">
+                        <button 
+                          className="btn-attendance-sm"
+                          onClick={() => handleMarkAttendance(cls.id, cls.subject, cls.classCode)}
+                          title="Mark Attendance"
+                        >
+                          <MDBIcon fas icon="clipboard-check" />
+                        </button>
+                        <button 
+                          className="btn-report-sm"
+                          onClick={() => handleViewReport(cls.id)}
+                          title="View Report"
+                        >
+                          <MDBIcon fas icon="chart-line" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
