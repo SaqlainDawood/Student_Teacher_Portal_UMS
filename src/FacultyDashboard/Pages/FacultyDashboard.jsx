@@ -18,7 +18,6 @@ export default function FacultyDashboard() {
     { path: "/faculty/dashboard",     name: "Dashboard",       icon: "tachometer-alt" },
     { path: "/faculty/profile",       name: "Profile",         icon: "user" },
     { path: "/faculty/addresult",     name: "Add Result",      icon: "file-alt" },
-    { path: "/faculty/markattendance",name: "Mark Attendance", icon: "clipboard" },
     { path: "/faculty/addnewclass",   name: "Add New Class",   icon: "book" },
   ];
 
