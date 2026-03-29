@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBRow,
-  MDBCol,
+
   MDBIcon,
   MDBBadge,
   MDBSpinner,
-  MDBTable,
-  MDBTableHead,
-  MDBTableBody,
-  MDBProgress,
-  MDBProgressBar,
-  MDBBtn,
+
 } from 'mdb-react-ui-kit';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
