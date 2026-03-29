@@ -9,9 +9,9 @@ import {
   MDBIcon,
   MDBBadge,
   MDBSpinner,
-  MDBBtn,
-  MDBInput,
-  MDBTextArea,
+//   MDBBtn,
+//   MDBInput,
+//   MDBTextArea,
 } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
 import FacultyAPI from '../../../FacAPI/facultyApi';
@@ -55,7 +55,6 @@ const MarkAttendance = () => {
       setLoading(false);
     }
   };
-
   const handleStatusChange = (studentId, status) => {
     setStudents(prev => prev.map(student =>
       student.studentId === studentId
@@ -63,7 +62,6 @@ const MarkAttendance = () => {
         : student
     ));
   };
-
   const handleRemarksChange = (studentId, remarks) => {
     setStudents(prev => prev.map(student =>
       student.studentId === studentId

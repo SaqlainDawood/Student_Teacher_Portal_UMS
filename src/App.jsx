@@ -17,7 +17,7 @@ import FacultyLogin from './FacultyDashboard/Form/Login'
 import FacultyDashboard from './FacultyDashboard/Pages/FacultyDashboard'
 import FacultyProfile from './FacultyDashboard/Pages/FacultyProfile'
 import AddClass from './FacultyDashboard/Pages/AddNewClass'
-import MarkAttendance from './FacultyDashboard/Pages/MarkAttendance'
+
 import AddResult from './FacultyDashboard/Pages/AddResult'
 import FacDashHome from './FacultyDashboard/Pages/FacDashHome'
 import MultiPartForm from './Forms/Multipartform/Multi_part_form'
@@ -52,7 +52,6 @@ function App() {
            <Route path="/faculty" element={ <FacultyDashboard />}>
             <Route path="dashboard" element={<FacDashHome />} />
             <Route path="addnewclass" element={<AddClass />} />
-            <Route path="markattendance" element={<MarkAttendance />} />
             <Route path="addresult" element={<AddResult />} />
             <Route path="profile" element={<FacultyProfile />} />
             <Route path="/faculty/attendance/mark/:classId" element={<MarkAttendance />} />
