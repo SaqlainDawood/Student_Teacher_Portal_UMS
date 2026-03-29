@@ -23,7 +23,7 @@ import FacDashHome from './FacultyDashboard/Pages/FacDashHome'
 import MultiPartForm from './Forms/Multipartform/Multi_part_form'
 import StudentReg from './Forms/Student/StudentReg'
 import MarkAttendance from './FacultyDashboard/Pages/Attendance/MarkAttendance'
-import AttendanceReport from '../pages/FacultyDashboard/Attendance/AttendanceReport';
+import AttendanceReport from './FacultyDashboard/Pages/Attendance/AttendanceReport';
 import { useEffect , useState } from 'react'
 import Login from './FacultyDashboard/Form/Login'
 
