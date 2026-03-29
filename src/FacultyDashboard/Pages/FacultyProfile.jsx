@@ -47,13 +47,11 @@ export default function FacultyProfile() {
   },[navigate])
   if (loading) {
     return (
-      <div className="approvals-container">
-        <div className="container-fluid text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-3">Loading Faculty...</p>
-        </div>
+      <div className="loading-container">
+        <MDBSpinner role="status" color="success" size="lg">
+          <span className="visually-hidden">Loading...</span>
+        </MDBSpinner>
+        <p className="mt-3">Loading your dashboard...</p>
       </div>
     );
   }

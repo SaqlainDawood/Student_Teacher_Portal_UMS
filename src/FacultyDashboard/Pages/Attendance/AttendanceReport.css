@@ -1,0 +1,559 @@
+/* AttendanceReport.css - Matching Faculty Dashboard Colors */
+
+/* Main Container */
+.attendance-report-page {
+  padding: 20px;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Header Section */
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header-left .back-btn {
+  background: linear-gradient(135deg, #20c997 0%, #198754 100%);
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.header-left .back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.3);
+}
+
+.header-left h1 {
+  color: #2c3e50;
+  font-size: 1.75rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.export-btn {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.export-btn.csv {
+  background: linear-gradient(135deg, #20c997 0%, #198754 100%);
+  color: white;
+}
+
+.export-btn.csv:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.3);
+}
+
+.export-btn.pdf {
+  background: #dc3545;
+  color: white;
+}
+
+.export-btn.pdf:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Class Info Card */
+.class-info-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #20c997;
+}
+
+.class-info-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.info-icon {
+  font-size: 2rem;
+  color: #20c997;
+}
+
+.class-info-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.class-info-header p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.class-info-details {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.info-badge {
+  background: #f8f9fa;
+  color: #495057;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+/* Summary Stats */
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.stat-icon.good {
+  background: rgba(32, 201, 151, 0.1);
+  color: #20c997;
+}
+
+.stat-icon.warning {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.stat-icon.danger {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.stat-info p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.stat-trend {
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.stat-trend.good {
+  color: #20c997;
+}
+
+.stat-trend.warning {
+  color: #ffc107;
+}
+
+.stat-trend.danger {
+  color: #dc3545;
+}
+
+/* Overall Progress Card */
+.overall-progress-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.overall-progress-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.progress-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progress-item {
+  flex: 1;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: #6c757d;
+}
+
+.progress-bar-custom {
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.progress-fill.good {
+  background: linear-gradient(90deg, #20c997, #198754);
+}
+
+.progress-fill.warning {
+  background: linear-gradient(90deg, #ffc107, #e0a800);
+}
+
+.progress-fill.danger {
+  background: linear-gradient(90deg, #dc3545, #c82333);
+}
+
+/* Report Table Card */
+.report-table-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #20c997, #198754);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.table-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.total-students {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: white;
+}
+
+/* Report Table */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report-table th,
+.report-table td {
+  padding: 1rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.report-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+}
+
+.report-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.report-table tbody tr.warning-row {
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.report-table td.serial {
+  font-weight: 600;
+  color: #20c997;
+}
+
+.report-table td.roll-no {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.report-table td.student-name {
+  font-weight: 500;
+}
+
+.report-table td.present-count {
+  color: #20c997;
+  font-weight: 600;
+}
+
+.report-table td.late-count {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+.report-table td.absent-count {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* Percentage Cell */
+.percentage-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 120px;
+}
+
+.percentage-value {
+  font-weight: 600;
+  min-width: 45px;
+}
+
+.mini-progress {
+  flex: 1;
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Table Footer */
+.table-footer {
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.summary-note {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.7rem;
+  color: #6c757d;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+.legend-dot.good {
+  background: #20c997;
+}
+
+.legend-dot.warning {
+  background: #ffc107;
+}
+
+.legend-dot.danger {
+  background: #dc3545;
+}
+
+/* Loading & Error States */
+.report-loading-container,
+.report-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: white;
+  border-radius: 16px;
+  margin: 20px;
+  padding: 40px;
+}
+
+.error-card {
+  text-align: center;
+}
+
+/* Print Styles for PDF Export */
+@media print {
+  .attendance-report-page {
+    padding: 0;
+    background: white;
+  }
+  
+  .report-header .back-btn,
+  .header-actions,
+  .export-btn {
+    display: none !important;
+  }
+  
+  .report-table th,
+  .report-table td {
+    border: 1px solid #ddd;
+  }
+  
+  .table-footer .legend {
+    display: none;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .attendance-report-page {
+    padding: 15px;
+  }
+  
+  .report-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header-actions {
+    width: 100%;
+  }
+  
+  .export-btn {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .summary-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .table-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .legend {
+    justify-content: center;
+  }
+  
+  .report-table th,
+  .report-table td {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .percentage-wrapper {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .class-info-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .class-info-details {
+    justify-content: center;
+  }
+  
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .percentage-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .mini-progress {
+    width: 100%;
+  }
+}
