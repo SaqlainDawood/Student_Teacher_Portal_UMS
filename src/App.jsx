@@ -23,6 +23,7 @@ import FacDashHome from './FacultyDashboard/Pages/FacDashHome'
 import MultiPartForm from './Forms/Multipartform/Multi_part_form'
 import StudentReg from './Forms/Student/StudentReg'
 import MarkAttendance from './FacultyDashboard/Pages/Attendance/MarkAttendance'
+import AttendanceReport from '../pages/FacultyDashboard/Attendance/AttendanceReport';
 import { useEffect , useState } from 'react'
 import Login from './FacultyDashboard/Form/Login'
 
@@ -55,6 +56,8 @@ function App() {
             <Route path="addresult" element={<AddResult />} />
             <Route path="profile" element={<FacultyProfile />} />
             <Route path="/faculty/attendance/mark/:classId" element={<MarkAttendance />} />
+            <Route path="/faculty/attendance/report/:classId" element={<AttendanceReport />} />
+
           </Route>
            <Route path="*" element={<Navigate to ="/" replace />} />
       </Routes>
