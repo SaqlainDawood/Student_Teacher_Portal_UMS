@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ConfettiBoom from "confetti-boom";
+import ConfettiBoom from "react-confetti-boom";
 import {
   MDBContainer,
   MDBNavbar,
@@ -18,8 +18,8 @@ import API from "../api";
 const DashboardHome = () => {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
   const confettiTriggered = useRef(false);
-  const containerRef = useRef(null);
   
   const navigate = useNavigate();
 
@@ -47,29 +47,18 @@ const DashboardHome = () => {
       }
     };
 
-    // Trigger boom confetti only once per session
+    // Trigger confetti only once per session
     const hasShownConfetti = sessionStorage.getItem("confettiShown");
     
     if (!hasShownConfetti && !confettiTriggered.current) {
-      // Boom confetti effect
-      new ConfettiBoom({
-        element: containerRef.current || document.body,
-        duration: 2000,
-        colors: [
-          '#ff0000', '#00ff00', '#0000ff', '#ffff00', 
-          '#ff00ff', '#00ffff', '#ff6600', '#ff0066'
-        ],
-        particleCount: 300,
-        spread: 100,
-        startVelocity: 30,
-        origin: { x: 0.5, y: 0.5 },
-        decay: 0.9,
-        ticks: 200,
-        shapes: ['square', 'circle']
-      });
-      
+      setShowConfetti(true);
       confettiTriggered.current = true;
       sessionStorage.setItem("confettiShown", "true");
+      
+      // Auto hide confetti after 3 seconds
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 3000);
     }
     
     fetchStudentData();
@@ -91,7 +80,21 @@ const DashboardHome = () => {
   }
   
   return (
-    <div ref={containerRef}>
+    <>
+      {/* Confetti Boom Effect */}
+      {showConfetti && (
+        <ConfettiBoom
+          mode="boom"
+          particleCount={300}
+          colors={['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff']}
+          spread={100}
+          startVelocity={25}
+          decay={0.9}
+          x={0.5}
+          y={0.5}
+        />
+      )}
+      
       <MDBNavbar light bgColor="light">
         <MDBContainer fluid>
           <MDBNavbarBrand className="fw-bold">
@@ -147,7 +150,7 @@ const DashboardHome = () => {
           {/* Your table rows go here */}
         </MDBTableBody>
       </MDBTable>
-    </div>
+    </>
   );
 };
 
