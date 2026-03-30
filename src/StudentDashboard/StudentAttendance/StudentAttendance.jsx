@@ -31,8 +31,31 @@ const StudentAttendance = () => {
   const fetchAttendance = async () => {
     try {
       setLoading(true);
-      const studentId = localStorage.getItem('studentId');
+      
+      // Get studentId from studentData in localStorage
+      let studentId = localStorage.getItem('studentId');
       const token = localStorage.getItem('studentToken');
+      const studentDataStr = localStorage.getItem('studentData');
+      
+      // If studentId not stored directly, get it from studentData
+      if (!studentId && studentDataStr) {
+        try {
+          const studentData = JSON.parse(studentDataStr);
+          studentId = studentData._id || studentData.id;
+          // Also store it separately for future use
+          if (studentId) {
+            localStorage.setItem('studentId', studentId);
+          }
+        } catch (e) {
+          console.error('Error parsing studentData:', e);
+        }
+      }
+      
+      console.log('=== DEBUG INFO ===');
+      console.log('Student ID from localStorage:', studentId);
+      console.log('Token exists:', token ? 'YES' : 'NO');
+      console.log('Student Data exists:', studentDataStr ? 'YES' : 'NO');
+      console.log('==================');
 
       if (!studentId || !token) {
         toast.error('Please login again');
@@ -44,6 +67,8 @@ const StudentAttendance = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      console.log('API Response:', response.data);
+
       if (response.data && response.data.success) {
         setData(response.data.data);
       } else {
@@ -51,7 +76,20 @@ const StudentAttendance = () => {
       }
     } catch (error) {
       console.error('Error fetching attendance:', error);
-      toast.error('Error loading attendance data');
+      console.error('Error response:', error.response?.data);
+      
+      if (error.response?.status === 401) {
+        toast.error('Session expired. Please login again.');
+        localStorage.removeItem('studentToken');
+        localStorage.removeItem('studentData');
+        localStorage.removeItem('studentId');
+        navigate('/student/login');
+      } else if (error.response?.status === 404) {
+        toast.error('Student not found. Please login again.');
+        navigate('/student/login');
+      } else {
+        toast.error(error.response?.data?.message || 'Error loading attendance data');
+      }
     } finally {
       setLoading(false);
     }
@@ -60,8 +98,25 @@ const StudentAttendance = () => {
   const handleExport = async () => {
     try {
       setExporting(true);
-      const studentId = localStorage.getItem('studentId');
+      
+      let studentId = localStorage.getItem('studentId');
       const token = localStorage.getItem('studentToken');
+      const studentDataStr = localStorage.getItem('studentData');
+      
+      if (!studentId && studentDataStr) {
+        try {
+          const studentData = JSON.parse(studentDataStr);
+          studentId = studentData._id || studentData.id;
+        } catch (e) {
+          console.error('Error parsing studentData:', e);
+        }
+      }
+
+      if (!studentId || !token) {
+        toast.error('Please login again');
+        navigate('/student/login');
+        return;
+      }
 
       const response = await API.get(`/attendance/export/${studentId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -126,7 +181,7 @@ const StudentAttendance = () => {
       {/* Header */}
       <div className="attendance-header">
         <div className="header-left">
-          <button className="back-btn" onClick={() => navigate('/student/dashboard')}>
+          <button className="back-btn" onClick={() => navigate('/std/dashboard')}>
             <MDBIcon fas icon="arrow-left" className="me-2" />
             Back to Dashboard
           </button>
@@ -341,8 +396,8 @@ const StudentAttendance = () => {
             </table>
           </div>
         </div>
-      </div> 
-  );
-};
-
-export default StudentAttendance;
+      </div>
+    );
+  };
+  
+  export default StudentAttendance;

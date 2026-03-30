@@ -37,6 +37,7 @@ export default function StudentLogin() {
         toast.success(res.data.message);
         localStorage.setItem("studentToken", res.data.token);
         localStorage.setItem("studentData", JSON.stringify(res.data.student));
+        localStorage.setItem("studentId", res.data.student._id || res.data.student.id);
         localStorage.setItem('showConfetti', 'true');
         
         setTimeout(() => {
