@@ -47,7 +47,6 @@ function App() {
             <Route path="result" element={<StudentResult />} />
             <Route path="notes" element={<StudentNotes />} />
             <Route path="attendance" element={<StudentAttendance />} />
-            <Route path="attendance" element={<StudentAttendance />} />
           </Route>
                {/* Facult Dashbaord */}
            
