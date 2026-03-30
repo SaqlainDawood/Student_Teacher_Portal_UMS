@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBRow,
-  MDBCol,
   MDBIcon,
   MDBBadge,
   MDBSpinner,
-  MDBProgress,
-  MDBProgressBar,
-  MDBBtn,
 } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
 import API from '../../api';
@@ -31,39 +23,20 @@ const StudentAttendance = () => {
   const fetchAttendance = async () => {
     try {
       setLoading(true);
-      
-      // Get studentId from studentData in localStorage
-      let studentId = localStorage.getItem('studentId');
       const token = localStorage.getItem('studentToken');
-      const studentDataStr = localStorage.getItem('studentData');
-      
-      // If studentId not stored directly, get it from studentData
-      if (!studentId && studentDataStr) {
-        try {
-          const studentData = JSON.parse(studentDataStr);
-          studentId = studentData._id || studentData.id;
-          // Also store it separately for future use
-          if (studentId) {
-            localStorage.setItem('studentId', studentId);
-          }
-        } catch (e) {
-          console.error('Error parsing studentData:', e);
-        }
-      }
       
       console.log('=== DEBUG INFO ===');
-      console.log('Student ID from localStorage:', studentId);
       console.log('Token exists:', token ? 'YES' : 'NO');
-      console.log('Student Data exists:', studentDataStr ? 'YES' : 'NO');
+      console.log('Token value:', token ? token.substring(0, 30) + '...' : 'null');
       console.log('==================');
 
-      if (!studentId || !token) {
+      if (!token) {
         toast.error('Please login again');
         navigate('/student/login');
         return;
       }
 
-      const response = await API.get(`/attendance/summary/${studentId}`, {
+      const response = await API.get('/attendance/summary', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -82,10 +55,6 @@ const StudentAttendance = () => {
         toast.error('Session expired. Please login again.');
         localStorage.removeItem('studentToken');
         localStorage.removeItem('studentData');
-        localStorage.removeItem('studentId');
-        navigate('/student/login');
-      } else if (error.response?.status === 404) {
-        toast.error('Student not found. Please login again.');
         navigate('/student/login');
       } else {
         toast.error(error.response?.data?.message || 'Error loading attendance data');
@@ -98,27 +67,15 @@ const StudentAttendance = () => {
   const handleExport = async () => {
     try {
       setExporting(true);
-      
-      let studentId = localStorage.getItem('studentId');
       const token = localStorage.getItem('studentToken');
-      const studentDataStr = localStorage.getItem('studentData');
-      
-      if (!studentId && studentDataStr) {
-        try {
-          const studentData = JSON.parse(studentDataStr);
-          studentId = studentData._id || studentData.id;
-        } catch (e) {
-          console.error('Error parsing studentData:', e);
-        }
-      }
 
-      if (!studentId || !token) {
+      if (!token) {
         toast.error('Please login again');
         navigate('/student/login');
         return;
       }
 
-      const response = await API.get(`/attendance/export/${studentId}`, {
+      const response = await API.get('attendance/export', {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob'
       });
@@ -396,6 +353,50 @@ const StudentAttendance = () => {
             </table>
           </div>
         </div>
+
+        {/* Course Detail Modal */}
+        {selectedCourse && (
+          <div className="modal-overlay" onClick={() => setSelectedCourse(null)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h3>{selectedCourse.subject}</h3>
+                <button className="modal-close" onClick={() => setSelectedCourse(null)}>×</button>
+              </div>
+              <div className="modal-body">
+                <p><strong>Course Code:</strong> {selectedCourse.classCode}</p>
+                <p><strong>Teacher:</strong> {selectedCourse.teacher}</p>
+                <p><strong>Section:</strong> {selectedCourse.section}</p>
+                <p><strong>Semester:</strong> {selectedCourse.semester}</p>
+                <p><strong>Credit Hours:</strong> {selectedCourse.creditHours}</p>
+                <hr />
+                <div className="course-stats-detail">
+                  <div className="stat-item">
+                    <span className="stat-label">Overall:</span>
+                    <span className="stat-value" style={{ color: getPercentageColor(selectedCourse.percentage) }}>
+                      {selectedCourse.percentage}%
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Present:</span>
+                    <span className="stat-value present">{selectedCourse.present}</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Late:</span>
+                    <span className="stat-value late">{selectedCourse.late}</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Absent:</span>
+                    <span className="stat-value absent">{selectedCourse.absent}</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Total Classes:</span>
+                    <span className="stat-value">{selectedCourse.total}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };

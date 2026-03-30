@@ -10,15 +10,21 @@ API.interceptors.request.use((config)=>{
   if(token){
     config.headers.Authorization = `Bearer ${token}`
   }
+   console.log('Request URL:', config.baseURL + config.url);
   return config;
 })
 // Handle authentication errors
 API.interceptors.response.use(
-  (response) => response,
+  (response) =>{
+        console.log('Response Status:', response.status);
+ return response;
+  },
   (error) => {
-    if (error.response?.status === 401) {
+      console.error('Response Error:', error.response?.status, error.response?.data);
+   if (error.response?.status === 401) {
       localStorage.removeItem('studentToken');
       localStorage.removeItem('studentData');
+      localStorage.removeItem('studentId');
       window.location.href = '/student/login';
     }
     return Promise.reject(error);
