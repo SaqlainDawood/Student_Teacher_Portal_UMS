@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useWindowSize } from "react-use";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import {
   MDBContainer,
   MDBNavbar,
@@ -13,90 +13,84 @@ import {
   MDBTableHead,
   MDBTableBody,
 } from "mdb-react-ui-kit";
-import Confetti from "react-confetti";
-import { useState, useEffect } from "react";
+import ConfettiBoom from "confetti-boom"; // Import confetti-boom
+import { useState, useEffect, useRef } from "react";
 import API from "../api";
+
 const DashboardHome = () => {
   const { width, height } = useWindowSize();
-  const [runConfetti, setRunConfetti] = useState(true);
   const [student, setStudent] = useState(null);
-  const [loading , setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const confettiTriggered = useRef(false); // Use ref to track if confetti has been triggered
   
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("studentToken");
-     if (!token) {
-    navigate("/student/login");
-    return;
+    if (!token) {
+      navigate("/student/login");
+      return;
     }
-      const fetchStudentData = async()=>{
-        try {
-          const res = await API.get('/me');
-          if(res.data.success){
-            setStudent(res.data.student);
-          }
-          else{
-            localStorage.removeItem("studentToken");
-            navigate("/student/login");
-          }
-        } catch (error) {
-          console.log("Failed to fetch the Student Record from /me", error);
-          if(error.res?.status === 400){
-            
-          }
+    
+    const fetchStudentData = async () => {
+      try {
+        const res = await API.get('/me');
+        if (res.data.success) {
+          setStudent(res.data.student);
+        } else {
+          localStorage.removeItem("studentToken");
           navigate("/student/login");
         }
-        finally {
-              setLoading(false);
-            }
-
+      } catch (error) {
+        console.log("Failed to fetch the Student Record from /me", error);
+        if (error.res?.status === 400) {
+          // Handle 400 error
+        }
+        navigate("/student/login");
+      } finally {
+        setLoading(false);
       }
+    }
 
-    // Check if confetti has been shown before
-      const hasSeenConfetti = localStorage.getItem("showConfetti");
-      if (hasSeenConfetti === "true") {
-        setRunConfetti(true);
-        // IMMEDIATELY REMOVE THE FLAG so confetti doesn't show again
-        localStorage.removeItem("showConfetti");
-      }
-      fetchStudentData();
+    // Check if confetti has been shown in this session
+    const hasShownConfetti = sessionStorage.getItem("confettiShown");
+    
+    if (!hasShownConfetti && !confettiTriggered.current) {
+      // Trigger confetti-boom
+      new ConfettiBoom({
+        element: document.body,
+        duration: 3000,
+        colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'],
+        particleCount: 150,
+        spread: 70,
+        startVelocity: 25,
+        origin: { x: 0.5, y: 0.5 }
+      });
+      
+      // Mark confetti as triggered
+      confettiTriggered.current = true;
+      sessionStorage.setItem("confettiShown", "true");
+    }
+    
+    fetchStudentData();
   }, [navigate]);
 
-  useEffect(() => {
-    if (runConfetti) {
-      const timer = setTimeout(() => {
-        setRunConfetti(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [runConfetti]);
   const handleLogout = () => {
     localStorage.removeItem("studentToken");
     localStorage.removeItem("studentData");
+    // Clear session storage on logout to allow confetti on next login
+    sessionStorage.removeItem("confettiShown");
     navigate("/student/login");
   };
-    if(loading) return <h3>Loading!!!!!!!!!!</h3>
+  
+  if (loading) return <h3>Loading!!!!!!!!!!</h3>
+  
   return (
     <>
-      {runConfetti && (
-        <Confetti
-          width={width}
-          height={height}
-          numberOfPieces={800}
-          gravity={0.3}
-          wind={0.05}
-          recycle={false}
-          onConfettiComplete={() => {
-            setRunConfetti(false);
-          }}
-        />
-      )}
       <MDBNavbar light bgColor="light">
         <MDBContainer fluid>
           <MDBNavbarBrand className="fw-bold">
-            {" "}
-            Welcome {student?.firstName} {student?.lastName}{" "}
+            Welcome {student?.firstName} {student?.lastName}
           </MDBNavbarBrand>
           <MDBDropdown>
             <MDBDropdownToggle tag="a" className="d-flex w-auto mb-3 nav-link">
@@ -140,7 +134,7 @@ const DashboardHome = () => {
             <th scope="col">Class Detail</th>
             <th scope="col">Time From - Time To</th>
             <th scope="col">Status</th>
-          </tr>
+           </tr>
         </MDBTableHead>
       </MDBTable>
     </>
