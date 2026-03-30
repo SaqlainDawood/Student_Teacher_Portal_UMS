@@ -13,7 +13,7 @@ import {
   MDBTableHead,
   MDBTableBody,
 } from "mdb-react-ui-kit";
-import ConfettiBoom from "confetti-boom"; // Import confetti-boom
+import ConfettiBoom from 'react-confetti-boom'
 import { useState, useEffect, useRef } from "react";
 import API from "../api";
 
