@@ -57,7 +57,7 @@ const DashboardHome = () => {
       const hasSeenConfetti = localStorage.getItem("showConfetti");
       if (hasSeenConfetti === "true") {
         setRunConfetti(true);
-        // ✅ IMMEDIATELY REMOVE THE FLAG so confetti doesn't show again
+        // IMMEDIATELY REMOVE THE FLAG so confetti doesn't show again
         localStorage.removeItem("showConfetti");
       }
       fetchStudentData();

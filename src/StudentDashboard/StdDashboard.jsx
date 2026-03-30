@@ -36,7 +36,6 @@ export const StdDashboard = () => {
     { path: "/std/result", name: "Result", icon: "poll-h" },
     { path: "/std/notes", name: "Notes", icon: "book" },
   ];
-
   return (
     <div className="dashboard-layout">
       {/* Mobile Menu Button - Always visible on mobile */}

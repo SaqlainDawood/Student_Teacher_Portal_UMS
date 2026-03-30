@@ -8,8 +8,8 @@
   top: 0;
   left: 0;
   /* background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%); */
-  background: black;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); */
+  /* background: black; */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   color: #fff;
   padding-top: 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
