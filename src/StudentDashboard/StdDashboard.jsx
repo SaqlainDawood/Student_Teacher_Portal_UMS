@@ -32,7 +32,7 @@ export const StdDashboard = () => {
     { path: "/std/dashboard", name: "Dashboard", icon: "chalkboard" },
     { path: "/std/profile", name: "Profile", icon: "user-graduate" },
     { path: "/std/feehistory", name: "Fee History", icon: "history" },
-    { path: "/std/student/attendance", name: "  My Attendance", icon: "calendar-check" },
+    { path: "/std/attendance", name: "  My Attendance", icon: "calendar-check" },
     { path: "/std/result", name: "Result", icon: "poll-h" },
     { path: "/std/notes", name: "Notes", icon: "book" },
     { path: "/std/attendance", name: "Attendance Status", icon: "clipboard-check" },
