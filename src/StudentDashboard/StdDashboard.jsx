@@ -35,7 +35,6 @@ export const StdDashboard = () => {
     { path: "/std/attendance", name: "  My Attendance", icon: "calendar-check" },
     { path: "/std/result", name: "Result", icon: "poll-h" },
     { path: "/std/notes", name: "Notes", icon: "book" },
-    { path: "/std/attendance", name: "Attendance Status", icon: "clipboard-check" },
   ];
 
   return (
