@@ -37,6 +37,7 @@ function App() {
         <Route path = '/student/enroll' element = {<StudentReg/>}/>
          <Route path = '/student/register' element = {<MultiPartForm/>}/>
          <Route path='/student/login' element = {<LoginPage/>}/>
+         
 
         {/* Student Dashboard Layout with Nested Routes */}
           <Route path="/std"element={<StdDashboard/>}>
@@ -46,6 +47,7 @@ function App() {
             <Route path="result" element={<StudentResult />} />
             <Route path="notes" element={<StudentNotes />} />
             <Route path="attendance" element={<StudentAttendance />} />
+            <Route path="/student/attendance" element={<StudentAttendance />} />
           </Route>
                {/* Facult Dashbaord */}
            
