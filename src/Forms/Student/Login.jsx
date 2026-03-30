@@ -18,45 +18,80 @@ export default function StudentLogin() {
     setLogin({ ...login, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!login.email || !login.password) {
+    toast.error("Please enter both email and password!");
+    return;
+  }
+  setLoading(true);
+  
+  try {
+    console.log('=== LOGIN ATTEMPT ===');
+    console.log('Email:', login.email);
     
-    if (!login.email || !login.password) {
-      toast.error("Please enter both email and password!");
-      return;
-    }
-    setLoading(true);
+    const res = await API.post('/login', { 
+      email: login.email,
+      password: login.password,
+    });
     
-    try {
-      const res = await API.post('/login', { 
-        email: login.email,
-        password: login.password,
-      });
+    console.log('Login Response:', res.data);
+    console.log('Success:', res.data.success);
+    console.log('Student data:', res.data.student);
+    console.log('Student ID from response:', res.data.student?.id || res.data.student?._id);
+    
+    if (res.data.success) {
+      toast.success(res.data.message);
       
-      if (res.data.success) {
-        toast.success(res.data.message);
-        localStorage.setItem("studentToken", res.data.token);
-        localStorage.setItem("studentData", JSON.stringify(res.data.student));
-        localStorage.setItem("studentId", res.data.student._id || res.data.student.id);
-        localStorage.setItem('showConfetti', 'true');
-        
-        setTimeout(() => {
-          navigate('/std/dashboard');
-        }, 2000);
+      // Store token
+      localStorage.setItem("studentToken", res.data.token);
+      console.log('Token stored');
+      
+      // Store student data
+      localStorage.setItem("studentData", JSON.stringify(res.data.student));
+      console.log('Student data stored');
+      
+      // Store student ID - use id from response
+      const studentId = res.data.student?.id || res.data.student?._id;
+      if (studentId) {
+        localStorage.setItem("studentId", studentId);
+        console.log('Student ID stored:', studentId);
       } else {
-        toast.error(res.data.message || "Login Failed");
+        console.error('No student ID found!');
       }
-    } catch (error) {
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Invalid email or password");
-      }
-      console.log("Student login error", error);
-    } finally {
-      setLoading(false);
+      
+      localStorage.setItem('showConfetti', 'true');
+      
+      // Verify storage
+      console.log('=== VERIFY STORAGE ===');
+      console.log('Token:', localStorage.getItem('studentToken') ? 'YES' : 'NO');
+      console.log('Student ID:', localStorage.getItem('studentId'));
+      console.log('Student Data:', localStorage.getItem('studentData') ? 'YES' : 'NO');
+      console.log('=====================');
+      
+      setTimeout(() => {
+        console.log('Redirecting to /std/dashboard');
+        navigate('/std/dashboard');
+      }, 2000);
+    } else {
+      console.log('Login Failed - success false');
+      toast.error(res.data.message || "Login Failed");
     }
-  };
+  } catch (error) {
+    console.error('Login Error:', error);
+    console.error('Error response:', error.response?.data);
+    console.error('Error status:', error.response?.status);
+    
+    if (error.response?.data?.message) {
+      toast.error(error.response.data.message);
+    } else {
+      toast.error("Invalid email or password");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="student-login-container">

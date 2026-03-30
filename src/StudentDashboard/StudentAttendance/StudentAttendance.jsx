@@ -75,7 +75,7 @@ const StudentAttendance = () => {
         return;
       }
 
-      const response = await API.get('attendance/export', {
+      const response = await API.get('/attendance/export', {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob'
       });
