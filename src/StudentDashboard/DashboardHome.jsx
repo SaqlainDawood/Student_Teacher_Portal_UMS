@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useWindowSize } from "react-use";
-import Confetti from "react-confetti";
+import ConfettiBoom from "confetti-boom";
 import {
   MDBContainer,
   MDBNavbar,
@@ -18,10 +18,10 @@ import API from "../api";
 
 const DashboardHome = () => {
   const { width, height } = useWindowSize();
-  const [runConfetti, setRunConfetti] = useState(false);
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const confettiTriggered = useRef(false);
+  const containerRef = useRef(null);
   
   const navigate = useNavigate();
 
@@ -49,11 +49,27 @@ const DashboardHome = () => {
       }
     };
 
-    // Check if confetti has been shown in this session
+    // Trigger boom confetti only once per session
     const hasShownConfetti = sessionStorage.getItem("confettiShown");
     
     if (!hasShownConfetti && !confettiTriggered.current) {
-      setRunConfetti(true);
+      // Boom confetti effect
+      const confetti = new ConfettiBoom({
+        element: containerRef.current || document.body,
+        duration: 2000,
+        colors: [
+          '#ff0000', '#00ff00', '#0000ff', '#ffff00', 
+          '#ff00ff', '#00ffff', '#ff6600', '#ff0066'
+        ],
+        particleCount: 300,
+        spread: 100,
+        startVelocity: 30,
+        origin: { x: 0.5, y: 0.5 },
+        decay: 0.9,
+        ticks: 200,
+        shapes: ['square', 'circle']
+      });
+      
       confettiTriggered.current = true;
       sessionStorage.setItem("confettiShown", "true");
     }
@@ -61,15 +77,6 @@ const DashboardHome = () => {
     fetchStudentData();
   }, [navigate]);
 
-  useEffect(() => {
-    if (runConfetti) {
-      const timer = setTimeout(() => {
-        setRunConfetti(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [runConfetti]);
-  
   const handleLogout = () => {
     localStorage.removeItem("studentToken");
     localStorage.removeItem("studentData");
@@ -86,20 +93,7 @@ const DashboardHome = () => {
   }
   
   return (
-    <>
-      {runConfetti && (
-        <Confetti
-          width={width}
-          height={height}
-          numberOfPieces={800}
-          gravity={0.3}
-          wind={0.05}
-          recycle={false}
-          onConfettiComplete={() => {
-            setRunConfetti(false);
-          }}
-        />
-      )}
+    <div ref={containerRef}>
       <MDBNavbar light bgColor="light">
         <MDBContainer fluid>
           <MDBNavbarBrand className="fw-bold">
@@ -149,13 +143,13 @@ const DashboardHome = () => {
             <th scope="col">Class Detail</th>
             <th scope="col">Time From - Time To</th>
             <th scope="col">Status</th>
-           </tr>
+            </tr>
         </MDBTableHead>
         <MDBTableBody>
           {/* Your table rows go here */}
         </MDBTableBody>
       </MDBTable>
-    </>
+    </div>
   );
 };
 
