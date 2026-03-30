@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useWindowSize } from "react-use";
 import ConfettiBoom from "confetti-boom";
 import {
   MDBContainer,
@@ -17,7 +16,6 @@ import {
 import API from "../api";
 
 const DashboardHome = () => {
-  const { width, height } = useWindowSize();
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const confettiTriggered = useRef(false);
@@ -54,7 +52,7 @@ const DashboardHome = () => {
     
     if (!hasShownConfetti && !confettiTriggered.current) {
       // Boom confetti effect
-      const confetti = new ConfettiBoom({
+      new ConfettiBoom({
         element: containerRef.current || document.body,
         duration: 2000,
         colors: [
@@ -76,7 +74,7 @@ const DashboardHome = () => {
     
     fetchStudentData();
   }, [navigate]);
-
+  
   const handleLogout = () => {
     localStorage.removeItem("studentToken");
     localStorage.removeItem("studentData");
@@ -143,7 +141,7 @@ const DashboardHome = () => {
             <th scope="col">Class Detail</th>
             <th scope="col">Time From - Time To</th>
             <th scope="col">Status</th>
-            </tr>
+           </tr>
         </MDBTableHead>
         <MDBTableBody>
           {/* Your table rows go here */}
