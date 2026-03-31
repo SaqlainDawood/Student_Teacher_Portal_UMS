@@ -66,17 +66,17 @@ const DashboardHome = () => {
     navigate("/student/login");
   };
 // In DashboardHome.jsx, update these functions:
-
+// Update these functions to use luxury gold theme
 const getAttendanceColor = (percentage) => {
-  if (percentage >= 75) return '#4f46e5';  // Student primary blue
+  if (percentage >= 75) return '#D4AF37';  // Luxury Gold
   if (percentage >= 60) return '#ffc107';
   return '#dc3545';
 };
 
 const getAttendanceStatus = (percentage) => {
-  if (percentage >= 75) return { text: 'Good', icon: <FaCheckCircle />, color: '#4f46e5' };
-  if (percentage >= 60) return { text: 'Warning', icon: <FaExclamationTriangle />, color: '#ffc107' };
-  return { text: 'Critical', icon: <FaExclamationTriangle />, color: '#dc3545' };
+  if (percentage >= 75) return { text: 'Excellent', icon: <FaCheckCircle />, color: '#D4AF37' };
+  if (percentage >= 60) return { text: 'Fair', icon: <FaExclamationTriangle />, color: '#ffc107' };
+  return { text: 'Needs Improvement', icon: <FaExclamationTriangle />, color: '#dc3545' };
 };
 
   if (loading) {
@@ -96,11 +96,11 @@ const getAttendanceStatus = (percentage) => {
   return (
     <>
       {/* Confetti Effect */}
-    {showConfetti && (
+   {showConfetti && (
   <ConfettiBoom
     mode="boom"
     particleCount={800}
-    colors={['#4f46e5', '#6366f1', '#8b5cf6', '#a855f7', '#c084fc', '#e9d5ff']}
+    colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
     spread={300}
     startVelocity={25}
     decay={0.9}
@@ -108,7 +108,6 @@ const getAttendanceStatus = (percentage) => {
     y={0.5}
   />
 )}
-
       {/* Navbar */}
       <nav className="student-navbar">
         <div className="navbar-container">
