@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfettiBoom from "react-confetti-boom";
+import {FaSpinner} from 'react-icons/fa'
 import {
   MDBContainer,
   MDBNavbar,
@@ -14,7 +15,7 @@ import {
   MDBTableBody,
 } from "mdb-react-ui-kit";
 import API from "../api";
-
+import './LoadingSpinner.css';
 const DashboardHome = () => {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -71,14 +72,16 @@ const DashboardHome = () => {
     navigate("/student/login");
   };
   
-  if (loading) {
+   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-        <h3>Loading...</h3>
+      <div className="loading-container">
+        <div>
+          <FaSpinner className="spinner" size={40} />
+          <p className="loading-text">Loading attendance data...</p>
+        </div>
       </div>
     );
   }
-  
   return (
     <>
       {/* Confetti Boom Effect */}
