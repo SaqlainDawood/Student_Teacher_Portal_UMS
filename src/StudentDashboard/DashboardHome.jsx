@@ -65,18 +65,19 @@ const DashboardHome = () => {
     sessionStorage.removeItem("confettiShown");
     navigate("/student/login");
   };
+// In DashboardHome.jsx, update these functions:
 
-  const getAttendanceColor = (percentage) => {
-    if (percentage >= 75) return '#20c997';
-    if (percentage >= 60) return '#ffc107';
-    return '#dc3545';
-  };
+const getAttendanceColor = (percentage) => {
+  if (percentage >= 75) return '#4f46e5';  // Student primary blue
+  if (percentage >= 60) return '#ffc107';
+  return '#dc3545';
+};
 
-  const getAttendanceStatus = (percentage) => {
-    if (percentage >= 75) return { text: 'Good', icon: <FaCheckCircle />, color: '#20c997' };
-    if (percentage >= 60) return { text: 'Warning', icon: <FaExclamationTriangle />, color: '#ffc107' };
-    return { text: 'Critical', icon: <FaExclamationTriangle />, color: '#dc3545' };
-  };
+const getAttendanceStatus = (percentage) => {
+  if (percentage >= 75) return { text: 'Good', icon: <FaCheckCircle />, color: '#4f46e5' };
+  if (percentage >= 60) return { text: 'Warning', icon: <FaExclamationTriangle />, color: '#ffc107' };
+  return { text: 'Critical', icon: <FaExclamationTriangle />, color: '#dc3545' };
+};
 
   if (loading) {
     return (
@@ -95,18 +96,18 @@ const DashboardHome = () => {
   return (
     <>
       {/* Confetti Effect */}
-      {showConfetti && (
-        <ConfettiBoom
-          mode="boom"
-          particleCount={800}
-          colors={['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#20c997', '#198754']}
-          spread={300}
-          startVelocity={25}
-          decay={0.9}
-          x={0.5}
-          y={0.5}
-        />
-      )}
+    {showConfetti && (
+  <ConfettiBoom
+    mode="boom"
+    particleCount={800}
+    colors={['#4f46e5', '#6366f1', '#8b5cf6', '#a855f7', '#c084fc', '#e9d5ff']}
+    spread={300}
+    startVelocity={25}
+    decay={0.9}
+    x={0.5}
+    y={0.5}
+  />
+)}
 
       {/* Navbar */}
       <nav className="student-navbar">
@@ -168,7 +169,7 @@ const DashboardHome = () => {
               </div>
             </div>
             <div className="hero-stat-card">
-              <FaCheckCircle className="hero-stat-icon" style={{ color: '#20c997' }} />
+           <FaCheckCircle className="hero-stat-icon" style={{ color: '#4f46e5' }} />
               <div className="hero-stat-info">
                 <span className="hero-stat-value">{attendanceData?.stats?.totalPresent || 0}</span>
                 <span className="hero-stat-label">Present</span>

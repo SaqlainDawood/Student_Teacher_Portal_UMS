@@ -1,4 +1,16 @@
-/* DashboardHome.css */
+/* DashboardHome.css - Student Portal Blue/Purple Theme */
+
+/* Root Variables */
+:root {
+  --student-primary: #4f46e5;
+  --student-primary-dark: #4338ca;
+  --student-primary-light: #6366f1;
+  --student-secondary: #8b5cf6;
+  --student-gradient: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+  --student-gradient-dark: linear-gradient(135deg, #4338ca 0%, #7c3aed 100%);
+  --student-bg-light: #eef2ff;
+  --student-accent: #a855f7;
+}
 
 /* Loading Container */
 .loading-container-dashboard {
@@ -6,7 +18,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--student-gradient);
 }
 
 .spinner-wrapper {
@@ -53,7 +65,7 @@
   gap: 0.5rem;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #20c997;
+  color: var(--student-primary);
 }
 
 .brand-icon {
@@ -61,7 +73,7 @@
 }
 
 .brand-text {
-  background: linear-gradient(135deg, #20c997, #198754);
+  background: var(--student-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -106,7 +118,7 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #20c997;
+  border: 2px solid var(--student-primary);
 }
 
 .profile-name {
@@ -158,8 +170,8 @@
 }
 
 .dropdown-item:hover {
-  background: #f8f9fa;
-  color: #20c997;
+  background: var(--student-bg-light);
+  color: var(--student-primary);
 }
 
 .dropdown-item.logout {
@@ -180,7 +192,7 @@
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #20c997 0%, #198754 100%);
+  background: var(--student-gradient);
   border-radius: 24px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -278,7 +290,7 @@
 
 .info-card-icon {
   font-size: 1.25rem;
-  color: #20c997;
+  color: var(--student-primary);
 }
 
 .info-card-header h3 {
@@ -332,7 +344,7 @@
 
 .attendance-icon {
   font-size: 1.25rem;
-  color: #20c997;
+  color: var(--student-primary);
 }
 
 .attendance-card-header h3 {
@@ -424,7 +436,7 @@
   border-radius: 50%;
 }
 
-.detail-dot.present { background: #20c997; }
+.detail-dot.present { background: var(--student-primary); }
 .detail-dot.late { background: #ffc107; }
 .detail-dot.absent { background: #dc3545; }
 .detail-dot.total { background: #6c757d; }
@@ -458,16 +470,18 @@
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   display: block;
+  border: 1px solid #e9ecef;
 }
 
 .action-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.15);
+  border-color: var(--student-primary-light);
 }
 
 .action-icon {
   font-size: 2rem;
-  color: #20c997;
+  color: var(--student-primary);
   margin-bottom: 0.75rem;
 }
 
@@ -488,7 +502,7 @@
   bottom: 1rem;
   right: 1rem;
   font-size: 1rem;
-  color: #20c997;
+  color: var(--student-primary);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -517,7 +531,7 @@
 
 .courses-icon {
   font-size: 1.25rem;
-  color: #20c997;
+  color: var(--student-primary);
 }
 
 .courses-header h3 {
@@ -530,8 +544,12 @@
 
 .view-all {
   font-size: 0.75rem;
-  color: #20c997;
+  color: var(--student-primary);
   text-decoration: none;
+}
+
+.view-all:hover {
+  text-decoration: underline;
 }
 
 .courses-grid {
@@ -549,17 +567,17 @@
 
 .course-preview-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
 }
 
 .course-code-badge {
   display: inline-block;
-  background: #e9ecef;
+  background: var(--student-bg-light);
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #20c997;
+  color: var(--student-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -597,8 +615,8 @@
 }
 
 .course-status.good {
-  background: rgba(32, 201, 151, 0.1);
-  color: #20c997;
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--student-primary);
 }
 
 .course-status.warning {
@@ -630,7 +648,7 @@
 
 .recent-icon {
   font-size: 1.25rem;
-  color: #20c997;
+  color: var(--student-primary);
 }
 
 .recent-header h3 {
@@ -656,7 +674,7 @@
 }
 
 .activity-item:hover {
-  background: #e9ecef;
+  background: var(--student-bg-light);
 }
 
 .activity-dot {
@@ -665,7 +683,7 @@
   border-radius: 50%;
 }
 
-.activity-dot.present { background: #20c997; box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2); }
+.activity-dot.present { background: var(--student-primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
 .activity-dot.late { background: #ffc107; box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2); }
 .activity-dot.absent { background: #dc3545; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2); }
 
@@ -692,8 +710,8 @@
 }
 
 .activity-status.present {
-  background: rgba(32, 201, 151, 0.1);
-  color: #20c997;
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--student-primary);
 }
 
 .activity-status.late {
