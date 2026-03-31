@@ -87,7 +87,7 @@ const DashboardHome = () => {
           mode="boom"
           particleCount={800}
           colors={['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff']}
-          spread={100}
+          spread={300}
           startVelocity={25}
           decay={0.9}
           x={0.5}
