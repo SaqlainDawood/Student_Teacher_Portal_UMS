@@ -131,7 +131,7 @@ const StudentAttendance = () => {
     );
   }
 
-  const overallStatus = getStatusBadge(data.stats.overallAttendance);
+  const overallStatus = getStatusBadge(data?.stats?.overallAttendance || 0);
 
   return (
     <div className="student-attendance-page">
@@ -186,8 +186,8 @@ const StudentAttendance = () => {
         <h3>Overall Attendance Summary</h3>
         <div className="stats-row">
           <div className="stat-box">
-            <div className="stat-value" style={{ color: getPercentageColor(data.stats.overallAttendance) }}>
-              {data.stats.overallAttendance}%
+            <div className="stat-value" style={{ color: getPercentageColor(data?.stats?.overallAttendance || 0) }}>
+              {data?.stats?.overallAttendance || 0}%
             </div>
             <div className="stat-label">Overall Attendance</div>
           </div>
@@ -218,8 +218,8 @@ const StudentAttendance = () => {
             <div 
               className="progress-fill"
               style={{ 
-                width: `${Math.min(100, data.stats.overallAttendance)}%`,
-                background: getPercentageColor(data.stats.overallAttendance)
+                width: `${Math.min(100, data?.stats?.overallAttendance || 0)}%`,
+                background: getPercentageColor(data?.stats?.overallAttendance || 0)
               }}
             ></div>
           </div>
@@ -227,7 +227,7 @@ const StudentAttendance = () => {
             <span className={`status-badge ${overallStatus.text.toLowerCase()}`}>
               {overallStatus.text}
             </span>
-            {data.stats.overallAttendance < 75 && (
+            {data?.stats?.overallAttendance< 75 && (
               <span className="warning-message">
                 <MDBIcon fas icon="exclamation-triangle" className="me-1" />
                 Your attendance is below the required 75% threshold. Please attend more classes!
