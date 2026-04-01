@@ -16,19 +16,28 @@ const DashboardHome = () => {
   const [loading, setLoading] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const confettiTriggered = useRef(false);
+  const dropdownRef = useRef(null); // ✅ NEW
   const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
+  // ✅ FIXED OUTSIDE CLICK HANDLER
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownOpen && !event.target.closest('.profile-dropdown')) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setDropdownOpen(false);
       }
     };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [dropdownOpen]);
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("studentToken");
@@ -43,7 +52,6 @@ const DashboardHome = () => {
         if (res.data.success) {
           setStudent(res.data.student);
           
-          // Fetch attendance summary
           const attendanceRes = await API.get('/attendance/summary');
           if (attendanceRes.data.success) {
             setAttendanceData(attendanceRes.data.data);
@@ -80,13 +88,13 @@ const DashboardHome = () => {
     navigate("/student/login");
   };
 
-  const toggleDropdown = (e) => {
-    e.stopPropagation();
-    setDropdownOpen(!dropdownOpen);
+  // ❌ stopPropagation remove kar diya (ab zarurat nahi)
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
   };
 
   const getAttendanceColor = (percentage) => {
-    if (percentage >= 75) return '#D4AF37';  // Luxury Gold
+    if (percentage >= 75) return '#D4AF37';
     if (percentage >= 60) return '#ffc107';
     return '#dc3545';
   };
@@ -113,8 +121,7 @@ const DashboardHome = () => {
 
   return (
     <>
-      {/* Confetti Effect */}
-      {showConfetti && (
+        {showConfetti && (
         <ConfettiBoom
           mode="boom"
           particleCount={800}
@@ -128,7 +135,7 @@ const DashboardHome = () => {
       )}
 
       {/* Navbar */}
-      <nav className="student-navbar">
+     <nav className="student-navbar">
         <div className="navbar-container">
           <div className="navbar-brand">
             <FaUniversity className="brand-icon" />
@@ -137,11 +144,17 @@ const DashboardHome = () => {
           
           <div className="navbar-welcome">
             <FaUserGraduate className="welcome-icon" />
-            <span className="welcome-text">Welcome, {student?.firstName} {student?.lastName}</span>
+            <span className="welcome-text">
+              Welcome, {student?.firstName} {student?.lastName}
+            </span>
           </div>
           
           <div className="navbar-actions">
-            <div className={`profile-dropdown ${dropdownOpen ? 'active' : ''}`}>
+            {/* ✅ REF ADDED HERE */}
+            <div 
+              ref={dropdownRef}
+              className={`profile-dropdown ${dropdownOpen ? 'active' : ''}`}
+            >
               <button className="profile-btn" onClick={toggleDropdown}>
                 {student?.profileImage?.url ? (
                   <img
@@ -155,17 +168,15 @@ const DashboardHome = () => {
                 <span className="profile-name">{student?.firstName}</span>
                 <FaChevronDown className="dropdown-arrow" />
               </button>
+
               <div className="dropdown-menu">
-                <Link to="/std/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                <Link to="/std/profile" className="dropdown-item">
                   <FaIdCard /> Profile
                 </Link>
-                <Link to="/std/change-password" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                <Link to="/std/change-password" className="dropdown-item">
                   <FaEnvelope /> Change Password
                 </Link>
-                <button onClick={() => {
-                  handleLogout();
-                  setDropdownOpen(false);
-                }} className="dropdown-item logout">
+                <button onClick={handleLogout} className="dropdown-item logout">
                   Logout
                 </button>
               </div>
