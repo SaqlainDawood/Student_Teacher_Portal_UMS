@@ -46,6 +46,9 @@ const StudentProfile = () => {
         localStorage.removeItem("studentData");
         navigate("/student/login");
       }
+      finally{
+        setLoading(false);
+      }
     };
     fetchProfile();
   }, [navigate]);
@@ -60,7 +63,7 @@ const StudentProfile = () => {
       <div className="loading-container-dashboard">
         <div className="spinner-wrapper">
           <FaSpinner className="spinner-icon" size={48} />
-          <p className="loading-text">Loading your dashboard...</p>
+          <p className="loading-text">Loading your profile...</p>
         </div>
       </div>
     );
