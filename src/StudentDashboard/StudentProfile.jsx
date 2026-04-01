@@ -141,7 +141,7 @@ const StudentProfile = () => {
             >
               <MDBTableHead>
                 <tr className="text-center table-info">
-                  <th colSpan={4} className="text-uppercase fw-bold text-primary">
+                  <th colSpan={4} className="text-uppercase fw-bold text-primary text-center">
                     <i className="fas fa-user me-2"></i>Personal Information
                   </th>
                 </tr>
@@ -257,16 +257,16 @@ const StudentProfile = () => {
                 <MDBTable striped bordered responsive hover>
                   <MDBTableHead className="table-secondary">
                     <tr>
-                      <th style={{ whiteSpace: "nowrap" }}>Sr</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Degree</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Qualification</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Board/University</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Total Marks</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Obtained Marks</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Percentage</th>
-                      <th style={{ whiteSpace: "nowrap" }}> Passing Year</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Roll No.</th>
-                      <th style={{ whiteSpace: "nowrap" }}>Mark Sheet</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Sr</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Degree</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Qualification</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Board/University</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Total Marks</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Obtained Marks</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Percentage</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}> Passing Year</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Roll No.</th>
+                      <th className="text-dark" style={{ whiteSpace: "nowrap" }}>Mark Sheet</th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
@@ -321,7 +321,7 @@ const StudentProfile = () => {
             >
               <MDBTableHead>
                 <tr className="text-center table-primary">
-                  <th colSpan={6} className="fw-bold text-dark text-uppercase">
+                  <th colSpan={6} className="fw-bold text-dark tex-center text-uppercase">
                      <i className="fa-solid fa-book"></i>
                     Enrollment Information
                   </th>
