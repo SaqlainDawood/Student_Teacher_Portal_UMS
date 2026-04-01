@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
+import { toast } from "react-toastify";
 import './StudentDashboard.css'
 
 export const StdDashboard = () => {
   const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,17 +30,39 @@ export const StdDashboard = () => {
     setCollapsed(!collapsed);
   };
 
+  const handleLogout = () => {
+    // Show confirmation dialog
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    
+    if (!confirmLogout) {
+      return;
+    }
+    
+    // Clear all student-related data from localStorage
+    localStorage.removeItem("studentToken");
+    localStorage.removeItem("studentData");
+    localStorage.removeItem("studentId");
+    sessionStorage.removeItem("confettiShown");
+    
+    // Show success message
+    toast.success("Logged out successfully!");
+    
+    // Redirect to student login page
+    navigate("/student/login");
+  };
+
   const menuItems = [
     { path: "/std/dashboard", name: "Dashboard", icon: "chalkboard" },
     { path: "/std/profile", name: "Profile", icon: "user-graduate" },
     { path: "/std/feehistory", name: "Fee History", icon: "history" },
-    { path: "/std/attendance", name: "  My Attendance", icon: "calendar-check" },
+    { path: "/std/attendance", name: "My Attendance", icon: "calendar-check" },
     { path: "/std/result", name: "Result", icon: "poll-h" },
     { path: "/std/notes", name: "Notes", icon: "book" },
   ];
+  
   return (
     <div className="dashboard-layout">
-      {/* Mobile Menu Button - Always visible on mobile */}
+      {/* Mobile Menu Button */}
       <button className="mobile-menu-btn" onClick={toggleSidebar}>
         <MDBIcon fas icon="bars" />
       </button>
@@ -53,11 +77,13 @@ export const StdDashboard = () => {
         </div>
 
         <div className="stdmenu">
+          {/* Menu Items */}
           {menuItems.map((item, index) => (
             <Link
               to={item.path}
               key={index}
               className={`link ${location.pathname === item.path ? "active" : ""}`}
+              data-tooltip={collapsed ? item.name : ""}
             >
               <span className="icon">
                 <MDBIcon fas icon={item.icon} />
@@ -65,6 +91,21 @@ export const StdDashboard = () => {
               {!collapsed && <span className="text">{item.name}</span>}
             </Link>
           ))}
+          
+          {/* Divider Line */}
+          <div className="menu-divider"></div>
+          
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="link logout-link"
+            data-tooltip={collapsed ? "Logout" : ""}
+          >
+            <span className="icon">
+              <MDBIcon fas icon="sign-out-alt" />
+            </span>
+            {!collapsed && <span className="text">Logout</span>}
+          </button>
         </div>
       </div>
 
@@ -75,4 +116,3 @@ export const StdDashboard = () => {
     </div>
   );
 };
-

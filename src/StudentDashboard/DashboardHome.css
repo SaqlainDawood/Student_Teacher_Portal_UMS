@@ -955,3 +955,52 @@ canvas {
   position: fixed !important;
   pointer-events: none !important;
 }
+/* ============================================
+   LOGOUT BUTTON STYLES
+   ============================================ */
+
+/* Divider line before logout */
+.menu-divider {
+  height: 1px;
+  background: rgba(212, 175, 55, 0.2);
+  margin: 15px 0;
+  position: relative;
+}
+
+/* Logout button styling */
+.stdsidebar .link.logout-link {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(128, 0, 32, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Logout hover effect */
+.stdsidebar .link.logout-link:hover {
+  background: rgba(220, 53, 69, 0.2);
+  color: #ff6b6b;
+  border-color: #dc3545;
+  transform: translateX(5px);
+}
+
+/* Logout icon hover */
+.stdsidebar .link.logout-link:hover .icon {
+  color: #ff6b6b;
+}
+
+/* Active logout state (not typical, but for consistency) */
+.stdsidebar .link.logout-link.active {
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.2) 0%, rgba(128, 0, 32, 0.2) 100%);
+  color: #ff6b6b;
+  border-color: #dc3545;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .menu-divider {
+    margin: 12px 0;
+  }
+  
+  .stdsidebar .link.logout-link:hover {
+    transform: translateX(3px);
+  }
+}
