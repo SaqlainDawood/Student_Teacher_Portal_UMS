@@ -107,7 +107,7 @@
 }
 
 /* ============================================
-   PROFILE DROPDOWN - WORKING FIX
+   PROFILE DROPDOWN - COMPLETE WORKING FIX
    ============================================ */
 
 .navbar-actions {
@@ -116,26 +116,31 @@
 }
 
 .profile-dropdown {
-  position: relative;
-  z-index: 1002;
+  position: relative !important;
+  display: inline-block !important;
+  z-index: 1002 !important;
 }
 
+/* Profile Button */
 .profile-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 0.75rem;
-  border-radius: 40px;
-  transition: all 0.3s;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: 40px !important;
+  transition: all 0.3s !important;
+  position: relative !important;
+  z-index: 100 !important;
 }
 
 .profile-btn:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.1) !important;
 }
 
+/* Profile Avatar */
 .profile-avatar {
   width: 40px;
   height: 40px;
@@ -167,65 +172,71 @@
   transition: transform 0.3s;
 }
 
-.profile-dropdown:hover .dropdown-arrow,
-.profile-dropdown.active .dropdown-arrow {
-  transform: rotate(180deg);
+.profile-dropdown.active .dropdown-arrow,
+.profile-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg) !important;
 }
 
 /* Dropdown Menu */
 .profile-dropdown .dropdown-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  background: var(--luxury-ivory);
-  border-radius: 12px;
-  box-shadow: var(--luxury-shadow);
-  min-width: 220px;
-  border: 1px solid var(--luxury-gold);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-  z-index: 9999;
-  overflow: hidden;
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  left: auto !important;
+  margin-top: 10px !important;
+  background: var(--luxury-ivory) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+  min-width: 220px !important;
+  border: 1px solid var(--luxury-gold) !important;
+  z-index: 99999 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(-10px) !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
 }
+
+/* Show dropdown when active class is present */
 .profile-dropdown.active .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  display: block !important;
 }
 
 /* Dropdown Items */
 .profile-dropdown .dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.25rem;
-  color: #2c3e50;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  font-size: 0.875rem;
-  font-weight: 500;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1.25rem !important;
+  color: #2c3e50 !important;
+  text-decoration: none !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+  border: none !important;
+  background: none !important;
+  width: 100% !important;
+  text-align: left !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
 }
 
 .profile-dropdown .dropdown-item:hover {
-  background: rgba(212, 175, 55, 0.1);
-  color: var(--luxury-gold);
+  background: rgba(212, 175, 55, 0.1) !important;
+  color: var(--luxury-gold) !important;
 }
 
 .profile-dropdown .dropdown-item.logout {
-  color: #dc3545;
-  border-top: 1px solid #e9ecef;
+  color: #dc3545 !important;
+  border-top: 1px solid #e9ecef !important;
 }
 
 .profile-dropdown .dropdown-item.logout:hover {
-  background: #fee2e2;
-  color: #dc3545;
+  background: #fee2e2 !important;
+  color: #dc3545 !important;
 }
 
 /* Dashboard Container */
@@ -894,11 +905,11 @@
   
   /* Mobile dropdown fix */
   .profile-dropdown .dropdown-menu {
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    left: auto;
-    width: 220px;
+    position: fixed !important;
+    top: 70px !important;
+    right: 20px !important;
+    left: auto !important;
+    width: 220px !important;
   }
 }
 
