@@ -22,16 +22,14 @@ const DashboardHome = () => {
   const navigate = useNavigate();
 
   // ✅ FIXED OUTSIDE CLICK HANDLER
+  // Handle click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        console.log('Clicked outside, closing dropdown');
         setDropdownOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
@@ -133,7 +131,7 @@ const DashboardHome = () => {
       )}
 
       {/* Navbar */}
-     <nav className="student-navbar">
+    <nav className="student-navbar">
         <div className="navbar-container">
           <div className="navbar-brand">
             <FaUniversity className="brand-icon" />
@@ -148,7 +146,6 @@ const DashboardHome = () => {
           </div>
           
           <div className="navbar-actions">
-            {/* ✅ REF ADDED HERE */}
             <div 
               ref={dropdownRef}
               className={`profile-dropdown ${dropdownOpen ? 'active' : ''}`}
@@ -168,10 +165,10 @@ const DashboardHome = () => {
               </button>
 
               <div className="dropdown-menu">
-                <Link to="/std/profile" className="dropdown-item">
+                <Link to="/std/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
                   <FaIdCard /> Profile
                 </Link>
-                <Link to="/std/change-password" className="dropdown-item">
+                <Link to="/std/change-password" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
                   <FaEnvelope /> Change Password
                 </Link>
                 <button onClick={handleLogout} className="dropdown-item logout">
