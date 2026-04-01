@@ -110,15 +110,15 @@ const StudentAttendance = () => {
   };
 
   if (loading) {
-    return (
-      <div className="student-attendance-loading">
-        <MDBSpinner role="status" color="success" size="lg">
-          <span className="visually-hidden">Loading...</span>
-        </MDBSpinner>
-        <p>Loading your attendance...</p>
-      </div>
-    );
-  }
+     return (
+       <div className="loading-container-dashboard">
+         <div className="spinner-wrapper">
+           <FaSpinner className="spinner-icon" size={48} />
+           <p className="loading-text">Loading your dashboard...</p>
+         </div>
+       </div>
+     );
+   }
 
   if (!data) {
     return (
