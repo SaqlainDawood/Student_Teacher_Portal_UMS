@@ -1,6 +1,7 @@
 /* StudentAttendance.css - Luxury Gold Theme */
 
 /* Root Variables */
+/* Root Variables */
 :root {
   --luxury-gold: #D4AF37;
   --luxury-gold-dark: #B4941C;
@@ -14,6 +15,7 @@
   --luxury-ivory: #FFFFF0;
   --luxury-gradient: linear-gradient(135deg, #1A2A3A 0%, #2C3E50 50%, #800020 100%);
   --luxury-gradient-gold: linear-gradient(135deg, #D4AF37 0%, #B4941C 100%);
+  --luxury-gradient-maroon: linear-gradient(135deg, #800020 0%, #6A1B2F 100%);
   --luxury-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
   --luxury-shadow-sm: 0 5px 15px rgba(0, 0, 0, 0.1);
   --luxury-border: 1px solid rgba(212, 175, 55, 0.2);
@@ -25,8 +27,10 @@
   min-height: 100vh;
   background: var(--luxury-cream);
 }
+/* ============================================
+   HEADER SECTION - WITH FIXED BACK BUTTON
+   ============================================ */
 
-/* Header */
 .attendance-header {
   display: flex;
   justify-content: space-between;
@@ -36,22 +40,44 @@
   margin-bottom: 1.5rem;
 }
 
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
 .header-left .back-btn {
-  background: var( --luxury-maroon);
-  border: 1px solid var(--luxury-gold);
-  color: var(--luxury-gold);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  transition: all 0.3s;
-  font-weight: 500;
+  background: linear-gradient(135deg, #800020 0%, #6A1B2F 100%) !important;
+  border: 1px solid var(--luxury-gold) !important;
+  color: var(--luxury-gold) !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  margin-bottom: 1rem !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-size: 0.875rem !important;
+  width: fit-content !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.header-left .back-btn i,
+.header-left .back-btn svg {
+  font-size: 0.875rem !important;
 }
 
 .header-left .back-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-  border-color: var(--luxury-gold);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4) !important;
+  border-color: var(--luxury-gold) !important;
+  background: linear-gradient(135deg, #1A2A3A 0%, #2C3E50 100%) !important;
+  color: var(--luxury-gold) !important;
+}
+
+.header-left .back-btn:active {
+  transform: translateY(0px) !important;
 }
 
 .header-left h1 {
@@ -67,6 +93,7 @@
   font-size: 0.875rem;
 }
 
+/* Export Button */
 .export-btn {
   background: var(--luxury-gradient-gold);
   color: var(--luxury-royal);
@@ -84,7 +111,6 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
-
 /* Student Info Card */
 .student-info-card {
   background: var(--luxury-ivory);

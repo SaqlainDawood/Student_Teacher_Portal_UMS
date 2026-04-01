@@ -8,18 +8,15 @@ import { toast } from 'react-toastify';
 import API from '../../api';
 import './StudentAttendance.css';
 import {FaSpinner} from 'react-icons/fa'
-
 const StudentAttendance = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [exporting, setExporting] = useState(false);
-
   useEffect(() => {
     fetchAttendance();
   }, []);
-
   const fetchAttendance = async () => {
     try {
       setLoading(true);
@@ -54,7 +51,6 @@ const StudentAttendance = () => {
       setLoading(false);
     }
   };
-
   const handleExport = async () => {
     try {
       setExporting(true);
@@ -123,7 +119,7 @@ const StudentAttendance = () => {
   }
 
   const overallStatus = getStatusBadge(data?.stats?.overallAttendance || 0);
-  
+
   return (
     <div className="student-attendance-page">
       {/* Header */}
