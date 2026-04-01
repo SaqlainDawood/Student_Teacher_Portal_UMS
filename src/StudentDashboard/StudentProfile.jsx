@@ -17,11 +17,13 @@ import {
   MDBTableBody,
   MDBTableHead,
 } from "mdb-react-ui-kit";
+import {FaSpinner} from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../api";
 const StudentProfile = () => {
   const [student, setStudent] = useState(null);
+  const [loading , setLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchProfile = async () => {
@@ -53,7 +55,16 @@ const StudentProfile = () => {
     localStorage.removeItem("studentData");
     navigate("/student/login");
   };
-
+   if (loading) {
+    return (
+      <div className="loading-container-dashboard">
+        <div className="spinner-wrapper">
+          <FaSpinner className="spinner-icon" size={48} />
+          <p className="loading-text">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
   if (!student) {
     return (
       <MDBContainer className="py-5 text-center">

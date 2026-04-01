@@ -20,9 +20,6 @@ const DashboardHome = () => {
   const confettiTriggered = useRef(false);
   const dropdownRef = useRef(null); // ✅ NEW
   const navigate = useNavigate();
-
-  // ✅ FIXED OUTSIDE CLICK HANDLER
-  // Handle click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
