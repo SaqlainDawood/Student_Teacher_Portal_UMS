@@ -117,19 +117,31 @@ const DashboardHome = () => {
 
   return (
     <>
-        {showConfetti && (
-        <ConfettiBoom
-          mode="boom"
-          particleCount={800}
-          colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
-          spread={300}
-          startVelocity={25}
-          decay={0.9}
-          x={0.5}
-          y={0.5}
-        />
-      )}
-
+       {showConfetti && (
+  <div 
+    style={{ 
+      position: 'fixed', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100%', 
+      zIndex: 999999, 
+      pointerEvents: 'none',
+      overflow: 'hidden'
+    }}
+  >
+    <ConfettiBoom
+      mode="boom"
+      particleCount={800}
+      colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
+      spread={300}
+      startVelocity={25}
+      decay={0.9}
+      x={0.5}
+      y={0.5}
+    />
+  </div>
+)}
       {/* Navbar */}
     <nav className="student-navbar">
         <div className="navbar-container">
