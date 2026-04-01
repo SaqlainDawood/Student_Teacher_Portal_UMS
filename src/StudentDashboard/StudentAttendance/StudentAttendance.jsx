@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import {
   MDBIcon,
   MDBBadge,
-  MDBSpinner,
 } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
 import API from '../../api';
 import './StudentAttendance.css';
+import {FaSpinner} from 'react-icons/fa'
 
 const StudentAttendance = () => {
   const navigate = useNavigate();
@@ -24,21 +24,14 @@ const StudentAttendance = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('studentToken');
-      
-      console.log('=== DEBUG INFO ===');
-      console.log('Token exists:', token ? 'YES' : 'NO');
-      console.log('==================');
-
       if (!token) {
         toast.error('Please login again');
         navigate('/student/login');
         return;
       }
-
       const response = await API.get('/attendance/summary', {
         headers: { Authorization: `Bearer ${token}` }
       });
-
       console.log('API Response:', response.data);
 
       if (response.data && response.data.success) {
@@ -119,7 +112,6 @@ const StudentAttendance = () => {
        </div>
      );
    }
-
   if (!data) {
     return (
       <div className="student-attendance-empty">
@@ -131,7 +123,7 @@ const StudentAttendance = () => {
   }
 
   const overallStatus = getStatusBadge(data?.stats?.overallAttendance || 0);
-
+  
   return (
     <div className="student-attendance-page">
       {/* Header */}
