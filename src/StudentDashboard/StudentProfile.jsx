@@ -65,13 +65,6 @@ const StudentProfile = () => {
       </div>
     );
   }
-  if (!student) {
-    return (
-      <MDBContainer className="py-5 text-center">
-        <h4>Loading student profile...</h4>
-      </MDBContainer>
-    );
-  }
   return (
     <>
       <MDBNavbar light bgColor="light">
@@ -145,7 +138,7 @@ const StudentProfile = () => {
             >
               <MDBTableHead>
                 <tr className="text-center table-info">
-                  <th colSpan={4} className="text-uppercase fw-bold">
+                  <th colSpan={4} className="text-uppercase fw-bold text-primary">
                     <i className="fas fa-user me-2"></i>Personal Information
                   </th>
                 </tr>
@@ -212,7 +205,7 @@ const StudentProfile = () => {
                     <MDBTable hover bordered responsive className="align-middle custom-table">
                     <MDBTableHead>
                      <tr className="text-center table-warning"> 
-                       <th colSpan={4} className="text-center fw-bold text-uppercase"> <i className="fa-solid fa-house"></i>Family Details</th>
+                       <th colSpan={4} className="text-center text-dark fw-bold text-uppercase"> <i className="fa-solid fa-house"></i>Family Details</th>
                      </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -251,7 +244,7 @@ const StudentProfile = () => {
             >
               <MDBTableHead>
                 <tr className="table-success">
-                  <th className="text-center text-uppercase fw-bold" colSpan={4}>
+                  <th className="text-center text-dark text-uppercase fw-bold" colSpan={4}>
                     <i className="fas fa-graduation-cap me-2"></i> Academic
                     Information
                   </th>
@@ -325,7 +318,7 @@ const StudentProfile = () => {
             >
               <MDBTableHead>
                 <tr className="text-center table-primary">
-                  <th colSpan={6} className="fw-bold text-uppercase">
+                  <th colSpan={6} className="fw-bold text-dark text-uppercase">
                      <i className="fa-solid fa-book"></i>
                     Enrollment Information
                   </th>
