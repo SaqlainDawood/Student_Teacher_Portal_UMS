@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfettiBoom from "react-confetti-boom";
-import { FaSpinner, FaUserGraduate, FaBook, FaCalendarAlt, FaChartLine, FaClock, FaMapMarkerAlt, FaBuilding, FaUniversity, FaGraduationCap, FaIdCard, FaPhone, FaEnvelope, FaCalendarCheck, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { 
+  FaSpinner, FaUserGraduate, FaBook, FaCalendarAlt, FaChartLine, 
+  FaClock, FaBuilding, FaUniversity, FaGraduationCap, FaIdCard, 
+  FaEnvelope, FaCalendarCheck, FaCheckCircle, FaExclamationTriangle,
+  FaChevronDown, FaUserCircle  // ← Add these
+} from 'react-icons/fa';
 import API from "../api";
 import './DashboardHome.css';
 
@@ -95,58 +100,62 @@ const getAttendanceStatus = (percentage) => {
 
   return (
     <>
-      {/* Confetti Effect */}
-   {showConfetti && (
-  <ConfettiBoom
-    mode="boom"
-    particleCount={800}
-    colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
-    spread={300}
-    startVelocity={25}
-    decay={0.9}
-    x={0.5}
-    y={0.5}
-  />
-)}
+  {/* Confetti Effect */}
+    {showConfetti && (
+      <ConfettiBoom
+        mode="boom"
+        particleCount={800}
+        colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
+        spread={300}
+        startVelocity={25}
+        decay={0.9}
+        x={0.5}
+        y={0.5}
+      />
+    )}
       {/* Navbar */}
-      <nav className="student-navbar">
-        <div className="navbar-container">
-          <div className="navbar-brand">
-            <FaUniversity className="brand-icon" />
-            <span className="brand-text">Student Portal</span>
-          </div>
-          
-          <div className="navbar-welcome">
-            <FaUserGraduate className="welcome-icon" />
-            <span className="welcome-text">Welcome, {student?.firstName} {student?.lastName}</span>
-          </div>
-          
-          <div className="navbar-actions">
-            <div className="profile-dropdown">
-              <button className="profile-btn">
+       <nav className="student-navbar">
+      <div className="navbar-container">
+        <div className="navbar-brand">
+          <FaUniversity className="brand-icon" />
+          <span className="brand-text">Student Portal</span>
+        </div>
+        
+        <div className="navbar-welcome">
+          <FaUserGraduate className="welcome-icon" />
+          <span className="welcome-text">Welcome, {student?.firstName} {student?.lastName}</span>
+        </div>
+        
+        <div className="navbar-actions">
+          <div className="profile-dropdown">
+            <button className="profile-btn">
+              {student?.profileImage?.url ? (
                 <img
-                  src={student?.profileImage?.url || "https://via.placeholder.com/40"}
+                  src={student.profileImage.url}
                   alt="profile"
                   className="profile-avatar"
                 />
-                <span className="profile-name">{student?.firstName}</span>
-                <i className="dropdown-arrow">▼</i>
+              ) : (
+                <FaUserCircle className="profile-avatar-icon" size={40} />
+              )}
+              <span className="profile-name">{student?.firstName}</span>
+              <FaChevronDown className="dropdown-arrow" />
+            </button>
+            <div className="dropdown-menu">
+              <Link to="/std/profile" className="dropdown-item">
+                <FaIdCard /> Profile
+              </Link>
+              <Link to="/std/change-password" className="dropdown-item">
+                <FaEnvelope /> Change Password
+              </Link>
+              <button onClick={handleLogout} className="dropdown-item logout">
+                Logout
               </button>
-              <div className="dropdown-menu">
-                <Link to="/std/profile" className="dropdown-item">
-                  <FaIdCard /> Profile
-                </Link>
-                <Link to="/std/change-password" className="dropdown-item">
-                  <FaEnvelope /> Change Password
-                </Link>
-                <button onClick={handleLogout} className="dropdown-item logout">
-                  Logout
-                </button>
-              </div>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
+    </nav>
 
       <div className="student-dashboard">
         {/* Hero Section */}

@@ -1,4 +1,4 @@
-/* DashboardHome.css - Student Portal Blue/Purple Theme */
+/* DashboardHome.css - Student Portal Luxury Theme */
 
 /* Root Variables */
 :root {
@@ -22,7 +22,6 @@
   --luxury-border: 1px solid rgba(212, 175, 55, 0.2);
   --luxury-border-gold: 1px solid var(--luxury-gold);
 }
-
 
 /* Loading Container */
 .loading-container-dashboard {
@@ -55,12 +54,12 @@
 
 /* Navbar */
 .student-navbar {
- background: var(--luxury-ivory);
+  background: var(--luxury-ivory);
   box-shadow: var(--luxury-shadow-sm);
   position: sticky;
   top: 0;
   z-index: 100;
-   border-bottom: var(--luxury-border-gold);
+  border-bottom: var(--luxury-border-gold);
 }
 
 .navbar-container {
@@ -78,18 +77,18 @@
   gap: 0.5rem;
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--student-primary);
 }
 
 .brand-icon {
   font-size: 1.5rem;
-    color: var(--luxury-gold);
+  color: var(--luxury-gold);
 }
 
 .brand-text {
-   background: var(--luxury-gradient-gold);
+  background: var(--luxury-gradient-gold);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .navbar-welcome {
@@ -107,12 +106,17 @@
   font-size: 0.875rem;
 }
 
+/* ============================================
+   PROFILE DROPDOWN - FIXED
+   ============================================ */
+
+/* Dropdown container */
 .profile-dropdown {
   position: relative;
-    border: 2px solid var(--luxury-gold);
-  box-shadow: 0 0 0 2px var(--luxury-royal);
+  cursor: pointer;
 }
 
+/* Profile button */
 .profile-btn {
   display: flex;
   align-items: center;
@@ -120,22 +124,34 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 40px;
   transition: all 0.3s;
 }
 
 .profile-btn:hover {
-  background: #f8f9fa;
+  background: rgba(212, 175, 55, 0.1);
 }
 
+/* Profile avatar */
 .profile-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--luxury-gold);
-  box-shadow: 0 0 0 2px var(--luxury-royal);
+  box-shadow: 0 0 0 2px rgba(26, 42, 58, 0.2);
+}
+
+/* Profile avatar icon (fallback) */
+.profile-avatar-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--luxury-gold);
+  border: 2px solid var(--luxury-gold);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 4px;
 }
 
 .profile-name {
@@ -144,38 +160,48 @@
   color: #2c3e50;
 }
 
+/* Dropdown arrow icon */
 .dropdown-arrow {
-  font-size: 0.7rem;
-  color: #6c757d;
+  font-size: 0.8rem;
+  color: var(--luxury-gold);
+  transition: transform 0.3s;
 }
 
-.dropdown-menu {
+.profile-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.profile-dropdown .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   right: 0;
-   background: var(--luxury-ivory);
+  background: var(--luxury-ivory);
   border-radius: 12px;
   box-shadow: var(--luxury-shadow);
-  min-width: 200px;
-  border: var(--luxury-border-gold);
+  min-width: 220px;
+  border: 1px solid var(--luxury-gold);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: all 0.3s;
-  z-index: 1000;
+  transition: all 0.3s ease;
+  z-index: 9999 !important;
+  overflow: hidden;
 }
 
+/* Show dropdown on hover */
 .profile-dropdown:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-.dropdown-item {
+/* Dropdown items */
+.profile-dropdown .dropdown-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   color: #2c3e50;
   text-decoration: none;
   transition: all 0.2s;
@@ -185,20 +211,22 @@
   width: 100%;
   text-align: left;
   font-size: 0.875rem;
+  font-weight: 500;
 }
 
-.dropdown-item:hover {
-   background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(128, 0, 32, 0.1) 100%);
+.profile-dropdown .dropdown-item:hover {
+  background: rgba(212, 175, 55, 0.1);
   color: var(--luxury-gold);
 }
 
-.dropdown-item.logout {
+.profile-dropdown .dropdown-item.logout {
   color: #dc3545;
   border-top: 1px solid #e9ecef;
 }
 
-.dropdown-item.logout:hover {
+.profile-dropdown .dropdown-item.logout:hover {
   background: #fee2e2;
+  color: #dc3545;
 }
 
 /* Dashboard Container */
@@ -210,14 +238,14 @@
 
 /* Hero Section */
 .hero-section {
-   background: var(--luxury-gradient);
+  background: var(--luxury-gradient);
   border-radius: 24px;
   padding: 2rem;
   margin-bottom: 2rem;
-   color: var(--luxury-ivory);
+  color: var(--luxury-ivory);
   position: relative;
   overflow: hidden;
-   box-shadow: var(--luxury-shadow);
+  box-shadow: var(--luxury-shadow);
   border: var(--luxury-border-gold);
 }
 
@@ -228,12 +256,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-   background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-  opacity: 0.1;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .hero-content {
   margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
@@ -242,11 +272,15 @@
 }
 
 .highlight {
-   background: var(--luxury-gradient-gold);
+  background: var(--luxury-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   padding: 0.25rem 0.75rem;
-  border-radius: 20px;
   display: inline-block;
+  position: relative;
 }
+
 .highlight::after {
   content: '';
   position: absolute;
@@ -268,25 +302,30 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-stat-card {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-   background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(212, 175, 55, 0.3);
   padding: 0.75rem 1rem;
   border-radius: 12px;
   flex: 1;
   min-width: 120px;
+  transition: all 0.3s;
 }
+
 .hero-stat-card:hover {
   transform: translateY(-5px);
   border-color: var(--luxury-gold);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
+
 .hero-stat-icon {
   font-size: 1.5rem;
 }
@@ -308,7 +347,7 @@
 
 /* Info Card */
 .info-card {
- background: var(--luxury-ivory);
+  background: var(--luxury-ivory);
   border-radius: 20px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -316,11 +355,13 @@
   border: var(--luxury-border);
   transition: all 0.3s ease;
 }
+
 .info-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--luxury-shadow);
   border-color: var(--luxury-gold);
 }
+
 .info-card-header {
   display: flex;
   align-items: center;
@@ -332,7 +373,7 @@
 
 .info-card-icon {
   font-size: 1.25rem;
-   color: var(--luxury-gold);
+  color: var(--luxury-gold);
 }
 
 .info-card-header h3 {
@@ -377,6 +418,7 @@
   transition: all 0.3s ease;
   text-align: center;
 }
+
 .attendance-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--luxury-shadow);
@@ -395,7 +437,6 @@
   font-size: 1.25rem;
   color: var(--luxury-gold);
 }
-
 
 .attendance-card-header h3 {
   margin: 0;
@@ -485,10 +526,11 @@
   height: 8px;
   border-radius: 50%;
 }
+
 .detail-dot.present { background: var(--luxury-gold); }
 .detail-dot.late { background: #ffc107; }
 .detail-dot.absent { background: #dc3545; }
-
+.detail-dot.total { background: #6c757d; }
 
 .attendance-warning {
   display: inline-flex;
@@ -508,6 +550,7 @@
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
+
 .action-card {
   background: var(--luxury-ivory);
   border-radius: 16px;
@@ -519,6 +562,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .action-card::before {
   content: '';
   position: absolute;
@@ -545,6 +589,7 @@
   color: var(--luxury-gold);
   margin-bottom: 0.75rem;
 }
+
 .action-card h4 {
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
@@ -573,7 +618,7 @@
 
 /* Courses Preview */
 .courses-preview {
-   background: var(--luxury-ivory);
+  background: var(--luxury-ivory);
   border-radius: 20px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -592,7 +637,7 @@
 
 .courses-icon {
   font-size: 1.25rem;
-   color: var(--luxury-gold);
+  color: var(--luxury-gold);
 }
 
 .courses-header h3 {
@@ -605,7 +650,7 @@
 
 .view-all {
   font-size: 0.75rem;
-    color: var(--luxury-gold);
+  color: var(--luxury-gold);
   text-decoration: none;
 }
 
@@ -624,6 +669,7 @@
   border-radius: 12px;
   padding: 1rem;
   transition: all 0.3s;
+  border: 1px solid transparent;
 }
 
 .course-preview-card:hover {
@@ -677,7 +723,7 @@
 }
 
 .course-status.good {
-  background: rgba(79, 70, 229, 0.1);
+  background: rgba(212, 175, 55, 0.1);
   color: var(--luxury-gold);
 }
 
@@ -693,7 +739,7 @@
 
 /* Recent Activity */
 .recent-activity {
-   background: var(--luxury-ivory);
+  background: var(--luxury-ivory);
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: var(--luxury-shadow-sm);
@@ -710,7 +756,7 @@
 }
 
 .recent-icon {
-   font-size: 1.25rem;
+  font-size: 1.25rem;
   color: var(--luxury-gold);
 }
 
@@ -749,15 +795,21 @@
   border-radius: 50%;
 }
 
-.activity-dot.present {  background: var(--luxury-gold); 
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3); }
-.activity-dot.late { background: #ffc107; box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2); }
-.activity-dot.absent { background: #dc3545; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2); }
-
-.activity-status.present {
-  background: rgba(212, 175, 55, 0.1);
-  color: var(--luxury-gold);
+.activity-dot.present { 
+  background: var(--luxury-gold); 
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
 }
+
+.activity-dot.late { 
+  background: #ffc107; 
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+}
+
+.activity-dot.absent { 
+  background: #dc3545; 
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
 .activity-content {
   flex: 1;
 }
@@ -780,6 +832,11 @@
   border-radius: 20px;
 }
 
+.activity-status.present {
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--luxury-gold);
+}
+
 .activity-status.late {
   background: rgba(255, 193, 7, 0.1);
   color: #ffc107;
@@ -790,7 +847,10 @@
   color: #dc3545;
 }
 
-/* Responsive */
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
 @media (max-width: 768px) {
   .student-dashboard {
     padding: 1rem;
@@ -832,6 +892,15 @@
     flex-direction: column;
     align-items: center;
   }
+  
+  /* Mobile dropdown fix */
+  .profile-dropdown .dropdown-menu {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    left: auto;
+    width: 220px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -850,5 +919,15 @@
   
   .percentage-value {
     font-size: 1.25rem;
+  }
+  
+  .profile-btn {
+    padding: 0.5rem;
+  }
+  
+  .profile-avatar,
+  .profile-avatar-icon {
+    width: 35px;
+    height: 35px;
   }
 }
