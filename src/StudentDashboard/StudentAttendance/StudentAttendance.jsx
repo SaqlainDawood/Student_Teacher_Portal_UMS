@@ -27,7 +27,6 @@ const StudentAttendance = () => {
       
       console.log('=== DEBUG INFO ===');
       console.log('Token exists:', token ? 'YES' : 'NO');
-      console.log('Token value:', token ? token.substring(0, 30) + '...' : 'null');
       console.log('==================');
 
       if (!token) {
@@ -49,7 +48,6 @@ const StudentAttendance = () => {
       }
     } catch (error) {
       console.error('Error fetching attendance:', error);
-      console.error('Error response:', error.response?.data);
       
       if (error.response?.status === 401) {
         toast.error('Session expired. Please login again.');
@@ -98,16 +96,17 @@ const StudentAttendance = () => {
     }
   };
 
+  // Updated to use Luxury Gold theme
   const getPercentageColor = (percentage) => {
-    if (percentage >= 75) return '#20c997';
+    if (percentage >= 75) return '#D4AF37';  // Luxury Gold
     if (percentage >= 60) return '#ffc107';
     return '#dc3545';
   };
 
   const getStatusBadge = (percentage) => {
-    if (percentage >= 75) return { text: 'Good', color: '#20c997', bg: 'rgba(32, 201, 151, 0.1)' };
-    if (percentage >= 60) return { text: 'Warning', color: '#ffc107', bg: 'rgba(255, 193, 7, 0.1)' };
-    return { text: 'Critical', color: '#dc3545', bg: 'rgba(220, 53, 69, 0.1)' };
+    if (percentage >= 75) return { text: 'Excellent', color: '#D4AF37', bg: 'rgba(212, 175, 55, 0.1)' };
+    if (percentage >= 60) return { text: 'Fair', color: '#ffc107', bg: 'rgba(255, 193, 7, 0.1)' };
+    return { text: 'Needs Improvement', color: '#dc3545', bg: 'rgba(220, 53, 69, 0.1)' };
   };
 
   if (loading) {
@@ -196,7 +195,7 @@ const StudentAttendance = () => {
             <div className="stat-label">Total Classes</div>
           </div>
           <div className="stat-box">
-            <div className="stat-value" style={{ color: '#20c997' }}>{data.stats.totalPresent}</div>
+            <div className="stat-value" style={{ color: '#D4AF37' }}>{data.stats.totalPresent}</div>
             <div className="stat-label">Present</div>
           </div>
           <div className="stat-box">
@@ -227,7 +226,7 @@ const StudentAttendance = () => {
             <span className={`status-badge ${overallStatus.text.toLowerCase()}`}>
               {overallStatus.text}
             </span>
-            {data?.stats?.overallAttendance< 75 && (
+            {data?.stats?.overallAttendance < 75 && (
               <span className="warning-message">
                 <MDBIcon fas icon="exclamation-triangle" className="me-1" />
                 Your attendance is below the required 75% threshold. Please attend more classes!
@@ -327,7 +326,7 @@ const StudentAttendance = () => {
                 <th>Subject</th>
                 <th>Status</th>
                 <th>Remarks</th>
-              </tr>
+               </tr>
               </thead>
               <tbody>
                 {data.recentAttendance.length > 0 ? (
