@@ -107,16 +107,19 @@
 }
 
 /* ============================================
-   PROFILE DROPDOWN - FIXED
+   PROFILE DROPDOWN - WORKING FIX
    ============================================ */
 
-/* Dropdown container */
-.profile-dropdown {
+.navbar-actions {
   position: relative;
-  cursor: pointer;
+  z-index: 1001;
 }
 
-/* Profile button */
+.profile-dropdown {
+  position: relative;
+  z-index: 1002;
+}
+
 .profile-btn {
   display: flex;
   align-items: center;
@@ -133,7 +136,6 @@
   background: rgba(212, 175, 55, 0.1);
 }
 
-/* Profile avatar */
 .profile-avatar {
   width: 40px;
   height: 40px;
@@ -143,7 +145,6 @@
   box-shadow: 0 0 0 2px rgba(26, 42, 58, 0.2);
 }
 
-/* Profile avatar icon (fallback) */
 .profile-avatar-icon {
   width: 40px;
   height: 40px;
@@ -160,18 +161,18 @@
   color: #2c3e50;
 }
 
-/* Dropdown arrow icon */
 .dropdown-arrow {
   font-size: 0.8rem;
   color: var(--luxury-gold);
   transition: transform 0.3s;
 }
 
-.profile-dropdown:hover .dropdown-arrow {
+.profile-dropdown:hover .dropdown-arrow,
+.profile-dropdown.active .dropdown-arrow {
   transform: rotate(180deg);
 }
 
-/* Dropdown menu */
+/* Dropdown Menu */
 .profile-dropdown .dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
@@ -185,18 +186,19 @@
   visibility: hidden;
   transform: translateY(-10px);
   transition: all 0.3s ease;
-  z-index: 9999 !important;
+  z-index: 9999;
   overflow: hidden;
 }
 
-/* Show dropdown on hover */
-.profile-dropdown:hover .dropdown-menu {
+/* Show on hover OR when active (for click) */
+.profile-dropdown:hover .dropdown-menu,
+.profile-dropdown.active .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-/* Dropdown items */
+/* Dropdown Items */
 .profile-dropdown .dropdown-item {
   display: flex;
   align-items: center;

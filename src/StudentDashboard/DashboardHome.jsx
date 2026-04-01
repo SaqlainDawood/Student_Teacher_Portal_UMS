@@ -5,7 +5,7 @@ import {
   FaSpinner, FaUserGraduate, FaBook, FaCalendarAlt, FaChartLine, 
   FaClock, FaBuilding, FaUniversity, FaGraduationCap, FaIdCard, 
   FaEnvelope, FaCalendarCheck, FaCheckCircle, FaExclamationTriangle,
-  FaChevronDown, FaUserCircle  // ← Add these
+  FaChevronDown, FaUserCircle
 } from 'react-icons/fa';
 import API from "../api";
 import './DashboardHome.css';
@@ -15,8 +15,20 @@ const DashboardHome = () => {
   const [attendanceData, setAttendanceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const confettiTriggered = useRef(false);
   const navigate = useNavigate();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownOpen && !event.target.closest('.profile-dropdown')) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [dropdownOpen]);
 
   useEffect(() => {
     const token = localStorage.getItem("studentToken");
@@ -48,14 +60,11 @@ const DashboardHome = () => {
       }
     };
 
-    // Trigger confetti only once per session
     const hasShownConfetti = sessionStorage.getItem("confettiShown");
-    
     if (!hasShownConfetti && !confettiTriggered.current) {
       setShowConfetti(true);
       confettiTriggered.current = true;
       sessionStorage.setItem("confettiShown", "true");
-      
       setTimeout(() => {
         setShowConfetti(false);
       }, 3000);
@@ -70,19 +79,23 @@ const DashboardHome = () => {
     sessionStorage.removeItem("confettiShown");
     navigate("/student/login");
   };
-// In DashboardHome.jsx, update these functions:
-// Update these functions to use luxury gold theme
-const getAttendanceColor = (percentage) => {
-  if (percentage >= 75) return '#D4AF37';  // Luxury Gold
-  if (percentage >= 60) return '#ffc107';
-  return '#dc3545';
-};
 
-const getAttendanceStatus = (percentage) => {
-  if (percentage >= 75) return { text: 'Excellent', icon: <FaCheckCircle />, color: '#D4AF37' };
-  if (percentage >= 60) return { text: 'Fair', icon: <FaExclamationTriangle />, color: '#ffc107' };
-  return { text: 'Needs Improvement', icon: <FaExclamationTriangle />, color: '#dc3545' };
-};
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const getAttendanceColor = (percentage) => {
+    if (percentage >= 75) return '#D4AF37';  // Luxury Gold
+    if (percentage >= 60) return '#ffc107';
+    return '#dc3545';
+  };
+
+  const getAttendanceStatus = (percentage) => {
+    if (percentage >= 75) return { text: 'Excellent', icon: <FaCheckCircle />, color: '#D4AF37' };
+    if (percentage >= 60) return { text: 'Fair', icon: <FaExclamationTriangle />, color: '#ffc107' };
+    return { text: 'Needs Improvement', icon: <FaExclamationTriangle />, color: '#dc3545' };
+  };
 
   if (loading) {
     return (
@@ -100,62 +113,66 @@ const getAttendanceStatus = (percentage) => {
 
   return (
     <>
-  {/* Confetti Effect */}
-    {showConfetti && (
-      <ConfettiBoom
-        mode="boom"
-        particleCount={800}
-        colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
-        spread={300}
-        startVelocity={25}
-        decay={0.9}
-        x={0.5}
-        y={0.5}
-      />
-    )}
+      {/* Confetti Effect */}
+      {showConfetti && (
+        <ConfettiBoom
+          mode="boom"
+          particleCount={800}
+          colors={['#D4AF37', '#B4941C', '#F3E5AB', '#800020', '#6A1B2F', '#1A2A3A']}
+          spread={300}
+          startVelocity={25}
+          decay={0.9}
+          x={0.5}
+          y={0.5}
+        />
+      )}
+
       {/* Navbar */}
-       <nav className="student-navbar">
-      <div className="navbar-container">
-        <div className="navbar-brand">
-          <FaUniversity className="brand-icon" />
-          <span className="brand-text">Student Portal</span>
-        </div>
-        
-        <div className="navbar-welcome">
-          <FaUserGraduate className="welcome-icon" />
-          <span className="welcome-text">Welcome, {student?.firstName} {student?.lastName}</span>
-        </div>
-        
-        <div className="navbar-actions">
-          <div className="profile-dropdown">
-            <button className="profile-btn">
-              {student?.profileImage?.url ? (
-                <img
-                  src={student.profileImage.url}
-                  alt="profile"
-                  className="profile-avatar"
-                />
-              ) : (
-                <FaUserCircle className="profile-avatar-icon" size={40} />
-              )}
-              <span className="profile-name">{student?.firstName}</span>
-              <FaChevronDown className="dropdown-arrow" />
-            </button>
-            <div className="dropdown-menu">
-              <Link to="/std/profile" className="dropdown-item">
-                <FaIdCard /> Profile
-              </Link>
-              <Link to="/std/change-password" className="dropdown-item">
-                <FaEnvelope /> Change Password
-              </Link>
-              <button onClick={handleLogout} className="dropdown-item logout">
-                Logout
+      <nav className="student-navbar">
+        <div className="navbar-container">
+          <div className="navbar-brand">
+            <FaUniversity className="brand-icon" />
+            <span className="brand-text">Student Portal</span>
+          </div>
+          
+          <div className="navbar-welcome">
+            <FaUserGraduate className="welcome-icon" />
+            <span className="welcome-text">Welcome, {student?.firstName} {student?.lastName}</span>
+          </div>
+          
+          <div className="navbar-actions">
+            <div className={`profile-dropdown ${dropdownOpen ? 'active' : ''}`}>
+              <button className="profile-btn" onClick={toggleDropdown}>
+                {student?.profileImage?.url ? (
+                  <img
+                    src={student.profileImage.url}
+                    alt="profile"
+                    className="profile-avatar"
+                  />
+                ) : (
+                  <FaUserCircle className="profile-avatar-icon" size={40} />
+                )}
+                <span className="profile-name">{student?.firstName}</span>
+                <FaChevronDown className="dropdown-arrow" />
               </button>
+              <div className="dropdown-menu">
+                <Link to="/std/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                  <FaIdCard /> Profile
+                </Link>
+                <Link to="/std/change-password" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                  <FaEnvelope /> Change Password
+                </Link>
+                <button onClick={() => {
+                  handleLogout();
+                  setDropdownOpen(false);
+                }} className="dropdown-item logout">
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
       <div className="student-dashboard">
         {/* Hero Section */}
@@ -177,7 +194,7 @@ const getAttendanceStatus = (percentage) => {
               </div>
             </div>
             <div className="hero-stat-card">
-           <FaCheckCircle className="hero-stat-icon" style={{ color: '#4f46e5' }} />
+              <FaCheckCircle className="hero-stat-icon" style={{ color: '#D4AF37' }} />
               <div className="hero-stat-info">
                 <span className="hero-stat-value">{attendanceData?.stats?.totalPresent || 0}</span>
                 <span className="hero-stat-label">Present</span>
