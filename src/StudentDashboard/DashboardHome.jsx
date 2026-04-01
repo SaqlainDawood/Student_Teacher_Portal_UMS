@@ -87,8 +87,6 @@ const DashboardHome = () => {
     sessionStorage.removeItem("confettiShown");
     navigate("/student/login");
   };
-
-  // ❌ stopPropagation remove kar diya (ab zarurat nahi)
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };

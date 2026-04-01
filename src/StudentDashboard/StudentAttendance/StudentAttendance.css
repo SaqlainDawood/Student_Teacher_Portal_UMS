@@ -37,7 +37,7 @@
 }
 
 .header-left .back-btn {
-  background: var(--luxury-gradient-maroon);
+  background: var( --luxury-maroon);
   border: 1px solid var(--luxury-gold);
   color: var(--luxury-gold);
   padding: 0.5rem 1rem;

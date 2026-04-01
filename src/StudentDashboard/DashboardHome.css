@@ -189,9 +189,6 @@
   z-index: 9999;
   overflow: hidden;
 }
-
-/* Show on hover OR when active (for click) */
-.profile-dropdown:hover .dropdown-menu,
 .profile-dropdown.active .dropdown-menu {
   opacity: 1;
   visibility: visible;
