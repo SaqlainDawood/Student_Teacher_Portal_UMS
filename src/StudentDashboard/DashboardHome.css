@@ -941,3 +941,17 @@
     height: 35px;
   }
 }
+canvas {
+  z-index: 999999 !important;
+  position: fixed !important;
+  pointer-events: none !important;
+}
+
+/* Override any conflicting styles */
+.confetti-boom,
+[class*="confetti"],
+[class*="Confetti"] {
+  z-index: 999999 !important;
+  position: fixed !important;
+  pointer-events: none !important;
+}
