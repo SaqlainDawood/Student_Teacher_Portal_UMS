@@ -28,19 +28,14 @@ const Step1 = ({ onSubmit, loading, initialData }) => {
   });
   const [profile, setProfile] = useState(null);
 
-  useEffect(() => {
-    if (initialData) {
-      if (initialData instanceof FormData) {
-        const data = {};
-        for (let [key, value] of initialData.entries()) {
-          if (key !== "profileImage") {
-            data[key] = value;
-          }
-        }
-        setFormData((prev) => ({ ...prev, ...data }));
-      }
-    }
-  }, [initialData]);
+ useEffect(() => {
+  if (initialData) {
+    setFormData((prev) => ({
+      ...prev,
+      ...initialData,
+    }));
+  }
+}, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,22 +45,18 @@ const Step1 = ({ onSubmit, loading, initialData }) => {
   const handleFile = (e) => {
     setProfile(e.target.files[0]);
   };
-
   const submit = (e) => {
-    e.preventDefault();
-    if (!validatePersonalDetails()) {
-      return;
-    }
-    const fd = new FormData();
-    Object.keys(formData).forEach((key) => {
-      if (formData[key]) {
-        fd.append(key, formData[key]);
-      }
-    });
-    if (profile) fd.append("profileImage", profile);
-    console.log("Profile", profile);
-    onSubmit(fd);
-  };
+  e.preventDefault();
+  const fd = new FormData();
+  Object.keys(formData).forEach((key) => {
+    fd.append(key, formData[key]);
+  });
+  if (profile) {
+    fd.append("profileImage", profile);
+  }
+  const plainData = { ...formData };
+  onSubmit(fd, plainData);
+};
 
   const validatePersonalDetails = () => {
     const fields = {

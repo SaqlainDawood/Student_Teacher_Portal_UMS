@@ -38,10 +38,16 @@ const Step4 = ({onSubmit , onBack, initialData}) => {
     }
   },[enrollmentInfo.program,initialData])
 
-  const submit = (e)=>{
-    e.preventDefault();
-    onSubmit(enrollmentInfo);
+ const submit = (e) => {
+  e.preventDefault();
+
+  if (!enrollmentInfo.program || !enrollmentInfo.department) {
+    alert("Fill all required fields");
+    return;
   }
+
+  onSubmit(enrollmentInfo);
+};
   return (
     <form onSubmit={submit}>
              <>
