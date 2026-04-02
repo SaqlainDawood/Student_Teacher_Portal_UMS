@@ -108,13 +108,13 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       return false;
     }
 
-    // // 🔹 Step 5: Upload image validation (jpg, jpeg, png)
-    // const allowedExtensions = ["jpg", "jpeg", "png"];
-    // const fileExtension = formData.uploadPic?.name?.split(".").pop().toLowerCase();
-    // if (!allowedExtensions.includes(fileExtension)) {
-    //   toast.error("Only JPG, JPEG, and PNG images are allowed");
-    //   return false;
-    // }
+    // 🔹 Step 5: Upload image validation (jpg, jpeg, png)
+    const allowedExtensions = ["jpg", "jpeg", "png"];
+    const fileExtension = formData.uploadPic?.name?.split(".").pop().toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      toast.error("Only JPG, JPEG, and PNG images are allowed");
+      return false;
+    }
 
     return true;
   };
