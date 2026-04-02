@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import Step1 from "../Steps/Step1";
 import Step2 from "../Steps/Step2";
