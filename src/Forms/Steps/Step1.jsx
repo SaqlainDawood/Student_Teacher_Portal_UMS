@@ -7,7 +7,7 @@ import {
   MDBInputGroup,
   MDBIcon,
 } from "mdb-react-ui-kit";
-const Step1 = ({ onSubmit, loading }) => {
+const Step1 = ({ onSubmit, loading ,initialData}) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
