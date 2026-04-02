@@ -1,27 +1,38 @@
-import React from 'react'
-import { useState } from 'react';
-import { MDBRow,MDBInput, MDBCol, MDBBtn, MDBInputGroup, MDBIcon} from 'mdb-react-ui-kit'
-const Step2 = ({onSubmit , onBack}) => {
-    const [formData , setFormData ] = useState({
-                motherName: '',
-                fatherName: '',
-                fatherCnic: '',
-                fatherMobile: '',
-    });
-
-    const handleChange = (e)=>{
-        const {name , value } = e.target;
-        setFormData({...formData , [name]:value})
-            }
-
-    const submit=(e)=>{
-            e.preventDefault();
-
-            onSubmit(formData);
+import React from "react";
+import { useState } from "react";
+import {
+  MDBRow,
+  MDBInput,
+  MDBCol,
+  MDBBtn,
+  MDBInputGroup,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+const Step2 = ({ onSubmit, onBack }) => {
+  const [formData, setFormData] = useState({
+    motherName: "",
+    fatherName: "",
+    fatherCnic: "",
+    fatherMobile: "",
+  });
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
     }
+  }, [initialData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+
+    onSubmit(formData);
+  };
   return (
-        <form onSubmit={submit}>
-                 
+    <form onSubmit={submit}>
       <h4 className="mb-3 text-primary">Family Details</h4>
       <MDBRow className="g-3 mb-4">
         <MDBCol md="6">
@@ -82,15 +93,14 @@ const Step2 = ({onSubmit , onBack}) => {
           </MDBInputGroup>
         </MDBCol>
       </MDBRow>
-       <MDBBtn
-       className='me-1'
-        type='button'
-         onClick={onBack}>Back</MDBBtn>
-            <MDBBtn
-            className='me-1'
-             type='submit'>Next</MDBBtn>
-        </form>
-  )
-}
+      <MDBBtn className="me-1" type="button" onClick={onBack}>
+        Back
+      </MDBBtn>
+      <MDBBtn className="me-1" type="submit">
+        Next
+      </MDBBtn>
+    </form>
+  );
+};
 
-export default Step2
+export default Step2;

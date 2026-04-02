@@ -1,24 +1,46 @@
-import React, {useState} from "react";
-import {MDBContainer , MDBRow ,MDBCol } from 'mdb-react-ui-kit'
+import React, { useState } from "react";
+import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import Step1 from "../Steps/Step1";
 import Step2 from "../Steps/Step2";
 import Step3 from "../Steps/Step3";
 import Step4 from "../Steps/Step4";
 import API from "../../api";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
- const MultiPartForm = ()=>{
-    const navigate = useNavigate();
-// const [current , setCurrent] = useState(1);
-const [step , setStep] = useState(1);
-const [studentId , setStudentId] = useState(null);
-const [loading , setLoading] = useState(false);
 
-const next =()=> setStep((nxt)=>nxt+1);
-const previous =()=> setStep((prev)=>prev-1);
+const MultiPartForm = () => {
+  const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const [studentId, setStudentId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  // Store all form data in parent state
+  const [formData, setFormData] = useState({
+    step1Data: null,
+    step2Data: null,
+    step3Data: null,
+    step4Data: null
+  });
+  useEffect(() => {
+  // Load saved data from localStorage
+  const savedData = localStorage.getItem('registrationFormData');
+  if (savedData) {
+    const parsed = JSON.parse(savedData);
+    setFormData(parsed);
+    if (parsed.step1Data) setStudentId(parsed.studentId);
+  }
+}, []);
+useEffect(() => {
+  localStorage.setItem('registrationFormData', JSON.stringify({
+    ...formData,
+    studentId
+  }));
+}, [formData, studentId]);
 
-const handleStep1Submit = async (formData) => {
-    // formData is a FormData object including profileImage
+  const next = () => setStep((nxt) => nxt + 1);
+  const previous = () => setStep((prev) => prev - 1);
+
+  const handleStep1Submit = async (formData) => {
     try {
       setLoading(true);
       const res = await API.post('/step1', formData, {
@@ -26,16 +48,18 @@ const handleStep1Submit = async (formData) => {
       });
       if (res.data.success) {
         setStudentId(res.data.studentId);
+        // Store step1 data
+        setFormData(prev => ({ ...prev, step1Data: formData }));
         next();
       } else {
         toast.error('Error: ' + res.data.message);
       }
     } catch (err) {
-       if (err.response && err.response.status === 400) {
-      toast.error(err.response.data.message); // duplicate case
-    } else {
-      toast.error("Server error on Step1");
-    }
+      if (err.response && err.response.status === 400) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Server error on Step1");
+      }
       console.error(err);
     } finally {
       setLoading(false);
@@ -46,6 +70,8 @@ const handleStep1Submit = async (formData) => {
     try {
       setLoading(true);
       await API.post(`/step2/${studentId}`, data);
+      // Store step2 data
+      setFormData(prev => ({ ...prev, step2Data: data }));
       next();
     } catch (err) {
       console.error(err);
@@ -54,47 +80,47 @@ const handleStep1Submit = async (formData) => {
       setLoading(false);
     }
   };
-  
-// handleStep3Submit function
-const handleStep3Submit = async (educationList) => {
-  try {
-    setLoading(true);
 
-    const formData = new FormData();
+  const handleStep3Submit = async (educationList) => {
+    try {
+      setLoading(true);
 
-    // educationList ko stringify karke bhejna
-    formData.append("educationList", JSON.stringify(educationList));
+      const formData = new FormData();
+      formData.append("educationList", JSON.stringify(educationList));
 
-    // Har education record ke sath agar marksheet lagi hai to bhejna
-    educationList.forEach((edu, index) => {
-      if (edu.marksheetFile) {
-        formData.append(`marksheet_${index}`, edu.marksheetFile);
-      }
-    });
+      educationList.forEach((edu, index) => {
+        if (edu.marksheetFile) {
+          formData.append(`marksheet_${index}`, edu.marksheetFile);
+        }
+      });
 
-    await API.post(`/step3/${studentId}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" }
-    });
-
-    toast.success("Education details submitted successfully");
-    next();
-  } catch (err) {
-    console.error("Step3 Error:", err);
-    toast.error("Server error on Step3");
-  } finally {
-    setLoading(false);
-  }
-};
-
+      await API.post(`/step3/${studentId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      
+      // Store step3 data
+      setFormData(prev => ({ ...prev, step3Data: educationList }));
+      
+      toast.success("Education details submitted successfully");
+      next();
+    } catch (err) {
+      console.error("Step3 Error:", err);
+      toast.error("Server error on Step3");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleStep4Submit = async (data) => {
     try {
       setLoading(true);
       const res = await API.post(`/step4/${studentId}`, data);
       if (res.data.success) {
+        // Store step4 data
+        localStorage.removeItem('registrationFormData');
         toast.success('Student enrollment completed!');
         setTimeout(() => {
-          navigate("/student/enroll")
+          navigate("/student/enroll");
         }, 2500);
       } else {
         alert('Error on final step');
@@ -106,12 +132,14 @@ const handleStep3Submit = async (educationList) => {
       setLoading(false);
     }
   };
-    return(
-        <MDBContainer className="py-5">
-             <header className="mb-4">
+
+  return (
+    <MDBContainer className="py-5">
+      <header className="mb-4">
         <h2 className="text-center text-dark">Registration Form</h2>
       </header>
-       {/* =========This is the Progress Bar============ */}
+      
+      {/* Progress Bar */}
       <MDBRow className="mb-5 step-progress">
         <MDBCol size="md-3">
           <div className={`progress-step ${step >= 1 ? "active" : ""}`}>
@@ -138,22 +166,39 @@ const handleStep3Submit = async (educationList) => {
           </div>
         </MDBCol>
       </MDBRow>
-     <div>
-      {/* <div style={{ marginBottom: 10 }}>
-        Step {current} of 4
-      </div> */}
-
-      {step === 1 && <Step1 onSubmit={handleStep1Submit} loading={loading} /> }
-      {step === 2 && <Step2 onSubmit={handleStep2Submit} onBack={previous} /> }
-      {step === 3 && <Step3 onSubmit={handleStep3Submit} onBack={previous} /> }
-      {step === 4 && <Step4 onSubmit={handleStep4Submit} onBack={previous} /> }
-
-      <div style={{ marginTop: 20 }}>
-        {/* {studentId && <div>Student ID: {studentId}</div>} */}
+      
+      <div>
+        {step === 1 && (
+          <Step1 
+            onSubmit={handleStep1Submit} 
+            loading={loading} 
+            initialData={formData.step1Data}
+          />
+        )}
+        {step === 2 && (
+          <Step2 
+            onSubmit={handleStep2Submit} 
+            onBack={previous} 
+            initialData={formData.step2Data}
+          />
+        )}
+        {step === 3 && (
+          <Step3 
+            onSubmit={handleStep3Submit} 
+            onBack={previous} 
+            initialData={formData.step3Data}
+          />
+        )}
+        {step === 4 && (
+          <Step4 
+            onSubmit={handleStep4Submit} 
+            onBack={previous} 
+            initialData={formData.step4Data}
+          />
+        )}
       </div>
-    </div>
-   </MDBContainer>
-       
-    )
-}
-export default MultiPartForm
+    </MDBContainer>
+  );
+};
+
+export default MultiPartForm;

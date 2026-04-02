@@ -2,7 +2,7 @@ import React from 'react'
 import { MDBRow, MDBCol, MDBInputGroup, MDBIcon,MDBBtn} from 'mdb-react-ui-kit'
 import { useState } from 'react'
 import { useEffect } from 'react'
-const Step4 = ({onSubmit , onBack}) => {
+const Step4 = ({onSubmit , onBack, initialData}) => {
       const [enrollmentInfo, setEnrollmentInfo] = useState({
     program: '',
     department: '',
@@ -11,6 +11,11 @@ const Step4 = ({onSubmit , onBack}) => {
     shift: '',
     campus: '',
   })
+    useEffect(() => {
+    if (initialData) {
+      setEnrollmentInfo(initialData);
+    }
+  }, [initialData]);
    const handleEnrollment = (e) => {
     const { name, value } = e.target;
     setEnrollmentInfo((prev) => ({
@@ -25,26 +30,17 @@ const Step4 = ({onSubmit , onBack}) => {
         semester:"1st Semester",
       }))
     }
-    else{
-      setEnrollmentInfo((prev)=>({
+    else if (enrollmentInfo.program !== "BS" && !initialData?.semester) {
+      setEnrollmentInfo((prev) => ({
         ...prev,
-        semester:'',
-      }))
+        semester: '',
+      }));
     }
+  },[enrollmentInfo.program,initialData])
 
-  },[enrollmentInfo.program])
   const submit = (e)=>{
     e.preventDefault();
     onSubmit(enrollmentInfo);
-      console.log("Submitted Enrollment Info:", enrollmentInfo)
-    setEnrollmentInfo({
-       program: '',
-    department: '',
-    session: '',
-    semester:'',
-    shift: '',
-    campus: '',
-    })
   }
   return (
     <form onSubmit={submit}>

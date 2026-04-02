@@ -7,7 +7,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
 
-const Step3 = ({ onSubmit, onBack }) => {
+const Step3 = ({ onSubmit, onBack, initialData }) => {
   const [educationList, setEducationList] = useState([]);
   const [basicModal, setBasicModal] = useState(false);
   const [educationData, setEducationData] = useState({
@@ -24,6 +24,11 @@ const Step3 = ({ onSubmit, onBack }) => {
   const handleMarkSheet = (e) => {
     setMarkSheet(e.target.files[0]);
   }
+    useEffect(() => {
+    if (initialData && Array.isArray(initialData)) {
+      setEducationList(initialData);
+    }
+  }, [initialData]);
   const toggleOpen = () => setBasicModal(!basicModal);
 
   const handleSave = () => {
