@@ -58,6 +58,7 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       }
     });
     if (profile) fd.append("profileImage", profile);
+    console.log("Profile" , profile);
     onSubmit(fd);
   };
   const validatePersonalDetails = () => {
@@ -76,7 +77,6 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       nationality: "Please select Nationality",
       DOB: "Enter Date of birth",
       cnic: "Please enter CNIC",
-      uploadPic: "Please upload your Image",
     };
 
     //  Step 1: Empty fields check
