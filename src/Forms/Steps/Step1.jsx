@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import {
   MDBRow,
@@ -7,7 +7,8 @@ import {
   MDBInputGroup,
   MDBIcon,
 } from "mdb-react-ui-kit";
-const Step1 = ({ onSubmit, loading ,initialData}) => {
+
+const Step1 = ({ onSubmit, loading, initialData }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -26,6 +27,7 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
     cnic: "",
   });
   const [profile, setProfile] = useState(null);
+
   useEffect(() => {
     if (initialData) {
       if (initialData instanceof FormData) {
@@ -39,13 +41,16 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       }
     }
   }, [initialData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
   const handleFile = (e) => {
     setProfile(e.target.files[0]);
   };
+
   const submit = (e) => {
     e.preventDefault();
     if (!validatePersonalDetails()) {
@@ -58,9 +63,10 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       }
     });
     if (profile) fd.append("profileImage", profile);
-    console.log("Profile" , profile);
+    console.log("Profile", profile);
     onSubmit(fd);
   };
+
   const validatePersonalDetails = () => {
     const fields = {
       firstName: "Please enter First Name",
@@ -79,7 +85,7 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       cnic: "Please enter CNIC",
     };
 
-    //  Step 1: Empty fields check
+    // Step 1: Empty fields check
     for (const [key, message] of Object.entries(fields)) {
       if (!formData[key]) {
         toast.error(message);
@@ -87,30 +93,35 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
       }
     }
 
-    // Step 2: Email validation (regex)
+    // Step 2: Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error("Please enter a valid Email");
       return false;
     }
 
-    //  Step 3: Phone number validation (11 digits, only numbers)
+    // Step 3: Phone number validation
     const phoneRegex = /^[0-9]{11}$/;
     if (!phoneRegex.test(formData.phoneNo)) {
       toast.error("Phone Number must be 11 digits");
       return false;
     }
 
-    //  Step 4: CNIC validation (#####-#######-# or 13 digits)
+    // Step 4: CNIC validation
     const cnicRegex = /^(\d{5}-\d{7}-\d{1}|\d{13})$/;
     if (!cnicRegex.test(formData.cnic)) {
       toast.error("CNIC must be 13 digits or #####-#######-# format");
       return false;
     }
 
-    // 🔹 Step 5: Upload image validation (jpg, jpeg, png)
+    // Step 5: Upload image validation
+    if (!profile) {
+      toast.error("Please upload your profile image");
+      return false;
+    }
+    
     const allowedExtensions = ["jpg", "jpeg", "png"];
-    const fileExtension = formData.uploadPic?.name?.split(".").pop().toLowerCase();
+    const fileExtension = profile.name?.split(".").pop().toLowerCase();
     if (!allowedExtensions.includes(fileExtension)) {
       toast.error("Only JPG, JPEG, and PNG images are allowed");
       return false;
@@ -118,6 +129,7 @@ const Step1 = ({ onSubmit, loading ,initialData}) => {
 
     return true;
   };
+
   return (
     <form onSubmit={submit}>
       <h4 className="mb-3 text-primary">Personal Details</h4>
