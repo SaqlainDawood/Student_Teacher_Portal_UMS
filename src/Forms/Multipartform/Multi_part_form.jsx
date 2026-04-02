@@ -40,31 +40,36 @@ useEffect(() => {
   const next = () => setStep((nxt) => nxt + 1);
   const previous = () => setStep((prev) => prev - 1);
 
-  const handleStep1Submit = async (formData) => {
-    try {
-      setLoading(true);
-      const res = await API.post('/step1', formData, {
-        withCredentials: true
-      });
-      if (res.data.success) {
-        setStudentId(res.data.studentId);
-        // Store step1 data
-        setFormData(prev => ({ ...prev, step1Data: formData }));
-        next();
-      } else {
-        toast.error('Error: ' + res.data.message);
-      }
-    } catch (err) {
-      if (err.response && err.response.status === 400) {
-        toast.error(err.response.data.message);
-      } else {
-        toast.error("Server error on Step1");
-      }
-      console.error(err);
-    } finally {
-      setLoading(false);
+ const handleStep1Submit = async (formData) => {
+  try {
+    setLoading(true);
+    if (studentId) {
+      formData.append('studentId', studentId);
     }
-  };
+    
+    const res = await API.post('/step1', formData, {
+      withCredentials: true
+    });
+    
+    if (res.data.success) {
+      setStudentId(res.data.studentId);
+      // Store step1 data
+      setFormData(prev => ({ ...prev, step1Data: formData }));
+      next();
+    } else {
+      toast.error('Error: ' + res.data.message);
+    }
+  } catch (err) {
+    if (err.response && err.response.status === 400) {
+      toast.error(err.response.data.message);
+    } else {
+      toast.error("Server error on Step1");
+    }
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleStep2Submit = async (data) => {
     try {
