@@ -1,12 +1,11 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-
-  MDBCol, MDBInputGroup, MDBTable, MDBModal, MDBBtn, MDBIcon, MDBTableHead, MDBTableBody,
-  MDBInput, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle,
+  MDBCol, MDBTable, MDBModal, MDBBtn, MDBTableHead, MDBTableBody,
+  MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle,
   MDBModalBody, MDBModalFooter
 } from 'mdb-react-ui-kit';
-import './Step3.css'
 import { toast } from 'react-toastify';
+import './Step3.css';
 
 const Step3 = ({ onSubmit, onBack, initialData }) => {
   const [educationList, setEducationList] = useState([]);
@@ -22,24 +21,60 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
     boardUni: "",
   });
   const [markSheet, setMarkSheet] = useState(null);
+
   const handleMarkSheet = (e) => {
     setMarkSheet(e.target.files[0]);
-  }
-    useEffect(() => {
+  };
+
+  useEffect(() => {
     if (initialData && Array.isArray(initialData)) {
       setEducationList(initialData);
     }
   }, [initialData]);
+
   const toggleOpen = () => setBasicModal(!basicModal);
 
   const handleSave = () => {
+    if (!educationData.degreeLevel) {
+      toast.error("Please select Degree Level");
+      return;
+    }
+    if (!educationData.qualification) {
+      toast.error("Please select Academic Qualification");
+      return;
+    }
+    if (!educationData.totalMarks) {
+      toast.error("Please enter Total Marks");
+      return;
+    }
+    if (!educationData.obtainMarks) {
+      toast.error("Please enter Obtained Marks");
+      return;
+    }
+    if (!educationData.passingYear) {
+      toast.error("Please select Passing Year");
+      return;
+    }
+    if (!educationData.rollNo) {
+      toast.error("Please enter Roll Number");
+      return;
+    }
+    if (!educationData.boardUni) {
+      toast.error("Please select Board/University");
+      return;
+    }
+    if (!markSheet) {
+      toast.error("Please upload Marks Sheet");
+      return;
+    }
+
     const newEducation = {
       ...educationData,
       totalMarks: Number(educationData.totalMarks) || 0,
       obtainMarks: Number(educationData.obtainMarks) || 0,
       percentage: educationData.percentage ? String(educationData.percentage) : "0",
-      marksheet: markSheet ? URL.createObjectURL(markSheet) : null, // preview only
-      marksheetFile: markSheet // actual file for upload
+      marksheet: markSheet ? URL.createObjectURL(markSheet) : null,
+      marksheetFile: markSheet
     };
 
     setEducationList((prev) => [...prev, newEducation]);
@@ -55,8 +90,8 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
     });
     setMarkSheet(null);
     setBasicModal(false);
+    toast.success("Education record added successfully!");
   };
-
 
   const handleEduChange = (e) => {
     const { name, value } = e.target;
@@ -85,98 +120,96 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
     onSubmit(educationList);
   };
 
+  const removeEducation = (index) => {
+    const updated = educationList.filter((_, i) => i !== index);
+    setEducationList(updated);
+    toast.success("Record removed");
+  };
+
   return (
-    <form onSubmit={submit}>
-      <>
-        <h4 className="mb-3 text-primary">Academic Details</h4>
-        <div style={{ overflowX: 'auto' }}>
-          <MDBTable align="middle" responsive>
+    <form onSubmit={submit} className="step-form">
+      <h4 className="section-title">
+        <i className="fas fa-graduation-cap"></i> Academic Details
+      </h4>
+
+      <div className="info-banner">
+        <i className="fas fa-info-circle"></i>
+        <div>
+          <strong>Instructions:</strong> Applicants must add their Matric marks, Inter Part 1 marks, and Inter Part 2 marks. 
+          If awaiting Inter Part 2 results, click "Result Waiting" when adding Inter Part 2 details.
+        </div>
+      </div>
+
+      <div className="add-education-btn-wrapper">
+        <MDBBtn type="button" onClick={toggleOpen} className="btn-add-education">
+          <i className="fas fa-plus-circle"></i> Add Education Record
+        </MDBBtn>
+      </div>
+
+      {educationList.length > 0 && (
+        <div className="education-table-container">
+          <MDBTable align='middle' responsive className="luxury-table">
             <MDBTableHead>
-              <tr className="table-dark">
-                <th scope='col' style={{ whiteSpace: 'nowrap' }} >Add Education Details</th>
-                <th style={{ whiteSpace: "nowrap" }}> <MDBBtn type="button" size="sm" onClick={toggleOpen}>
-                  Add Education
-                </MDBBtn>
-                </th>
+              <tr>
+                <th>#</th>
+                <th>Degree Level</th>
+                <th>Qualification</th>
+                <th>Total Marks</th>
+                <th>Obtained Marks</th>
+                <th>Percentage</th>
+                <th>Passing Year</th>
+                <th>Roll No</th>
+                <th>Board/University</th>
+                <th>Marks Sheet</th>
+                <th>Action</th>
               </tr>
             </MDBTableHead>
             <MDBTableBody>
-              <tr className='table-primary'>
-                <td scope='row' style={{ whiteSpace: 'nowrap' }}>
-                  Applicants must add their Matric marks, Inter Part 1 marks, and Inter Part 2 marks.
-                </td>
-                <td></td>
-              </tr>
-              <tr className='table-info'>
-                <td scope='row'>If the applicant is awaiting their Inter Part 2 results, they should click the "Result Waiting" button when entering Inter Part 2 education details.</td>
-                <td></td>
-              </tr>
+              {educationList.map((edu, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{edu.degreeLevel}</td>
+                  <td>{edu.qualification}</td>
+                  <td>{edu.totalMarks}</td>
+                  <td>{edu.obtainMarks}</td>
+                  <td><span className="percentage-badge">{edu.percentage}%</span></td>
+                  <td>{edu.passingYear}</td>
+                  <td>{edu.rollNo}</td>
+                  <td>{edu.boardUni}</td>
+                  <td>
+                    {edu.marksheet ? (
+                      <a href={edu.marksheet} target="_blank" rel="noopener noreferrer" className="view-file-link">
+                        <i className="fas fa-eye"></i> View
+                      </a>
+                    ) : "No File"}
+                  </td>
+                  <td>
+                    <MDBBtn size="sm" color="danger" onClick={() => removeEducation(index)} className="remove-btn">
+                      <i className="fas fa-trash-alt"></i>
+                    </MDBBtn>
+                  </td>
+                </tr>
+              ))}
             </MDBTableBody>
           </MDBTable>
         </div>
+      )}
 
-        {/* Education List Table */}
-        {educationList.length > 0 && (
-          <div style={{ overflowX: "auto" }}>
-            <MDBTable align='middle' responsive>
-              <MDBTableHead className="table-secondary">
-                <tr>
-                  <th scope='col'>#</th>
-                  <th scope='col' style={{ whiteSpace: "nowrap" }}>Degree Level</th>
-                  <th scope='col' style={{ whiteSpace: "nowrap" }}>Academic Qualification</th>
-                  <th scope='col' style={{ whiteSpace: "nowrap" }}>Total Marks</th>
-                  <th scope='col' style={{ whiteSpace: "nowrap" }}>Obtained Marks</th>
-                  <th scope="col" style={{ whiteSpace: "nowrap" }}>Percentage %</th>
-                  <th scope="col" style={{ whiteSpace: "nowrap" }}>Passing Year</th>
-                  <th scope='col' style={{ whiteSpace: 'nowrap' }}>Roll No</th>
-                  <th scope='col' style={{ whiteSpace: "nowrap" }}>Board/University</th>
-                  <th scope='col' style={{ whiteSpace: "nowrap" }}>Marks Sheet</th>
-                </tr>
-              </MDBTableHead>
-              <MDBTableBody>
-                {educationList.map((edu, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{edu.degreeLevel}</td>
-                    <td>{edu.qualification}</td>
-                    <td>{edu.totalMarks}</td>
-                    <td>{edu.obtainMarks}</td>
-                    <td>{edu.percentage}%</td>
-                    <td>{edu.passingYear}</td>
-                    <td>{edu.rollNo}</td>
-                    <td>{edu.boardUni}</td>
-                    <td>
-                      {edu.marksheet ? (
-                        <img src={edu.marksheet} alt="marksheet" width="60" />
-                      ) : (
-                        "No File"
-                      )}
-                    </td>
-
-                  </tr>
-                ))}
-              </MDBTableBody>
-            </MDBTable>
-          </div>
-        )}
-        {/* Modal for Adding Education */}
-        <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex="-1">
-          <MDBModalDialog>
-            <MDBModalContent>
-              <MDBModalHeader>
-                <MDBModalTitle>Add Education</MDBModalTitle>
-                <MDBBtn className="btn-close" color="none" onClick={toggleOpen}></MDBBtn>
-              </MDBModalHeader>
-              <MDBModalBody>
-                {/* Degree Level */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="graduation-cap" />
-                  </span>
-                  <select className="form-select"
-                    name="degreeLevel"
-                    value={educationData.degreeLevel}
-                    onChange={handleEduChange}>
+      <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex="-1" className="luxury-modal">
+        <MDBModalDialog size="lg">
+          <MDBModalContent className="modal-content-custom">
+            <MDBModalHeader className="modal-header-custom">
+              <MDBModalTitle><i className="fas fa-plus-circle"></i> Add Education Record</MDBModalTitle>
+              <MDBBtn className="btn-close-custom" color="none" onClick={toggleOpen}>
+                <i className="fas fa-times"></i>
+              </MDBBtn>
+            </MDBModalHeader>
+            <MDBModalBody>
+              <div className="modal-form-group">
+                <label>Degree Level *</label>
+                <div className="input-icon-wrapper">
+                  <i className="fas fa-graduation-cap"></i>
+                  <select name="degreeLevel" value={educationData.degreeLevel} onChange={handleEduChange}>
                     <option value="">Select Degree Level</option>
                     <option value="Matric">Matriculation</option>
                     <option value="Inter-Part-1">Intermediate Part I</option>
@@ -188,16 +221,13 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                     <option value="PHD">PhD</option>
                   </select>
                 </div>
+              </div>
 
-                {/* Academic Qualification */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="book" />
-                  </span>
-                  <select className="form-select"
-                    name="qualification"
-                    value={educationData.qualification}
-                    onChange={handleEduChange}>
+              <div className="modal-form-group">
+                <label>Academic Qualification *</label>
+                <div className="input-icon-wrapper">
+                  <i className="fas fa-book"></i>
+                  <select name="qualification" value={educationData.qualification} onChange={handleEduChange}>
                     <option value="">Select Academic Qualification</option>
                     <option value="science">Science</option>
                     <option value="arts">Arts</option>
@@ -207,63 +237,59 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                     <option value="medical">Medical</option>
                   </select>
                 </div>
-                {/* Total Marks */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="sort-numeric-up" />
-                  </span>
-                  <MDBInput type="number" label="Total Marks"
-                    name="totalMarks"
-                    value={educationData.totalMarks}
-                    onChange={handleEduChange} />
+              </div>
+
+              <div className="modal-row">
+                <div className="modal-form-group half">
+                  <label>Total Marks *</label>
+                  <div className="input-icon-wrapper">
+                    <i className="fas fa-sort-numeric-up"></i>
+                    <input type="number" name="totalMarks" placeholder="1100" value={educationData.totalMarks} onChange={handleEduChange} />
+                  </div>
                 </div>
-                {/* Obtained Marks */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="check-circle" />
-                  </span>
-                  <MDBInput type="number" label="Obtained Marks"
-                    name="obtainMarks"
-                    value={educationData.obtainMarks}
-                    onChange={handleEduChange} />
+                <div className="modal-form-group half">
+                  <label>Obtained Marks *</label>
+                  <div className="input-icon-wrapper">
+                    <i className="fas fa-check-circle"></i>
+                    <input type="number" name="obtainMarks" placeholder="950" value={educationData.obtainMarks} onChange={handleEduChange} />
+                  </div>
                 </div>
-                {/* Passing Year */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="calendar" />
-                  </span>
-                  <select className="form-select"
-                    name="passingYear"
-                    value={educationData.passingYear}
-                    onChange={handleEduChange}>
-                    <option value="">Select Passing Year</option>
-                    {Array.from({ length: 30 }, (_, i) => {
-                      const year = 2025 - i;
-                      return <option key={year} value={year}>
-                        {year}
-                      </option>
-                    })}
-                  </select>
+              </div>
+
+              {educationData.percentage && (
+                <div className="percentage-preview">
+                  <i className="fas fa-chart-line"></i> Calculated Percentage: <strong>{educationData.percentage}%</strong>
                 </div>
-                {/* ROll Number */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="id-card" />
-                  </span>
-                  <MDBInput type="text" label="Roll Number"
-                    name="rollNo"
-                    value={educationData.rollNo}
-                    onChange={handleEduChange} />
+              )}
+
+              <div className="modal-row">
+                <div className="modal-form-group half">
+                  <label>Passing Year *</label>
+                  <div className="input-icon-wrapper">
+                    <i className="fas fa-calendar"></i>
+                    <select name="passingYear" value={educationData.passingYear} onChange={handleEduChange}>
+                      <option value="">Select Passing Year</option>
+                      {Array.from({ length: 30 }, (_, i) => {
+                        const year = 2025 - i;
+                        return <option key={year} value={year}>{year}</option>;
+                      })}
+                    </select>
+                  </div>
                 </div>
-                {/* Board / University */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">
-                    <MDBIcon fas icon="university" />
-                  </span>
-                  <select className="form-select"
-                    name="boardUni"
-                    value={educationData.boardUni}
-                    onChange={handleEduChange}>
+                <div className="modal-form-group half">
+                  <label>Roll Number *</label>
+                  <div className="input-icon-wrapper">
+                    <i className="fas fa-id-card"></i>
+                    <input type="text" name="rollNo" placeholder="Enter roll number" value={educationData.rollNo} onChange={handleEduChange} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-form-group">
+                <label>Board / University *</label>
+                <div className="input-icon-wrapper">
+                  <i className="fas fa-university"></i>
+                  <select name="boardUni" value={educationData.boardUni} onChange={handleEduChange}>
                     <option value="">Select Board / University</option>
                     <option value="Bise Lahore">BISE Lahore</option>
                     <option value="Bise Multan">BISE Multan</option>
@@ -280,42 +306,37 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                     <option value="COMSAT">COMSATS</option>
                     <option value="GCU LAHORE">GCU Lahore</option>
                     <option value="IIUI">IIUI</option>
-                    {/* add more boards/universities as needed */}
                   </select>
                 </div>
-                <MDBCol md="12">
-                  <label className="form-label">Upload Marks Sheet/Result Card</label>
-                  <MDBInputGroup className="mb-0">
-                    <span className="input-group-text">
-                      <MDBIcon fas icon="file-image" />
-                    </span>
-                    <input
-                      type="file"
-                      name='marksheet'
-                      className="form-control"
-                      accept='image/*'
-                      onChange={handleMarkSheet}
-                      required
-                    />
-                  </MDBInputGroup>
-                </MDBCol>
-              </MDBModalBody>
+              </div>
 
+              <div className="modal-form-group">
+                <label>Upload Marks Sheet/Result Card *</label>
+                <div className="input-icon-wrapper">
+                  <i className="fas fa-file-image"></i>
+                  <input type="file" accept='image/*' onChange={handleMarkSheet} className="file-input" />
+                </div>
+                {markSheet && <div className="file-preview"><i className="fas fa-check-circle"></i> {markSheet.name}</div>}
+              </div>
+            </MDBModalBody>
+            <MDBModalFooter className="modal-footer-custom">
+              <MDBBtn color="secondary" onClick={toggleOpen} className="btn-modal-close">Cancel</MDBBtn>
+              <MDBBtn type="button" onClick={handleSave} className="btn-modal-save">Save Record</MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
 
-              <MDBModalFooter>
-                <MDBBtn color="secondary" onClick={toggleOpen}>
-                  Close
-                </MDBBtn>
-                <MDBBtn type="button" onClick={handleSave}>Submit</MDBBtn>
-              </MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-        <MDBBtn className='me-1' type='button' onClick={onBack}>Back</MDBBtn>
-        <MDBBtn className='me-1' type='submit'>Next</MDBBtn>
-      </>
+      <div className="btn-group-wrapper">
+        <MDBBtn type='button' onClick={onBack} className="btn-back">
+          <i className="fas fa-arrow-left"></i> Back
+        </MDBBtn>
+        <MDBBtn type='submit' className="btn-next">
+          Next Step <i className="fas fa-arrow-right"></i>
+        </MDBBtn>
+      </div>
     </form>
-  )
-}
+  );
+};
 
-export default Step3
+export default Step3;

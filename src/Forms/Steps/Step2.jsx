@@ -1,21 +1,15 @@
-import React from "react";
-import { useState , useEffect} from "react";
-import {
-  MDBRow,
-  MDBInput,
-  MDBCol,
-  MDBBtn,
-  MDBInputGroup,
-  MDBIcon,
-} from "mdb-react-ui-kit";
-import './Step2.css'
-const Step2 = ({ onSubmit, onBack,initialData }) => {
+import React, { useState, useEffect } from "react";
+import { MDBRow, MDBCol, MDBBtn } from "mdb-react-ui-kit";
+import "./Step2.css";
+
+const Step2 = ({ onSubmit, onBack, initialData }) => {
   const [formData, setFormData] = useState({
     motherName: "",
     fatherName: "",
     fatherCnic: "",
     fatherMobile: "",
   });
+
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -27,79 +21,112 @@ const Step2 = ({ onSubmit, onBack,initialData }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateForm = () => {
+    if (!formData.fatherName) {
+      toast.error("Please enter Father Name");
+      return false;
+    }
+    if (formData.fatherCnic && !/^(\d{5}-\d{7}-\d{1}|\d{13})$/.test(formData.fatherCnic)) {
+      toast.error("Father CNIC must be 13 digits or #####-#######-# format");
+      return false;
+    }
+    if (formData.fatherMobile && !/^[0-9]{11}$/.test(formData.fatherMobile)) {
+      toast.error("Father Mobile Number must be 11 digits");
+      return false;
+    }
+    return true;
+  };
+
   const submit = (e) => {
     e.preventDefault();
-
-    onSubmit(formData);
+    if (validateForm()) {
+      onSubmit(formData);
+    }
   };
+
   return (
-    <form onSubmit={submit}>
-      <h4 className="mb-3 text-primary">Family Details</h4>
-      <MDBRow className="g-3 mb-4">
+    <form onSubmit={submit} className="step-form">
+      <h4 className="section-title">
+        <i className="fas fa-users"></i> Family Details
+      </h4>
+
+      <MDBRow className="g-4 mb-4">
         <MDBCol md="6">
-          <label className="form-label">Mother Name</label>
-          <MDBInput
-            label="Mother Name"
-            name="motherName"
-            value={formData.motherName}
-            onChange={handleChange}
-          />
+          <div className="luxury-input-group">
+            <label>Mother's Full Name</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-female"></i>
+              <input
+                type="text"
+                name="motherName"
+                placeholder="Enter mother's full name"
+                value={formData.motherName}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </MDBCol>
+
         <MDBCol md="6">
-          <label className="form-label">Father Name</label>
-          <MDBInput
-            label="Father Name *"
-            name="fatherName"
-            value={formData.fatherName}
-            onChange={handleChange}
-            required
-          />
+          <div className="luxury-input-group">
+            <label>Father's Full Name <span className="required-star">*</span></label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-male"></i>
+              <input
+                type="text"
+                name="fatherName"
+                placeholder="Enter father's full name"
+                value={formData.fatherName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
         </MDBCol>
       </MDBRow>
 
-      {/* Father CNIC & Mobile with icons */}
-      <MDBRow className="g-3 mb-2">
+      <MDBRow className="g-4 mb-4">
         <MDBCol md="6">
-          <label className="form-label">Father CNIC</label>
-          <MDBInputGroup className="mb-0">
-            <span className="input-group-text">
-              <MDBIcon fas icon="id-card" />
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              name="fatherCnic"
-              placeholder="xxxxx-xxxxxxx-x"
-              inputMode="numeric"
-              pattern="[0-9\-]*"
-              value={formData.fatherCnic}
-              onChange={handleChange}
-            />
-          </MDBInputGroup>
+          <div className="luxury-input-group">
+            <label>Father's CNIC</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-id-card"></i>
+              <input
+                type="text"
+                name="fatherCnic"
+                placeholder="12345-1234567-1"
+                value={formData.fatherCnic}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </MDBCol>
+
         <MDBCol md="6">
-          <label className="form-label">Father Mobile No</label>
-          <MDBInputGroup className="mb-0">
-            <span className="input-group-text">
-              <MDBIcon fas icon="mobile-alt" />
-            </span>
-            <input
-              type="tel"
-              className="form-control"
-              name="fatherMobile"
-              placeholder="03xx-xxxxxxx"
-              value={formData.fatherMobile}
-              onChange={handleChange}
-            />
-          </MDBInputGroup>
+          <div className="luxury-input-group">
+            <label>Father's Mobile Number</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-mobile-alt"></i>
+              <input
+                type="tel"
+                name="fatherMobile"
+                placeholder="03xx-xxxxxxx"
+                value={formData.fatherMobile}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </MDBCol>
       </MDBRow>
-      <MDBBtn className="me-1" type="button" onClick={onBack}>
-        Back
-      </MDBBtn>
-      <MDBBtn className="me-1" type="submit">
-        Next
-      </MDBBtn>
+
+      <div className="btn-group-wrapper">
+        <MDBBtn type="button" onClick={onBack} className="btn-back">
+          <i className="fas fa-arrow-left"></i> Back
+        </MDBBtn>
+        <MDBBtn type="submit" className="btn-next">
+          Next Step <i className="fas fa-arrow-right"></i>
+        </MDBBtn>
+      </div>
     </form>
   );
 };
