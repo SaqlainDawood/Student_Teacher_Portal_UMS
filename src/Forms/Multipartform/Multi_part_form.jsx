@@ -131,7 +131,7 @@ const MultiPartForm = () => {
     <div className="registration-wrapper">
       <div className="luxury-container">
         <div className="glass-card">
-          <div className="form-header">
+          <div className="multiform-form-header">
             <h2>✨ Student Registration Portal</h2>
             <p>Begin your journey with excellence</p>
           </div>
