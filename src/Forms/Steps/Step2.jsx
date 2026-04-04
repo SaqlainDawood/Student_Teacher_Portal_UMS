@@ -8,6 +8,7 @@ import {
   MDBInputGroup,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import './Step2.css'
 const Step2 = ({ onSubmit, onBack,initialData }) => {
   const [formData, setFormData] = useState({
     motherName: "",

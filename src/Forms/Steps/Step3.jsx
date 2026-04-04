@@ -5,6 +5,7 @@ import {
   MDBInput, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle,
   MDBModalBody, MDBModalFooter
 } from 'mdb-react-ui-kit';
+import './Step3.css'
 import { toast } from 'react-toastify';
 
 const Step3 = ({ onSubmit, onBack, initialData }) => {

@@ -2,6 +2,7 @@ import React from 'react'
 import { MDBRow, MDBCol, MDBInputGroup, MDBIcon,MDBBtn} from 'mdb-react-ui-kit'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import './Step4.css'
 const Step4 = ({onSubmit , onBack, initialData}) => {
       const [enrollmentInfo, setEnrollmentInfo] = useState({
     program: '',
