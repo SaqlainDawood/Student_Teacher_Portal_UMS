@@ -38,6 +38,10 @@
   letter-spacing: -0.5px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
+.form-header h2 i {
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
 
 .multiform-form-header p {
   color: rgba(255, 255, 255, 0.95);
@@ -46,6 +50,10 @@
   font-weight: 400;
 }
 
+.form-header p i {
+  font-size: 0.8rem;
+  animation: slideRight 1s ease infinite;
+}
 .steps-container {
   padding: 2rem 2rem 0;
   background: white;
