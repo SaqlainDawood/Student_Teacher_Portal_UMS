@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBRow, MDBCol, MDBBtn } from "mdb-react-ui-kit";
 import "./Step2.css";
-
+import {toast} from 'react-toastify'
 const Step2 = ({ onSubmit, onBack, initialData }) => {
   const [formData, setFormData] = useState({
     motherName: "",
