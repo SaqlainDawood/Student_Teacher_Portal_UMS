@@ -196,136 +196,139 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
       )}
 
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex="-1" className="luxury-modal">
-        <MDBModalDialog size="lg">
-          <MDBModalContent className="modal-content-custom">
-            <MDBModalHeader className="modal-header-custom">
-              <MDBModalTitle><i className="fas fa-plus-circle"></i> Add Education Record</MDBModalTitle>
-              <MDBBtn className="btn-close-custom" color="none" onClick={toggleOpen}>
-                <i className="fas fa-times"></i>
-              </MDBBtn>
-            </MDBModalHeader>
-            <MDBModalBody>
-              <div className="modal-form-group">
-                <label>Degree Level *</label>
-                <div className="input-icon-wrapper">
-                  <i className="fas fa-graduation-cap"></i>
-                  <select name="degreeLevel" value={educationData.degreeLevel} onChange={handleEduChange}>
-                    <option value="">Select Degree Level</option>
-                    <option value="Matric">Matriculation</option>
-                    <option value="Inter-Part-1">Intermediate Part I</option>
-                    <option value="Inter-Part-2">Intermediate Part II</option>
-                    <option value="ADP/ADS">ADS / ADP</option>
-                    <option value="BS">BS</option>
-                    <option value="MS">MS</option>
-                    <option value="MPHILL">MPhil</option>
-                    <option value="PHD">PhD</option>
-                  </select>
-                </div>
-              </div>
+  <MDBModalDialog size="lg">
+    <MDBModalContent className="modal-content-custom">
+      <MDBModalHeader className="modal-header-custom">
+        <MDBModalTitle><i className="fas fa-plus-circle"></i> Add Education Record</MDBModalTitle>
+        <MDBBtn className="btn-close-custom" color="none" onClick={toggleOpen}>
+          <i className="fas fa-times"></i>
+        </MDBBtn>
+      </MDBModalHeader>
+      
+      <MDBModalBody style={{ maxHeight: '70vh', overflowY: 'auto', padding: '1.5rem' }}>
+        {/* All your form fields remain exactly the same */}
+        <div className="modal-form-group">
+          <label>Degree Level *</label>
+          <div className="input-icon-wrapper">
+            <i className="fas fa-graduation-cap"></i>
+            <select name="degreeLevel" value={educationData.degreeLevel} onChange={handleEduChange}>
+              <option value="">Select Degree Level</option>
+              <option value="Matric">Matriculation</option>
+              <option value="Inter-Part-1">Intermediate Part I</option>
+              <option value="Inter-Part-2">Intermediate Part II</option>
+              <option value="ADP/ADS">ADS / ADP</option>
+              <option value="BS">BS</option>
+              <option value="MS">MS</option>
+              <option value="MPHILL">MPhil</option>
+              <option value="PHD">PhD</option>
+            </select>
+          </div>
+        </div>
 
-              <div className="modal-form-group">
-                <label>Academic Qualification *</label>
-                <div className="input-icon-wrapper">
-                  <i className="fas fa-book"></i>
-                  <select name="qualification" value={educationData.qualification} onChange={handleEduChange}>
-                    <option value="">Select Academic Qualification</option>
-                    <option value="science">Science</option>
-                    <option value="arts">Arts</option>
-                    <option value="commerce">Commerce</option>
-                    <option value="cs">Computer Science</option>
-                    <option value="engineering">Engineering</option>
-                    <option value="medical">Medical</option>
-                  </select>
-                </div>
-              </div>
+        <div className="modal-form-group">
+          <label>Academic Qualification *</label>
+          <div className="input-icon-wrapper">
+            <i className="fas fa-book"></i>
+            <select name="qualification" value={educationData.qualification} onChange={handleEduChange}>
+              <option value="">Select Academic Qualification</option>
+              <option value="science">Science</option>
+              <option value="arts">Arts</option>
+              <option value="commerce">Commerce</option>
+              <option value="cs">Computer Science</option>
+              <option value="engineering">Engineering</option>
+              <option value="medical">Medical</option>
+            </select>
+          </div>
+        </div>
 
-              <div className="modal-row">
-                <div className="modal-form-group half">
-                  <label>Total Marks *</label>
-                  <div className="input-icon-wrapper">
-                    <i className="fas fa-sort-numeric-up"></i>
-                    <input type="number" name="totalMarks" placeholder="1100" value={educationData.totalMarks} onChange={handleEduChange} />
-                  </div>
-                </div>
-                <div className="modal-form-group half">
-                  <label>Obtained Marks *</label>
-                  <div className="input-icon-wrapper">
-                    <i className="fas fa-check-circle"></i>
-                    <input type="number" name="obtainMarks" placeholder="950" value={educationData.obtainMarks} onChange={handleEduChange} />
-                  </div>
-                </div>
-              </div>
+        <div className="modal-row">
+          <div className="modal-form-group half">
+            <label>Total Marks *</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-sort-numeric-up"></i>
+              <input type="number" name="totalMarks" placeholder="1100" value={educationData.totalMarks} onChange={handleEduChange} />
+            </div>
+          </div>
+          <div className="modal-form-group half">
+            <label>Obtained Marks *</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-check-circle"></i>
+              <input type="number" name="obtainMarks" placeholder="950" value={educationData.obtainMarks} onChange={handleEduChange} />
+            </div>
+          </div>
+        </div>
 
-              {educationData.percentage && (
-                <div className="percentage-preview">
-                  <i className="fas fa-chart-line"></i> Calculated Percentage: <strong>{educationData.percentage}%</strong>
-                </div>
-              )}
+        {educationData.percentage && (
+          <div className="percentage-preview">
+            <i className="fas fa-chart-line"></i> Calculated Percentage: <strong>{educationData.percentage}%</strong>
+          </div>
+        )}
 
-              <div className="modal-row">
-                <div className="modal-form-group half">
-                  <label>Passing Year *</label>
-                  <div className="input-icon-wrapper">
-                    <i className="fas fa-calendar"></i>
-                    <select name="passingYear" value={educationData.passingYear} onChange={handleEduChange}>
-                      <option value="">Select Passing Year</option>
-                      {Array.from({ length: 30 }, (_, i) => {
-                        const year = 2025 - i;
-                        return <option key={year} value={year}>{year}</option>;
-                      })}
-                    </select>
-                  </div>
-                </div>
-                <div className="modal-form-group half">
-                  <label>Roll Number *</label>
-                  <div className="input-icon-wrapper">
-                    <i className="fas fa-id-card"></i>
-                    <input type="text" name="rollNo" placeholder="Enter roll number" value={educationData.rollNo} onChange={handleEduChange} />
-                  </div>
-                </div>
-              </div>
+        <div className="modal-row">
+          <div className="modal-form-group half">
+            <label>Passing Year *</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-calendar"></i>
+              <select name="passingYear" value={educationData.passingYear} onChange={handleEduChange}>
+                <option value="">Select Passing Year</option>
+                {Array.from({ length: 30 }, (_, i) => {
+                  const year = 2025 - i;
+                  return <option key={year} value={year}>{year}</option>;
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="modal-form-group half">
+            <label>Roll Number *</label>
+            <div className="input-icon-wrapper">
+              <i className="fas fa-id-card"></i>
+              <input type="text" name="rollNo" placeholder="Enter roll number" value={educationData.rollNo} onChange={handleEduChange} />
+            </div>
+          </div>
+        </div>
 
-              <div className="modal-form-group">
-                <label>Board / University *</label>
-                <div className="input-icon-wrapper">
-                  <i className="fas fa-university"></i>
-                  <select name="boardUni" value={educationData.boardUni} onChange={handleEduChange}>
-                    <option value="">Select Board / University</option>
-                    <option value="Bise Lahore">BISE Lahore</option>
-                    <option value="Bise Multan">BISE Multan</option>
-                    <option value="Bise Faisalabad">BISE Faisalabad</option>
-                    <option value="Bise Karachi">BISE Karachi</option>
-                    <option value="Punjab Uni">University of the Punjab</option>
-                    <option value="BZU">BZU Multan</option>
-                    <option value="UOL">University of Lahore</option>
-                    <option value="NUML">NUML</option>
-                    <option value="FAST">FAST NUCES</option>
-                    <option value="NUST">NUST</option>
-                    <option value="QUAID">Quaid-i-Azam University</option>
-                    <option value="UET">UET Lahore</option>
-                    <option value="COMSAT">COMSATS</option>
-                    <option value="GCU LAHORE">GCU Lahore</option>
-                    <option value="IIUI">IIUI</option>
-                  </select>
-                </div>
-              </div>
+        <div className="modal-form-group">
+          <label>Board / University *</label>
+          <div className="input-icon-wrapper">
+            <i className="fas fa-university"></i>
+            <select name="boardUni" value={educationData.boardUni} onChange={handleEduChange}>
+              <option value="">Select Board / University</option>
+              <option value="Bise Lahore">BISE Lahore</option>
+              <option value="Bise Multan">BISE Multan</option>
+              <option value="Bise Faisalabad">BISE Faisalabad</option>
+              <option value="Bise Karachi">BISE Karachi</option>
+              <option value="Punjab Uni">University of the Punjab</option>
+              <option value="BZU">BZU Multan</option>
+              <option value="UOL">University of Lahore</option>
+              <option value="NUML">NUML</option>
+              <option value="FAST">FAST NUCES</option>
+              <option value="NUST">NUST</option>
+              <option value="QUAID">Quaid-i-Azam University</option>
+              <option value="UET">UET Lahore</option>
+              <option value="COMSAT">COMSATS</option>
+              <option value="GCU LAHORE">GCU Lahore</option>
+              <option value="IIUI">IIUI</option>
+            </select>
+          </div>
+        </div>
 
-              <div className="modal-form-group">
-                <label>Upload Marks Sheet/Result Card *</label>
-                <div className="input-icon-wrapper">
-                  <i className="fas fa-file-image"></i>
-                  <input type="file" accept='image/*' onChange={handleMarkSheet} className="file-input" />
-                </div>
-                {markSheet && <div className="file-preview"><i className="fas fa-check-circle"></i> {markSheet.name}</div>}
-              </div>
-            </MDBModalBody>
-            <MDBModalFooter className="modal-footer-custom">
-              <MDBBtn color="secondary" onClick={toggleOpen} className="btn-modal-close">Cancel</MDBBtn>
-              <MDBBtn type="button" onClick={handleSave} className="btn-modal-save">Save Record</MDBBtn>
-            </MDBModalFooter>
-          </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
+        <div className="modal-form-group">
+          <label>Upload Marks Sheet/Result Card *</label>
+          <div className="input-icon-wrapper">
+            <i className="fas fa-file-image"></i>
+            <input type="file" accept='image/*' onChange={handleMarkSheet} className="file-input" />
+          </div>
+          {markSheet && <div className="file-preview"><i className="fas fa-check-circle"></i> {markSheet.name}</div>}
+        </div>
+      </MDBModalBody>
+      
+      <MDBModalFooter className="modal-footer-custom">
+        <MDBBtn color="secondary" onClick={toggleOpen} className="btn-modal-close">Cancel</MDBBtn>
+        <MDBBtn type="button" onClick={handleSave} className="btn-modal-save">Save Record</MDBBtn>
+      </MDBModalFooter>
+    </MDBModalContent>
+  </MDBModalDialog>
+</MDBModal>
 
       <div className="btn-group-wrapper">
         <MDBBtn type='button' onClick={onBack} className="btn-back">
