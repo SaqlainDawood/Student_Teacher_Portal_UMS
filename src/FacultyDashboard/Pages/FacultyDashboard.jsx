@@ -13,7 +13,6 @@ export default function FacultyDashboard() {
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
-
   const menuItems = [
     { path: "/faculty/dashboard",     name: "Dashboard",       icon: "tachometer-alt" },
     { path: "/faculty/profile",       name: "Profile",         icon: "user" },
@@ -21,7 +20,6 @@ export default function FacultyDashboard() {
     { path: "/faculty/addresult",     name: "Add Result",      icon: "file-alt" },
     { path: "/faculty/addnewclass",   name: "Add New Class",   icon: "book" },
   ];
-
   return (
     <div className="dashboard-layout">
       {/* Enhanced Sidebar */}

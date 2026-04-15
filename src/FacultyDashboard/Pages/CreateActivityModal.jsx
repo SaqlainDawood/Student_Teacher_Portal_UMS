@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
-import axios from "axios";
+import FacultyActivitiesAPI from "../../api/facultyActivitiesAPI";
 import './Faculty.css';
 
 const ACTIVITY_TYPES = [
@@ -28,8 +28,6 @@ export default function CreateActivityModal({ onClose, onSuccess, classId, class
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const API_BASE = "http://localhost:8000/api/faculty";
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -71,8 +69,6 @@ export default function CreateActivityModal({ onClose, onSuccess, classId, class
     setError("");
 
     try {
-      const token = localStorage.getItem("facultyToken");
-      
       const payload = { ...formData };
       
       // Add quiz details if type is quiz
@@ -92,10 +88,7 @@ export default function CreateActivityModal({ onClose, onSuccess, classId, class
         delete payload.totalMarks;
       }
 
-      await axios.post(`${API_BASE}/activities`, payload, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
+      await FacultyActivitiesAPI.post("/", payload);
       onSuccess();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to create activity");
@@ -187,7 +180,7 @@ export default function CreateActivityModal({ onClose, onSuccess, classId, class
               />
             </div>
 
-            {/* Instructions (for assignments/exams) */}
+            {/* Instructions */}
             {formData.type !== "presentation" && formData.type !== "quiz" && (
               <div className="form-group">
                 <label>Instructions</label>
@@ -200,7 +193,7 @@ export default function CreateActivityModal({ onClose, onSuccess, classId, class
               </div>
             )}
 
-            {/* Marks and Due Date (not for presentations) */}
+            {/* Marks and Due Date */}
             {formData.type !== "presentation" && (
               <div className="form-row">
                 <div className="form-group">

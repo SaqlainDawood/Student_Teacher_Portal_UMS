@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import FacultyAPI from "../../api/FacultyAPI";
+import FacultyActivitiesAPI from "../../api/facultyActivitiesAPI";
 import CreateActivityModal from "./CreateActivityModal";
 import './Faculty.css';
 
@@ -18,8 +19,6 @@ export default function Activities() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [stats, setStats] = useState({});
 
-  const API_BASE = "http://localhost:8000/api/faculty";
-
   // Activity types with icons and colors
   const activityTypes = {
     assignment: { icon: "file-alt", label: "Assignment", color: "#3498db" },
@@ -29,14 +28,12 @@ export default function Activities() {
     final_exam: { icon: "graduation-cap", label: "Final Exam", color: "#c0392b" }
   };
 
-  // Fetch faculty classes
+  // Fetch faculty classes using existing FacultyAPI
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const token = localStorage.getItem("facultyToken");
-        const res = await axios.get(`${API_BASE}/portal/dashboard/${faculty?._id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        // Using your existing FacultyAPI instance
+        const res = await FacultyAPI.get(`/dashboard/${faculty?._id}`);
         
         if (res.data.success) {
           setClasses(res.data.data.classList || []);
@@ -52,7 +49,7 @@ export default function Activities() {
     if (faculty?._id) fetchClasses();
   }, [faculty]);
 
-  // Fetch activities when class changes
+  // Fetch activities using FacultyActivitiesAPI
   useEffect(() => {
     if (selectedClass) {
       fetchActivities();
@@ -62,12 +59,8 @@ export default function Activities() {
   const fetchActivities = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("facultyToken");
-      const url = `${API_BASE}/activities/class/${selectedClass}${filterType !== "all" ? `?type=${filterType}` : ""}`;
-      
-      const res = await axios.get(url, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const url = `/class/${selectedClass}${filterType !== "all" ? `?type=${filterType}` : ""}`;
+      const res = await FacultyActivitiesAPI.get(url);
       
       if (res.data.success) {
         setActivities(res.data.data);
@@ -91,10 +84,7 @@ export default function Activities() {
     if (!window.confirm("Are you sure you want to archive this activity?")) return;
     
     try {
-      const token = localStorage.getItem("facultyToken");
-      await axios.delete(`${API_BASE}/activities/${activityId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await FacultyActivitiesAPI.delete(`/${activityId}`);
       fetchActivities();
     } catch (error) {
       console.error("Error deleting activity:", error);
@@ -103,11 +93,9 @@ export default function Activities() {
 
   const handleTogglePublish = async (activityId, currentStatus) => {
     try {
-      const token = localStorage.getItem("facultyToken");
-      await axios.patch(`${API_BASE}/activities/${activityId}/publish`, 
-        { isPublished: !currentStatus },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await FacultyActivitiesAPI.patch(`/${activityId}/publish`, { 
+        isPublished: !currentStatus 
+      });
       fetchActivities();
     } catch (error) {
       console.error("Error toggling publish:", error);
@@ -154,7 +142,7 @@ export default function Activities() {
           <option value="">Select a class</option>
           {classes.map((cls) => (
             <option key={cls.id} value={cls.id}>
-              {cls.className} ({cls.classCode}) - {cls.semester} Semester
+              {cls.className} ({cls.classCode}) - Semester {cls.semester}
             </option>
           ))}
         </select>
