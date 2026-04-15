@@ -2,12 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import FacultyAPI from "../../api/FacultyAPI";
+import FacultyAPI from "../../FacAPI/facultyApi";
 import FacultyActivitiesAPI from "../../FacAPI/facultyActivitiesAPI";
 import CreateActivityModal from "./CreateActivityModal";
 import './Activities.css'; 
-
-
 export default function Activities() {
   const { faculty } = useContext(AuthContext);
   const navigate = useNavigate();

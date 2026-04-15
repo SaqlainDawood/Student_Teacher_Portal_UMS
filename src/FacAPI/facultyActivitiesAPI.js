@@ -5,7 +5,6 @@ const FacultyActivitiesAPI = axios.create({
     baseURL: `${import.meta.env.VITE_API_URL}/api/faculty/activities`,
     withCredentials: true,
 });
-
 // Request Interceptor - Add token
 FacultyActivitiesAPI.interceptors.request.use((config) => {
     const token = localStorage.getItem('facultyToken');
