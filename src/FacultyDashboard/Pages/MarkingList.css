@@ -1,0 +1,536 @@
+/* ==================== MARKING LIST STYLES ==================== */
+
+.marking-container {
+  padding: 24px;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Back Button */
+.marking-back-btn {
+  background: white;
+  color: #2c3e50;
+  border: 1px solid #e9ecef;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 20px;
+}
+
+.marking-back-btn:hover {
+  background: #f8f9fa;
+  border-color: #3498db;
+  color: #3498db;
+  transform: translateX(-3px);
+}
+
+/* Header Card */
+.marking-header-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9ecef;
+}
+
+.marking-title-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.marking-meta-info {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.marking-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #5a6a7a;
+  font-size: 14px;
+}
+
+.marking-meta-item svg {
+  color: #3498db;
+  font-size: 16px;
+}
+
+/* Stats Grid */
+.marking-stats-grid {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f3f5;
+}
+
+.marking-stat-card {
+  flex: 1;
+  text-align: center;
+  padding: 16px 12px;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.marking-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.marking-stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1.2;
+}
+
+.marking-stat-label {
+  font-size: 13px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* Action Bar */
+.marking-action-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.marking-btn-primary {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+.marking-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2980b9, #1f6a9a);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+}
+
+.marking-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.marking-btn-secondary {
+  background: white;
+  color: #2c3e50;
+  border: 1px solid #e9ecef;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.marking-btn-secondary:hover {
+  background: #f8f9fa;
+  border-color: #3498db;
+  color: #3498db;
+}
+
+/* Table Container */
+.marking-table-wrapper {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9ecef;
+}
+
+.marking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.marking-table thead {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.marking-table th {
+  padding: 16px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.marking-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #f1f3f5;
+  color: #5a6a7a;
+  font-size: 14px;
+}
+
+.marking-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.marking-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+/* Student Info */
+.marking-student-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.marking-student-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+}
+
+.marking-student-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.marking-student-name {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+.marking-student-reg {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* Status Indicators */
+.marking-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.marking-status.submitted {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.12), rgba(52, 152, 219, 0.06));
+  color: #3498db;
+}
+
+.marking-status.graded {
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.12), rgba(39, 174, 96, 0.06));
+  color: #27ae60;
+}
+
+.marking-status.not_submitted {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.12), rgba(231, 76, 60, 0.06));
+  color: #e74c3c;
+}
+
+.marking-status.late {
+  background: linear-gradient(135deg, rgba(243, 156, 18, 0.12), rgba(243, 156, 18, 0.06));
+  color: #f39c12;
+}
+
+.marking-status.pending {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.12), rgba(52, 152, 219, 0.06));
+  color: #3498db;
+}
+
+/* File Link */
+.marking-file-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.marking-file-link:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Grade Input */
+.marking-grade-input {
+  width: 90px;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.25s ease;
+  background: white;
+}
+
+.marking-grade-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.marking-grade-input.graded {
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.04), white);
+  border-color: #27ae60;
+}
+
+.marking-grade-input:disabled {
+  background: #f8fafc;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Feedback Input */
+.marking-feedback-input {
+  width: 100%;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  transition: all 0.25s ease;
+  background: white;
+}
+
+.marking-feedback-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.marking-feedback-input:disabled {
+  background: #f8fafc;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Action Button */
+.marking-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: white;
+  color: #7f8c8d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+}
+
+.marking-action-btn:hover:not(:disabled) {
+  background: #27ae60;
+  color: white;
+  border-color: #27ae60;
+}
+
+.marking-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Penalty Text */
+.marking-penalty-text {
+  display: block;
+  color: #f39c12;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* Loading State */
+.marking-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e9ecef;
+}
+
+.marking-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e9ecef;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: marking-spin 0.8s linear infinite;
+}
+
+@keyframes marking-spin {
+  to { transform: rotate(360deg); }
+}
+
+.marking-loading p {
+  margin-top: 20px;
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+/* Rubric Section */
+.marking-rubric-section {
+  margin-top: 28px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px 28px;
+  border: 1px solid #e9ecef;
+}
+
+.marking-rubric-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.marking-rubric-list {
+  display: grid;
+  gap: 14px;
+}
+
+.marking-rubric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.marking-rubric-item:last-child {
+  border-bottom: none;
+}
+
+.marking-rubric-criteria {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.marking-rubric-criteria strong {
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+.marking-rubric-criteria span {
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+.marking-rubric-points {
+  font-weight: 700;
+  color: #3498db;
+  font-size: 16px;
+  background: rgba(52, 152, 219, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .marking-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .marking-table {
+    min-width: 1200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .marking-container {
+    padding: 16px;
+  }
+  
+  .marking-header-card {
+    padding: 18px 20px;
+  }
+  
+  .marking-stats-grid {
+    flex-wrap: wrap;
+  }
+  
+  .marking-stat-card {
+    min-width: calc(50% - 8px);
+  }
+  
+  .marking-action-bar {
+    flex-wrap: wrap;
+  }
+  
+  .marking-btn-primary,
+  .marking-btn-secondary {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .marking-title-section h2 {
+    font-size: 20px;
+  }
+  
+  .marking-meta-info {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .marking-stat-card {
+    min-width: 100%;
+  }
+  
+  .marking-action-bar {
+    flex-direction: column;
+  }
+}

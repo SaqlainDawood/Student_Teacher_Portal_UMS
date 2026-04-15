@@ -3,14 +3,14 @@ import { MDBIcon } from "mdb-react-ui-kit";
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FacultyAPI from "../../api/FacultyAPI";
-import FacultyActivitiesAPI from "../../api/facultyActivitiesAPI";
+import FacultyActivitiesAPI from "../../FacAPI/facultyActivitiesAPI";
 import CreateActivityModal from "./CreateActivityModal";
-import './Faculty.css';
+import './Activities.css'; 
+
 
 export default function Activities() {
   const { faculty } = useContext(AuthContext);
   const navigate = useNavigate();
-  
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState("");
   const [activities, setActivities] = useState([]);

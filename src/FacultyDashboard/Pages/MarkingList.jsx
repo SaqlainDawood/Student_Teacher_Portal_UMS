@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
-import FacultyGradingAPI from "../../api/facultyGradingAPI";
-import './Faculty.css';
+import FacultyGradingAPI from "../../FacAPI/facultyGradingAPI";
+import './MarkingList.css'; 
 
 export default function MarkingList() {
   const { activityId } = useParams();

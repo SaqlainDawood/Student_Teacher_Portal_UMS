@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
-import FacultyActivitiesAPI from "../../api/facultyActivitiesAPI";
-import './Faculty.css';
-
+import FacultyActivitiesAPI from "../../FacAPI/facultyActivitiesAPI";
+import './CreateActivityModal.css';
 const ACTIVITY_TYPES = [
   { value: "assignment", label: "Assignment", icon: "file-alt" },
   { value: "quiz", label: "Quiz", icon: "question-circle" },
