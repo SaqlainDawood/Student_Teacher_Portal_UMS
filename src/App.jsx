@@ -24,6 +24,8 @@ import MultiPartForm from './Forms/Multipartform/Multi_part_form'
 import StudentReg from './Forms/Student/StudentReg'
 import MarkAttendance from './FacultyDashboard/Pages/Attendance/MarkAttendance'
 import AttendanceReport from './FacultyDashboard/Pages/Attendance/AttendanceReport';
+import Activities from './FacultyDashboard/Pages/Activities'
+import MarkingList from './FacultyDashboard/Pages/MarkingList'
 import { useEffect , useState } from 'react'
 import Login from './FacultyDashboard/Form/Login'
 
@@ -58,6 +60,8 @@ function App() {
             <Route path="profile" element={<FacultyProfile />} />
             <Route path="/faculty/attendance/mark/:classId" element={<MarkAttendance />} />
             <Route path="/faculty/attendance/report/:classId" element={<AttendanceReport />} />
+             <Route path="activities" element={<Activities />} />
+             <Route path="grading/:activityId" element={<MarkingList />} />
 
           </Route>
            <Route path="*" element={<Navigate to ="/" replace />} />
