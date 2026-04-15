@@ -17,6 +17,7 @@ export default function FacultyDashboard() {
   const menuItems = [
     { path: "/faculty/dashboard",     name: "Dashboard",       icon: "tachometer-alt" },
     { path: "/faculty/profile",       name: "Profile",         icon: "user" },
+     { path: "/faculty/activities",    name: "Activities",      icon: "tasks" },     
     { path: "/faculty/addresult",     name: "Add Result",      icon: "file-alt" },
     { path: "/faculty/addnewclass",   name: "Add New Class",   icon: "book" },
   ];
