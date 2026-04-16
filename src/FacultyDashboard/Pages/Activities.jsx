@@ -6,6 +6,7 @@ import FacultyAPI from "../../FacAPI/facultyApi";
 import FacultyActivitiesAPI from "../../FacAPI/facultyActivitiesAPI";
 import CreateActivityModal from "./CreateActivityModal";
 import './Activities.css'; 
+
 export default function Activities() {
   const { faculty } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ export default function Activities() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [stats, setStats] = useState({});
 
-  // Activity types with icons and colors
   const activityTypes = {
     assignment: { icon: "file-alt", label: "Assignment", color: "#3498db" },
     quiz: { icon: "question-circle", label: "Quiz", color: "#9b59b6" },
@@ -26,11 +26,9 @@ export default function Activities() {
     final_exam: { icon: "graduation-cap", label: "Final Exam", color: "#c0392b" }
   };
 
-  // Fetch faculty classes using existing FacultyAPI
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        // Using your existing FacultyAPI instance
         const res = await FacultyAPI.get(`/dashboard/${faculty?._id}`);
         
         if (res.data.success) {
@@ -47,7 +45,6 @@ export default function Activities() {
     if (faculty?._id) fetchClasses();
   }, [faculty]);
 
-  // Fetch activities using FacultyActivitiesAPI
   useEffect(() => {
     if (selectedClass) {
       fetchActivities();
@@ -62,7 +59,6 @@ export default function Activities() {
       
       if (res.data.success) {
         setActivities(res.data.data);
-        // Calculate stats
         const statsData = {
           total: res.data.data.length,
           published: res.data.data.filter(a => a.isPublished).length,
@@ -114,26 +110,26 @@ export default function Activities() {
   return (
     <div className="activities-container">
       {/* Page Header */}
-      <div className="page-header">
-        <div className="page-header-left">
+      <div className="activities-page-header">
+        <div className="activities-header-left">
           <h1>Activities & Assessments</h1>
           <p>Manage assignments, quizzes, presentations, and exams</p>
         </div>
-        <div className="page-header-right">
-          <button className="btn-secondary" onClick={fetchActivities}>
+        <div className="activities-header-right">
+          <button className="activity-btn-secondary" onClick={fetchActivities}>
             <MDBIcon fas icon="sync-alt" /> Refresh
           </button>
-          <button className="btn-primary" onClick={() => setShowCreateModal(true)}>
+          <button className="activity-btn-primary" onClick={() => setShowCreateModal(true)}>
             <MDBIcon fas icon="plus" /> Create New
           </button>
         </div>
       </div>
 
       {/* Class Selector */}
-      <div className="class-selector">
+      <div className="activities-class-selector">
         <MDBIcon fas icon="book" style={{ color: "#7f8c8d" }} />
         <select 
-          className="class-select"
+          className="activities-class-select"
           value={selectedClass}
           onChange={(e) => setSelectedClass(e.target.value)}
         >
@@ -147,39 +143,39 @@ export default function Activities() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="filter-tabs">
+      <div className="activities-filter-tabs">
         <button 
-          className={`filter-tab ${filterType === "all" ? "active" : ""}`}
+          className={`activities-filter-tab ${filterType === "all" ? "active" : ""}`}
           onClick={() => setFilterType("all")}
         >
           All <span className="count-badge">{stats.total || 0}</span>
         </button>
         <button 
-          className={`filter-tab ${filterType === "assignment" ? "active" : ""}`}
+          className={`activities-filter-tab ${filterType === "assignment" ? "active" : ""}`}
           onClick={() => setFilterType("assignment")}
         >
           <MDBIcon fas icon="file-alt" /> Assignments
         </button>
         <button 
-          className={`filter-tab ${filterType === "quiz" ? "active" : ""}`}
+          className={`activities-filter-tab ${filterType === "quiz" ? "active" : ""}`}
           onClick={() => setFilterType("quiz")}
         >
           <MDBIcon fas icon="question-circle" /> Quizzes
         </button>
         <button 
-          className={`filter-tab ${filterType === "presentation" ? "active" : ""}`}
+          className={`activities-filter-tab ${filterType === "presentation" ? "active" : ""}`}
           onClick={() => setFilterType("presentation")}
         >
           <MDBIcon fas icon="file-powerpoint" /> Presentations
         </button>
         <button 
-          className={`filter-tab ${filterType === "mid_exam" ? "active" : ""}`}
+          className={`activities-filter-tab ${filterType === "mid_exam" ? "active" : ""}`}
           onClick={() => setFilterType("mid_exam")}
         >
           <MDBIcon fas icon="pen" /> Mid Exams
         </button>
         <button 
-          className={`filter-tab ${filterType === "final_exam" ? "active" : ""}`}
+          className={`activities-filter-tab ${filterType === "final_exam" ? "active" : ""}`}
           onClick={() => setFilterType("final_exam")}
         >
           <MDBIcon fas icon="graduation-cap" /> Final Exams
@@ -188,21 +184,21 @@ export default function Activities() {
 
       {/* Loading State */}
       {loading && (
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p style={{ marginTop: 16, color: "#7f8c8d" }}>Loading activities...</p>
+        <div className="activities-loading">
+          <div className="activities-loading-spinner"></div>
+          <p>Loading activities...</p>
         </div>
       )}
 
       {/* Empty State */}
       {!loading && activities.length === 0 && (
-        <div className="empty-state">
-          <div className="empty-icon">
+        <div className="activities-empty-state">
+          <div className="activities-empty-icon">
             <MDBIcon fas icon="folder-open" />
           </div>
           <h3>No activities found</h3>
           <p>Get started by creating your first activity for this class.</p>
-          <button className="btn-primary" onClick={() => setShowCreateModal(true)}>
+          <button className="activity-btn-primary" onClick={() => setShowCreateModal(true)}>
             <MDBIcon fas icon="plus" /> Create Activity
           </button>
         </div>
@@ -217,66 +213,66 @@ export default function Activities() {
             
             return (
               <div key={activity._id} className={`activity-card ${activity.type}`}>
-                <div className="card-header">
-                  <div className="card-icon">
+                <div className="activity-card-header">
+                  <div className="activity-card-icon">
                     <MDBIcon fas icon={typeInfo.icon} />
                   </div>
-                  <div className="card-info">
+                  <div className="activity-card-info">
                     <h3>{activity.title}</h3>
-                    <div className="card-meta">
+                    <div className="activity-card-meta">
                       <span><MDBIcon fas icon="clock" /> {new Date(activity.createdAt).toLocaleDateString()}</span>
                       <span><MDBIcon fas icon="users" /> {activity.submissionCount || 0} Submissions</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="card-body">
+                <div className="activity-card-body">
                   <p>{activity.description || "No description provided."}</p>
                   
                   {activity.type !== "presentation" && (
-                    <div className="card-stats">
-                      <div className="stat-item">
-                        <span className="stat-value">{activity.totalMarks}</span>
-                        <span className="stat-label">Total Marks</span>
+                    <div className="activity-card-stats">
+                      <div className="activity-stat-item">
+                        <span className="activity-stat-value">{activity.totalMarks}</span>
+                        <span className="activity-stat-label">Total Marks</span>
                       </div>
                       {activity.dueDate && (
-                        <div className="stat-item">
-                          <span className="stat-value">
+                        <div className="activity-stat-item">
+                          <span className="activity-stat-value">
                             {new Date(activity.dueDate).toLocaleDateString()}
                           </span>
-                          <span className="stat-label">Due Date</span>
+                          <span className="activity-stat-label">Due Date</span>
                         </div>
                       )}
                       {activity.type === "quiz" && activity.quizDetails && (
-                        <div className="stat-item">
-                          <span className="stat-value">{activity.quizDetails.questions?.length || 0}</span>
-                          <span className="stat-label">Questions</span>
+                        <div className="activity-stat-item">
+                          <span className="activity-stat-value">{activity.quizDetails.questions?.length || 0}</span>
+                          <span className="activity-stat-label">Questions</span>
                         </div>
                       )}
                     </div>
                   )}
                   
                   {activity.type === "presentation" && activity.attachments?.length > 0 && (
-                    <div className="card-stats">
-                      <div className="stat-item">
-                        <span className="stat-value">{activity.attachments.length}</span>
-                        <span className="stat-label">Files</span>
+                    <div className="activity-card-stats">
+                      <div className="activity-stat-item">
+                        <span className="activity-stat-value">{activity.attachments.length}</span>
+                        <span className="activity-stat-label">Files</span>
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div className="card-footer">
-                  <span className={`status-badge ${status}`}>
+                <div className="activity-card-footer">
+                  <span className={`activity-status-badge ${status}`}>
                     {status === "published" && <><MDBIcon fas icon="check-circle" /> Published</>}
                     {status === "draft" && <><MDBIcon fas icon="edit" /> Draft</>}
                     {status === "closed" && <><MDBIcon fas icon="lock" /> Closed</>}
                   </span>
                   
-                  <div className="card-actions">
+                  <div className="activity-card-actions">
                     {activity.type !== "presentation" && (
                       <button 
-                        className="icon-btn"
+                        className="activity-icon-btn"
                         onClick={() => handleGradeActivity(activity._id, activity.type)}
                         title="Grade Submissions"
                       >
@@ -284,14 +280,14 @@ export default function Activities() {
                       </button>
                     )}
                     <button 
-                      className="icon-btn"
+                      className="activity-icon-btn"
                       onClick={() => handleTogglePublish(activity._id, activity.isPublished)}
                       title={activity.isPublished ? "Unpublish" : "Publish"}
                     >
                       <MDBIcon fas icon={activity.isPublished ? "eye-slash" : "eye"} />
                     </button>
                     <button 
-                      className="icon-btn delete"
+                      className="activity-icon-btn delete"
                       onClick={() => handleDeleteActivity(activity._id)}
                       title="Archive"
                     >

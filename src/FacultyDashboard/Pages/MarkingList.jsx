@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
 import FacultyGradingAPI from "../../FacAPI/facultyGradingAPI";
 import './MarkingList.css'; 
+
 export default function MarkingList() {
   const { activityId } = useParams();
   const navigate = useNavigate();
@@ -32,7 +33,6 @@ export default function MarkingList() {
         setMarkingList(res.data.data.markingList);
         setSummary(res.data.data.summary);
         
-        // Initialize grades and feedbacks
         const initialGrades = {};
         const initialFeedbacks = {};
         res.data.data.markingList.forEach(item => {
@@ -73,7 +73,6 @@ export default function MarkingList() {
         { obtainedMarks: parseFloat(obtainedMarks), feedback }
       );
       
-      // Update local state
       setMarkingList(prev => prev.map(item => {
         if (item.submission?._id === submissionId) {
           return {
@@ -87,11 +86,6 @@ export default function MarkingList() {
           };
         }
         return item;
-      }));
-      
-      setSummary(prev => ({
-        ...prev,
-        graded: prev.graded + (markingList.find(m => m.submission?._id === submissionId)?.submission?.status !== "graded" ? 1 : 0)
       }));
       
     } catch (error) {
@@ -163,72 +157,68 @@ export default function MarkingList() {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p style={{ marginTop: 16, color: "#7f8c8d" }}>Loading marking list...</p>
+      <div className="marking-loading">
+        <div className="marking-loading-spinner"></div>
+        <p>Loading marking list...</p>
       </div>
     );
   }
 
   return (
     <div className="marking-container">
-      {/* Back Button */}
       <button 
-        className="btn-secondary" 
+        className="marking-back-btn" 
         onClick={() => navigate(-1)}
-        style={{ marginBottom: "20px" }}
       >
         <MDBIcon fas icon="arrow-left" /> Back to Activities
       </button>
 
-      {/* Activity Header */}
-      <div className="marking-header">
-        <div className="marking-title">
+      <div className="marking-header-card">
+        <div className="marking-title-section">
           <h2>{activity?.title}</h2>
-          <div className="marking-meta">
-            <span><MDBIcon fas icon="book" /> {classInfo?.name} ({classInfo?.code})</span>
-            <span><MDBIcon fas icon="chart-bar" /> Total Marks: {activity?.totalMarks}</span>
+          <div className="marking-meta-info">
+            <span className="marking-meta-item"><MDBIcon fas icon="book" /> {classInfo?.name} ({classInfo?.code})</span>
+            <span className="marking-meta-item"><MDBIcon fas icon="chart-bar" /> Total Marks: {activity?.totalMarks}</span>
             {activity?.dueDate && (
-              <span><MDBIcon fas icon="calendar" /> Due: {new Date(activity.dueDate).toLocaleDateString()}</span>
+              <span className="marking-meta-item"><MDBIcon fas icon="calendar" /> Due: {new Date(activity.dueDate).toLocaleDateString()}</span>
             )}
           </div>
         </div>
         
-        <div className="marking-stats">
-          <div className="stat-card">
-            <div className="stat-number">{summary.total || 0}</div>
-            <div className="stat-label">Total Students</div>
+        <div className="marking-stats-grid">
+          <div className="marking-stat-card">
+            <div className="marking-stat-number">{summary.total || 0}</div>
+            <div className="marking-stat-label">Total Students</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-number" style={{ color: "#3498db" }}>{summary.submitted || 0}</div>
-            <div className="stat-label">Submitted</div>
+          <div className="marking-stat-card">
+            <div className="marking-stat-number" style={{ color: "#3498db" }}>{summary.submitted || 0}</div>
+            <div className="marking-stat-label">Submitted</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-number" style={{ color: "#e74c3c" }}>{summary.notSubmitted || 0}</div>
-            <div className="stat-label">Not Submitted</div>
+          <div className="marking-stat-card">
+            <div className="marking-stat-number" style={{ color: "#e74c3c" }}>{summary.notSubmitted || 0}</div>
+            <div className="marking-stat-label">Not Submitted</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-number" style={{ color: "#27ae60" }}>{summary.graded || 0}</div>
-            <div className="stat-label">Graded</div>
+          <div className="marking-stat-card">
+            <div className="marking-stat-number" style={{ color: "#27ae60" }}>{summary.graded || 0}</div>
+            <div className="marking-stat-label">Graded</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-number" style={{ color: "#f39c12" }}>{summary.pending || 0}</div>
-            <div className="stat-label">Pending</div>
+          <div className="marking-stat-card">
+            <div className="marking-stat-number" style={{ color: "#f39c12" }}>{summary.pending || 0}</div>
+            <div className="marking-stat-label">Pending</div>
           </div>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+      <div className="marking-action-bar">
         {activity?.type === "quiz" && (
-          <button className="btn-secondary" onClick={handleAutoGrade}>
+          <button className="marking-btn-secondary" onClick={handleAutoGrade}>
             <MDBIcon fas icon="magic" /> Auto-Grade Quiz
           </button>
         )}
-        <button className="btn-secondary" onClick={handleExport}>
+        <button className="marking-btn-secondary" onClick={handleExport}>
           <MDBIcon fas icon="download" /> Export Grades
         </button>
-        <button className="btn-primary" onClick={saveAllGrades} disabled={autoSaving}>
+        <button className="marking-btn-primary" onClick={saveAllGrades} disabled={autoSaving}>
           {autoSaving ? (
             <><MDBIcon fas icon="spinner" spin /> Saving...</>
           ) : (
@@ -237,8 +227,7 @@ export default function MarkingList() {
         </button>
       </div>
 
-      {/* Marking Table */}
-      <div className="marking-table-container">
+      <div className="marking-table-wrapper">
         <table className="marking-table">
           <thead>
             <tr>
@@ -260,19 +249,19 @@ export default function MarkingList() {
               return (
                 <tr key={item.student._id}>
                   <td>
-                    <div className="student-info">
-                      <div className="student-avatar">
+                    <div className="marking-student-info">
+                      <div className="marking-student-avatar">
                         {item.student.name?.charAt(0) || "S"}
                       </div>
-                      <div className="student-details">
-                        <span className="student-name">{item.student.name}</span>
-                        <span className="student-roll">{item.student.registrationNo}</span>
+                      <div className="marking-student-details">
+                        <span className="marking-student-name">{item.student.name}</span>
+                        <span className="marking-student-reg">{item.student.registrationNo}</span>
                       </div>
                     </div>
                   </td>
                   <td>{item.student.rollNo || "-"}</td>
                   <td>
-                    <span className={`status-indicator ${item.submissionStatus}`}>
+                    <span className={`marking-status ${item.submissionStatus}`}>
                       {item.submissionStatus === "submitted" && (
                         isGraded ? (
                           <><MDBIcon fas icon="check-circle" style={{ color: "#27ae60" }} /> Graded</>
@@ -284,7 +273,7 @@ export default function MarkingList() {
                         <><MDBIcon fas icon="times-circle" style={{ color: "#e74c3c" }} /> Not Submitted</>
                       )}
                       {item.isLate && (
-                        <span className="status-indicator late" style={{ marginLeft: "8px" }}>
+                        <span className="marking-status late" style={{ marginLeft: "8px" }}>
                           Late ({item.lateDays}d)
                         </span>
                       )}
@@ -296,7 +285,7 @@ export default function MarkingList() {
                         href={`${import.meta.env.VITE_API_URL}${item.submission.fileUrl}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        style={{ color: "#3498db" }}
+                        className="marking-file-link"
                       >
                         <MDBIcon fas icon="file-download" /> View
                       </a>
@@ -306,7 +295,7 @@ export default function MarkingList() {
                     {item.submissionStatus === "submitted" ? (
                       <input
                         type="number"
-                        className={`grade-input ${isGraded ? "graded" : ""}`}
+                        className={`marking-grade-input ${isGraded ? "graded" : ""}`}
                         value={grades[submissionId] || ""}
                         onChange={(e) => handleGradeChange(submissionId, e.target.value)}
                         onBlur={() => saveGrade(submissionId)}
@@ -323,7 +312,7 @@ export default function MarkingList() {
                     {item.submissionStatus === "submitted" ? (
                       <input
                         type="text"
-                        className="feedback-input"
+                        className="marking-feedback-input"
                         placeholder="Add feedback..."
                         value={feedbacks[submissionId] || ""}
                         onChange={(e) => handleFeedbackChange(submissionId, e.target.value)}
@@ -337,7 +326,7 @@ export default function MarkingList() {
                   <td>
                     {item.submissionStatus === "submitted" && (
                       <button
-                        className="icon-btn"
+                        className="marking-action-btn"
                         onClick={() => saveGrade(submissionId)}
                         disabled={isSaving}
                         title="Save Grade"
