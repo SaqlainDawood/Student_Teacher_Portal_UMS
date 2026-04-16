@@ -39,7 +39,7 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Modal Header */
+/* Modal Header - Fixed at top */
 .modal-header {
   padding: 22px 28px;
   border-bottom: 1px solid #e9ecef;
@@ -47,6 +47,7 @@
   justify-content: space-between;
   align-items: center;
   background: white;
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .modal-header h2 {
@@ -76,6 +77,7 @@
   cursor: pointer;
   transition: all 0.25s ease;
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .modal-close:hover {
@@ -84,25 +86,44 @@
   transform: rotate(90deg);
 }
 
-/* Modal Body */
+/* Modal Body - Scrollable */
 .modal-body {
   padding: 28px;
-  overflow-y: auto;
+  overflow-y: auto !important; /* Force scroll */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   flex: 1;
   background: #fafbfc;
+  min-height: 0; /* Important for flex child scrolling */
 }
 
+/* Custom Scrollbar - Always visible on desktop */
 .modal-body::-webkit-scrollbar {
-  width: 6px;
+  width: 8px; /* Increased width for better visibility */
 }
 
 .modal-body::-webkit-scrollbar-track {
   background: #f1f3f5;
+  border-radius: 10px;
+  margin: 4px 0;
 }
 
 .modal-body::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 3px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* For Firefox */
+.modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f3f5;
 }
 
 /* Form Elements */
@@ -240,6 +261,7 @@
   margin-bottom: 16px;
   font-size: 16px;
   font-weight: 600;
+  display: block;
 }
 
 .modal-question-card {
@@ -288,6 +310,7 @@
   height: 20px;
   cursor: pointer;
   accent-color: #3498db;
+  flex-shrink: 0;
 }
 
 .modal-option-input {
@@ -346,7 +369,7 @@
   border-color: #3498db;
 }
 
-/* Modal Footer */
+/* Modal Footer - Fixed at bottom */
 .modal-footer {
   padding: 18px 28px;
   border-top: 1px solid #e9ecef;
@@ -354,6 +377,7 @@
   justify-content: flex-end;
   gap: 14px;
   background: white;
+  flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
 .modal-btn-primary {
@@ -404,7 +428,14 @@
   color: #2c3e50;
 }
 
-/* Responsive */
+/* Scroll Indicator - Shows there's more content */
+.modal-body::after {
+  content: '';
+  display: block;
+  height: 4px;
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .modal-type-selector {
     grid-template-columns: repeat(2, 1fr);
@@ -418,28 +449,69 @@
   .modal-container {
     max-width: 95%;
     max-height: 85vh;
+    border-radius: 16px;
   }
   
   .modal-header {
-    padding: 16px 20px;
+    padding: 16px 18px;
+  }
+  
+  .modal-header h2 {
+    font-size: 18px;
   }
   
   .modal-body {
-    padding: 20px;
+    padding: 18px;
+    /* Enhanced mobile scrolling */
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll !important;
   }
   
   .modal-footer {
+    padding: 14px 18px;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+  
+  .modal-btn-primary,
+  .modal-btn-secondary {
+    width: 100%;
+    justify-content: center;
     padding: 14px 20px;
+  }
+  
+  /* Make scrollbar more visible on mobile */
+  .modal-body::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .modal-body::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 4px;
   }
 }
 
 @media (max-width: 480px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+  
+  .modal-container {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
   .modal-type-selector {
     grid-template-columns: 1fr;
   }
   
   .modal-header h2 {
-    font-size: 18px;
+    font-size: 16px;
+  }
+  
+  .modal-close {
+    width: 36px;
+    height: 36px;
   }
   
   .modal-option-item {
@@ -448,5 +520,16 @@
   
   .modal-option-input {
     width: 100%;
+  }
+  
+  .modal-question-card {
+    padding: 16px;
+  }
+  
+  /* Ensure scroll works on very small screens */
+  .modal-body {
+    padding: 14px;
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch;
   }
 }
