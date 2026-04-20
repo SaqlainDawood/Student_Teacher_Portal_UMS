@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './FacultyLogin.css';
-import FacultyAPI from '../../FacAPI/facultyApi'
+import FacultyAPI from '../../FacAPI/facultyApi';
+import { AuthContext } from '../Context/AuthContext'; // 🆕 Import AuthContext
 
 export default function FacultyLogin() {
   const navigate = useNavigate();
+  const { loginFaculty } = useContext(AuthContext); // 🆕 Use AuthContext
+  
   const [login, setLogin] = useState({
     userName: '',
     password: '',
@@ -32,24 +35,19 @@ export default function FacultyLogin() {
         userName: login.userName,
         password: login.password,
       });
-        console.log("Login response:", res.data);
-       if (res.data.success) {
+      
+      console.log("Login response:", res.data);
+      
+      if (res.data.success) {
         toast.success(res.data.message);
         
-        // Clear any existing data
-        localStorage.clear();
+        // 🆕 Use AuthContext to login (this handles all storage)
+        loginFaculty(res.data.token, res.data.faculty);
         
-        // Store token
-        localStorage.setItem("facultyToken", res.data.token);
-        
-        // Store faculty data
-        const facultyData = res.data.faculty;
-        localStorage.setItem("facultyData", JSON.stringify(facultyData));
-        
-        // Store individual fields for easy access
-        localStorage.setItem("facultyId", facultyData._id);
-        localStorage.setItem("facultyName", facultyData.name);
-        localStorage.setItem("facultyEmail", facultyData.email);
+        // Also store individual fields if needed elsewhere
+        localStorage.setItem("facultyId", res.data.faculty._id);
+        localStorage.setItem("facultyName", `${res.data.faculty.firstName} ${res.data.faculty.lastName}`);
+        localStorage.setItem("facultyEmail", res.data.faculty.email || res.data.faculty.user?.email);
         
         // Verify storage
         console.log("Stored facultyId:", localStorage.getItem("facultyId"));
@@ -57,12 +55,12 @@ export default function FacultyLogin() {
         
         setTimeout(() => {
           navigate('/faculty/dashboard');
-        }, 2000);
+        }, 1500);
       } else {
         toast.error(res.data.message || "Login Failed");
       }
     } catch (error) {
-      toast.error("Invalid email or password");
+      toast.error("Invalid username or password");
       console.log("Faculty login error", error);
     } finally {
       setLoading(false);
