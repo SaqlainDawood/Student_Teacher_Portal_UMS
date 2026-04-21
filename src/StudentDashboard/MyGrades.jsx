@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
-import { AuthContext } from "../Context/AuthContext";
-import StudentActivitiesAPI from "../../api/studentActivitiesAPI";
+import { AuthContext } from "../FacultyDashboard/Context/AuthContext";
+import StudentActivitiesAPI from "./api/studentActivitiesApi";
 import './MyGrades.css';
 
 export default function MyGrades() {

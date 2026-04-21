@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
-import StudentActivitiesAPI from "../../api/studentActivitiesAPI";
+import StudentActivitiesAPI from "./api/studentActivitiesApi";
 import './TakeQuiz.css';
 
 export default function TakeQuiz() {

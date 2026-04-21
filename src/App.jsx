@@ -27,7 +27,11 @@ import AttendanceReport from './FacultyDashboard/Pages/Attendance/AttendanceRepo
 import Activities from './FacultyDashboard/Pages/Activities'
 import MarkingList from './FacultyDashboard/Pages/MarkingList'
 import { useEffect , useState } from 'react'
-import Login from './FacultyDashboard/Form/Login'
+import MyActivities from './StudentDashboard/MyActivities'
+import MyGrades from './StudentDashboard/MyGrades'
+import SubmitAssignment from './StudentDashboard/SubmitAssignment'
+import TakeQuiz from './StudentDashboard/TakeQuiz'
+
 
 function App() {
    return (
@@ -49,6 +53,11 @@ function App() {
             <Route path="result" element={<StudentResult />} />
             <Route path="notes" element={<StudentNotes />} />
             <Route path="attendance" element={<StudentAttendance />} />
+             <Route path="activities" element={<MyActivities />} />
+            <Route path="grades" element={<MyGrades />} />
+            <Route path="submit/:activityId" element={<SubmitAssignment />} />
+            <Route path="take-quiz/:activityId" element={<TakeQuiz />} />
+             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
                {/* Facult Dashbaord */}
            
@@ -62,7 +71,7 @@ function App() {
             <Route path="/faculty/attendance/report/:classId" element={<AttendanceReport />} />
              <Route path="activities" element={<Activities />} />
              <Route path="grading/:activityId" element={<MarkingList />} />
-
+             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
            <Route path="*" element={<Navigate to ="/" replace />} />
       </Routes>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
-import { AuthContext } from "../Context/AuthContext";
+import { AuthContext } from "../FacultyDashboard/Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import StudentActivitiesAPI from "./api/studentActivitiesApi";
 import './MyActivities.css';
