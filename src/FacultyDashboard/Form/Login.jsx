@@ -8,7 +8,6 @@ import { AuthContext } from '../Context/AuthContext'; // 🆕 Import AuthContext
 export default function FacultyLogin() {
   const navigate = useNavigate();
   const { loginFaculty } = useContext(AuthContext); // 🆕 Use AuthContext
-  
   const [login, setLogin] = useState({
     userName: '',
     password: '',

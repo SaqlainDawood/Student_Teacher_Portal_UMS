@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import API from '../../api';
 import './StudentLogin.css';
-import { AuthContext } from '../Context/AuthContext'; // 🆕 Import AuthContext
+import { AuthContext } from '../../FacultyDashboard/Context/AuthContext'; // 🆕 Import AuthContext
 
 export default function StudentLogin() {
   const navigate = useNavigate();
