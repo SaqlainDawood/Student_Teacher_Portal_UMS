@@ -5,24 +5,47 @@ const API = axios.create({
   withCredentials: true,
 });
 
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("studentToken");
+// ==========================================
+// Request Interceptor
+// ==========================================
+API.interceptors.request.use(
+  (config) => {
+    const token =
+      localStorage.getItem("studentToken");
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers =
+        config.headers || {};
+
+      config.headers.Authorization =
+        `Bearer ${token}`;
+    }
+
+    console.log(
+      "Request URL:",
+      `${config.baseURL}${config.url}`
+    );
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
+);
 
-  console.log("Request URL:", config.baseURL + config.url);
-
-  return config;
-});
-
-// Handle authentication errors
+// ==========================================
+// Response Interceptor
+// ==========================================
 API.interceptors.response.use(
   (response) => {
-    console.log("Response Status:", response.status);
+    console.log(
+      "Response Status:",
+      response.status
+    );
+
     return response;
   },
+
   (error) => {
     console.error(
       "Response Error:",
@@ -30,12 +53,25 @@ API.interceptors.response.use(
       error.response?.data
     );
 
+    // --------------------------------------
+    // Unauthorized
+    // --------------------------------------
     if (error.response?.status === 401) {
-      localStorage.removeItem("studentToken");
-      localStorage.removeItem("studentData");
-      localStorage.removeItem("studentId");
+      localStorage.removeItem(
+        "studentToken"
+      );
 
-      window.location.href = "/student/login";
+      localStorage.removeItem(
+        "studentData"
+      );
+
+      // Student ID ko immediately remove
+      // nahi kar rahe because draft registration
+      // us par depend kar sakti hai.
+      // localStorage.removeItem("studentId");
+
+      window.location.href =
+        "/student/login";
     }
 
     return Promise.reject(error);
