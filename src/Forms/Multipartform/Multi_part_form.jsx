@@ -32,7 +32,7 @@ const MultiPartForm = () => {
       if (draftId) {
         setResumingDraft(true);
         try {
-          const response = await API.get(`/student/draft/${draftId}`);
+          const response = await API.get(`/draft/${draftId}`);
           if (response.data.success) {
             const student = response.data.student;
             setStudentId(draftId);
@@ -128,10 +128,15 @@ const MultiPartForm = () => {
         }
       }
       
-      const response = await API.post(`/step/${stepNumber}`, formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });
-      
+     const response = await API.post(
+  `/step/${stepNumber}`,
+  formDataToSend,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }
+);
       if (response.data.success) {
         if (!studentId) {
           setStudentId(response.data.studentId);
@@ -208,7 +213,7 @@ const MultiPartForm = () => {
     if (result.success) {
       localStorage.removeItem("registrationFormData");
       toast.success("Registration Completed Successfully!");
-      setTimeout(() => navigate("/student/enroll"), 2000);
+      setTimeout(() => navigate("/enroll"), 2000);
     }
   };
 
