@@ -128,7 +128,7 @@ const MultiPartForm = () => {
         }
       }
       
-      const response = await API.post(`/student/step/${stepNumber}`, formDataToSend, {
+      const response = await API.post(`/step/${stepNumber}`, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       
