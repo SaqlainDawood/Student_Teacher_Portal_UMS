@@ -1,225 +1,575 @@
-.step-form {
-  animation: fadeIn 0.5s ease-out;
-  font-family: 'Inter', sans-serif;
+/* =========================================================
+   STEP 4 - PREMIUM ENROLLMENT UI
+   ========================================================= */
+
+.step4-wrapper {
+  width: 100%;
+  color: #25213d;
+  animation: step4FadeIn 0.35s ease;
 }
 
-@keyframes fadeIn {
+@keyframes step4FadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.section-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 2rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 3px solid #e5e7eb;
-  position: relative;
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.step4-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 18px;
+  margin-bottom: 28px;
 }
 
-.section-title i {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 1.5rem;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 3px;
-}
-
-.enrollment-summary {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  padding: 1rem 1.25rem;
-  border-radius: 1rem;
-  margin-bottom: 2rem;
+.step4-header-icon {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 16px;
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  border-left: 4px solid #f59e0b;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    #6d28d9,
+    #8b5cf6
+  );
+  color: #fff;
+  font-size: 25px;
+  box-shadow: 0 10px 25px rgba(109, 40, 217, 0.2);
 }
 
-.enrollment-summary i {
-  color: #d97706;
-  font-size: 1.2rem;
+.step4-eyebrow {
+  display: block;
+  color: #7c3aed;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  margin-bottom: 5px;
+}
+
+.step4-header h3 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 800;
+  color: #24203b;
+}
+
+.step4-header p {
+  margin: 6px 0 0;
+  color: #77728b;
+  font-size: 14px;
+}
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.step4-card {
+  background: #fff;
+  border: 1px solid #eeeaf7;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(42, 25, 75, 0.06);
+  margin-bottom: 22px;
+}
+
+.step4-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 22px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #f0edf7;
+}
+
+.step4-section-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 13px;
+  background: #f2edff;
+  color: #6d28d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.step4-card-header h5 {
+  margin: 0;
+  color: #2b2544;
+  font-weight: 750;
+  font-size: 17px;
+}
+
+.step4-card-header p {
+  margin: 4px 0 0;
+  color: #8a849c;
+  font-size: 13px;
+}
+
+/* =========================================================
+   FORM FIELDS
+   ========================================================= */
+
+.step4-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #39334e;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.step4-field label svg {
+  color: #7c3aed;
+  font-size: 13px;
+}
+
+.step4-field label span {
+  color: #e11d48;
+  margin-left: 1px;
+}
+
+.step4-select-wrapper {
+  position: relative;
+}
+
+.step4-select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #ddd8ea;
+  border-radius: 11px;
+  background-color: #fff;
+  color: #322d48;
+  padding: 0 42px 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  appearance: auto;
+}
+
+.step4-select:hover:not(:disabled) {
+  border-color: #b9a5e9;
+}
+
+.step4-select:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.step4-select:disabled {
+  background: #f8f7fb;
+  color: #9893a5;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.step4-readonly-select {
+  background: #f7f5ff;
+}
+
+.step4-field small {
+  display: block;
+  margin-top: 7px;
+  color: #9892a4;
+  font-size: 11.5px;
+}
+
+.step4-spinner {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7c3aed;
+  animation: step4Spin 0.8s linear infinite;
+}
+
+@keyframes step4Spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* =========================================================
+   SUCCESS TEXT
+   ========================================================= */
+
+.step4-success-text {
+  display: flex !important;
+  align-items: center;
+  gap: 5px;
+  color: #16a34a !important;
+  font-weight: 600;
+}
+
+/* =========================================================
+   SHIFT BOX
+   ========================================================= */
+
+.step4-shift-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  padding: 16px 18px;
+  border: 1px solid #e5ddff;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #faf8ff,
+    #f6f1ff
+  );
+}
+
+.step4-shift-icon {
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #ede5ff;
+  color: #6d28d9;
+  font-size: 17px;
+}
+
+.step4-shift-content {
+  flex: 1;
+}
+
+.step4-shift-content span {
+  display: block;
+  color: #8a839d;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.step4-shift-content strong {
+  display: block;
+  color: #30264d;
+  font-size: 15px;
   margin-top: 2px;
 }
 
-.enrollment-summary div {
-  font-size: 0.9rem;
-  color: #92400e;
-  line-height: 1.5;
-}
-
-.luxury-input-group {
-  margin-bottom: 0;
-}
-
-.luxury-input-group label {
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 0.5rem;
+.step4-shift-content small {
   display: block;
-  font-size: 0.9rem;
-  letter-spacing: -0.2px;
+  color: #918ba0;
+  font-size: 11.5px;
+  margin-top: 3px;
 }
 
-.required-star {
-  color: #ef4444;
-  margin-left: 3px;
+.step4-shift-check {
+  color: #16a34a;
+  font-size: 19px;
 }
 
-.input-icon-wrapper {
-  position: relative;
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.step4-summary {
+  background: #fff;
+  border: 1px solid #eeeaf7;
+  border-radius: 20px;
+  padding: 25px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 25px rgba(42, 25, 75, 0.04);
+}
+
+.step4-summary-header {
   display: flex;
   align-items: center;
+  gap: 13px;
+  margin-bottom: 22px;
 }
 
-.input-icon-wrapper i {
-  position: absolute;
-  left: 15px;
-  color: #9ca3af;
-  font-size: 1rem;
-  z-index: 1;
-  transition: all 0.3s ease;
-}
-
-.input-icon-wrapper select {
-  width: 100%;
-  padding: 0.85rem 1rem 0.85rem 2.75rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.75rem;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  background: white;
-  font-family: 'Inter', sans-serif;
-  color: #1f2937;
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.2rem;
-}
-
-.input-icon-wrapper select:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-}
-
-.input-icon-wrapper select:hover:not(:focus) {
-  border-color: #c7d2fe;
-  background-color: #fafbff;
-}
-
-.input-icon-wrapper select:focus + i {
-  color: #667eea;
-}
-
-select optgroup {
-  font-weight: 700;
-  color: #374151;
-  background: #f9fafb;
-}
-
-select option {
-  padding: 0.5rem;
-}
-
-.btn-group-wrapper {
+.step4-summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #ecfdf3;
+  color: #16a34a;
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-back {
-  background: #6c757d;
-  border: none;
-  padding: 0.875rem 2rem;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-  color: white;
-  display: inline-flex;
+.step4-summary-header h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+  color: #302a46;
+}
+
+.step4-summary-header p {
+  margin: 3px 0 0;
+  color: #918b9d;
+  font-size: 12px;
+}
+
+.step4-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.step4-summary-item {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #eeeaf5;
+  border-radius: 12px;
+  background: #fbfaff;
+}
+
+.step4-summary-item span {
+  display: block;
+  color: #918b9f;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.step4-summary-item strong {
+  display: block;
+  color: #38304e;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
+   NOTICE
+   ========================================================= */
+
+.step4-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px 17px;
+  margin-bottom: 24px;
+  border: 1px solid #ddd4ff;
+  border-radius: 13px;
+  background: #f8f5ff;
+  color: #6d28d9;
+}
+
+.step4-notice > svg {
+  margin-top: 2px;
+  font-size: 17px;
+}
+
+.step4-notice strong {
+  display: block;
+  color: #4c1d95;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.step4-notice p {
+  margin: 0;
+  color: #776e8d;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.step4-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-top: 4px;
+}
+
+.step4-actions .btn {
+  margin: 0;
+  border-radius: 11px;
+  height: 46px;
+  padding: 0 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: none;
+  box-shadow: none;
+}
+
+.step4-back-btn {
+  background: #f5f3f8 !important;
+  color: #5f596e !important;
+  border: 1px solid #e5e1eb !important;
+  display: inline-flex !important;
   align-items: center;
   gap: 8px;
 }
 
-.btn-back:hover {
-  background: #5a6268;
-  transform: translateX(-2px);
+.step4-back-btn:hover:not(:disabled) {
+  background: #ece9f1 !important;
 }
 
-.btn-submit {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  border: none;
-  padding: 0.875rem 2rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-  color: white;
-  display: inline-flex;
+.step4-submit-btn {
+  background: linear-gradient(
+    135deg,
+    #6d28d9,
+    #7c3aed
+  ) !important;
+  color: #fff !important;
+  border: none !important;
+  display: inline-flex !important;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
+  min-width: 205px;
+  box-shadow: 0 8px 20px rgba(109, 40, 217, 0.2) !important;
+  transition: all 0.2s ease !important;
 }
 
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+.step4-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 11px 25px rgba(109, 40, 217, 0.28) !important;
 }
 
-@media (max-width: 768px) {
-  .section-title {
-    font-size: 1.4rem;
+.step4-submit-btn:disabled,
+.step4-back-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.step4-button-spinner {
+  animation: step4ButtonSpin 0.8s linear infinite;
+}
+
+@keyframes step4ButtonSpin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .input-icon-wrapper select {
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
-    font-size: 0.9rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 992px) {
+  .step4-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .btn-back,
-  .btn-submit {
-    flex: 1;
-    justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .step4-header {
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 22px;
   }
-  
-  .enrollment-summary {
-    font-size: 0.85rem;
+
+  .step4-header-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 13px;
+    font-size: 20px;
+  }
+
+  .step4-header h3 {
+    font-size: 21px;
+  }
+
+  .step4-header p {
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .step4-card,
+  .step4-summary {
+    padding: 20px 17px;
+    border-radius: 16px;
+  }
+
+  .step4-card-header {
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+  }
+
+  .step4-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step4-summary-item strong {
+    white-space: normal;
+  }
+
+  .step4-shift-box {
+    align-items: flex-start;
+  }
+
+  .step4-shift-check {
+    margin-top: 5px;
+  }
+
+  .step4-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .step4-actions .btn {
+    width: 100%;
+  }
+
+  .step4-submit-btn {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .section-title {
-    font-size: 1.2rem;
+  .step4-header {
+    display: block;
   }
-  
-  .luxury-input-group label {
-    font-size: 0.85rem;
+
+  .step4-header-icon {
+    margin-bottom: 12px;
+  }
+
+  .step4-eyebrow {
+    font-size: 10px;
+  }
+
+  .step4-header h3 {
+    font-size: 20px;
+  }
+
+  .step4-card-header h5 {
+    font-size: 15px;
+  }
+
+  .step4-select {
+    height: 46px;
+    font-size: 13px;
+  }
+
+  .step4-notice {
+    padding: 13px;
   }
 }

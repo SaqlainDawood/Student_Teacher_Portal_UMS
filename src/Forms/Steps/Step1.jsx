@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   MDBBtn,
@@ -8,11 +9,20 @@ import {
   MDBFile,
   MDBInput,
   MDBRow,
-  MDBSelect,
   MDBTextArea,
 } from "mdb-react-ui-kit";
-import { FaArrowRight, FaSpinner } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaCheckCircle,
+  FaIdCard,
+  FaImage,
+  FaMapMarkerAlt,
+  FaSpinner,
+  FaUser,
+  FaUserCircle,
+} from "react-icons/fa";
 import { toast } from "react-toastify";
+import "./Step1.css";
 
 const initialFormData = {
   firstName: "",
@@ -71,8 +81,9 @@ export default function Step1({
   const [errors, setErrors] = useState({});
 
   // ==========================================
-  // Handle normal inputs
+  // Normal inputs
   // ==========================================
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -90,25 +101,29 @@ export default function Step1({
   };
 
   // ==========================================
-  // Handle Select
+  // Select inputs
   // ==========================================
-  const handleSelectChange = (value, field) => {
+
+  const handleSelectChange = (e) => {
+    const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [field]: value,
+      [name]: value,
     }));
 
-    if (errors[field]) {
+    if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
-        [field]: "",
+        [name]: "",
       }));
     }
   };
 
   // ==========================================
-  // Handle CNIC
+  // CNIC
   // ==========================================
+
   const handleCnicChange = (e) => {
     const value = e.target.value
       .replace(/\D/g, "")
@@ -128,8 +143,9 @@ export default function Step1({
   };
 
   // ==========================================
-  // Handle Phone
+  // Phone
   // ==========================================
+
   const handlePhoneChange = (e) => {
     const value = e.target.value
       .replace(/\D/g, "")
@@ -149,8 +165,9 @@ export default function Step1({
   };
 
   // ==========================================
-  // Handle Profile Image
+  // Profile Image
   // ==========================================
+
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
 
@@ -192,6 +209,7 @@ export default function Step1({
   // ==========================================
   // Validation
   // ==========================================
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -216,9 +234,6 @@ export default function Step1({
     const province = formData.province?.trim() || "";
     const domicile = formData.domicile?.trim() || "";
 
-    // ------------------------------------------
-    // First Name
-    // ------------------------------------------
     if (!firstName) {
       newErrors.firstName = "First name is required.";
     } else if (firstName.length < 2) {
@@ -232,9 +247,6 @@ export default function Step1({
         "First name can only contain letters, spaces, apostrophe or hyphen.";
     }
 
-    // ------------------------------------------
-    // Last Name
-    // ------------------------------------------
     if (!lastName) {
       newErrors.lastName = "Last name is required.";
     } else if (lastName.length < 2) {
@@ -248,9 +260,6 @@ export default function Step1({
         "Last name can only contain letters, spaces, apostrophe or hyphen.";
     }
 
-    // ------------------------------------------
-    // CNIC
-    // ------------------------------------------
     if (!cnic) {
       newErrors.cnic = "CNIC is required.";
     } else if (!cnicRegex.test(cnic)) {
@@ -258,9 +267,6 @@ export default function Step1({
         "CNIC must contain exactly 13 digits.";
     }
 
-    // ------------------------------------------
-    // Phone
-    // ------------------------------------------
     if (!phoneNo) {
       newErrors.phoneNo = "Phone number is required.";
     } else if (!phoneRegex.test(phoneNo)) {
@@ -268,9 +274,6 @@ export default function Step1({
         "Phone number must be 11 digits and start with 03.";
     }
 
-    // ------------------------------------------
-    // Email
-    // ------------------------------------------
     if (!email) {
       newErrors.email = "Email is required.";
     } else if (!emailRegex.test(email)) {
@@ -278,9 +281,6 @@ export default function Step1({
         "Please enter a valid email address.";
     }
 
-    // ------------------------------------------
-    // Present Address
-    // ------------------------------------------
     if (!presentAddress) {
       newErrors.presentAddress =
         "Present address is required.";
@@ -292,9 +292,6 @@ export default function Step1({
         "Present address cannot exceed 300 characters.";
     }
 
-    // ------------------------------------------
-    // Permanent Address
-    // ------------------------------------------
     if (!permanentAddress) {
       newErrors.permanentAddress =
         "Permanent address is required.";
@@ -306,39 +303,24 @@ export default function Step1({
         "Permanent address cannot exceed 300 characters.";
     }
 
-    // ------------------------------------------
-    // Religion
-    // ------------------------------------------
     if (!religion) {
       newErrors.religion = "Please select religion.";
     }
 
-    // ------------------------------------------
-    // Gender
-    // ------------------------------------------
     if (!gender) {
       newErrors.gender = "Please select gender.";
     }
 
-    // ------------------------------------------
-    // Blood Group
-    // ------------------------------------------
     if (!bloodGroup) {
       newErrors.bloodGroup =
         "Please select blood group.";
     }
 
-    // ------------------------------------------
-    // Marital Status
-    // ------------------------------------------
     if (!maritalStatus) {
       newErrors.maritalStatus =
         "Please select marital status.";
     }
 
-    // ------------------------------------------
-    // Nationality
-    // ------------------------------------------
     if (!nationality) {
       newErrors.nationality =
         "Nationality is required.";
@@ -347,11 +329,9 @@ export default function Step1({
         "Please enter a valid nationality.";
     }
 
-    // ------------------------------------------
-    // DOB
-    // ------------------------------------------
     if (!DOB) {
-      newErrors.DOB = "Date of birth is required.";
+      newErrors.DOB =
+        "Date of birth is required.";
     } else {
       const dobDate = new Date(DOB);
       const today = new Date();
@@ -365,23 +345,16 @@ export default function Step1({
       }
     }
 
-    // ------------------------------------------
-    // Province
-    // ------------------------------------------
     if (!province) {
-      newErrors.province = "Province is required.";
+      newErrors.province =
+        "Province is required.";
     }
 
-    // ------------------------------------------
-    // Domicile
-    // ------------------------------------------
     if (!domicile) {
-      newErrors.domicile = "Domicile is required.";
+      newErrors.domicile =
+        "Domicile is required.";
     }
 
-    // ------------------------------------------
-    // Profile Image
-    // ------------------------------------------
     if (!profileImage) {
       newErrors.profileImage =
         "Profile image is required.";
@@ -395,6 +368,7 @@ export default function Step1({
   // ==========================================
   // Submit
   // ==========================================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -411,9 +385,6 @@ export default function Step1({
       return;
     }
 
-    // ------------------------------------------
-    // Clean data
-    // ------------------------------------------
     const cleanData = {
       firstName: formData.firstName.trim(),
       lastName: formData.lastName.trim(),
@@ -436,18 +407,13 @@ export default function Step1({
       domicile: formData.domicile.trim(),
     };
 
-    /*
-      IMPORTANT:
-
-      profileImage ko cleanData mein nahi rakha.
-      Parent MultiPartForm is file ko exactly ONE time
-      FormData mein append karega.
-    */
-
     const fd = new FormData();
 
     if (profileImage instanceof File) {
-      fd.append("profileImage", profileImage);
+      fd.append(
+        "profileImage",
+        profileImage
+      );
     }
 
     try {
@@ -460,549 +426,505 @@ export default function Step1({
     }
   };
 
+  const renderError = (field) =>
+    errors[field] ? (
+      <div className="step1-error">
+        {errors[field]}
+      </div>
+    ) : null;
+
   return (
-    <MDBContainer className="py-4">
-      <MDBCard className="shadow-sm border-0">
-        <MDBCardBody className="p-4">
+    <MDBContainer className="step1-container py-4">
+      <MDBCard className="step1-card border-0">
+        <MDBCardBody className="p-0">
 
-          {/* =================================
-              Header
-          ================================= */}
-          <div className="mb-4">
-            <h3 className="fw-bold mb-1">
-              Personal Information
-            </h3>
+          {/* ============================= */}
+          {/* Header */}
+          {/* ============================= */}
 
-            <p className="text-muted mb-0">
-              Please provide your personal information
-              accurately.
-            </p>
+          <div className="step1-header">
+            <div className="step1-header-icon">
+              <FaUser />
+            </div>
+
+            <div>
+              <div className="step1-step-label">
+                STEP 1 OF 4
+              </div>
+
+              <h3>
+                Personal Information
+              </h3>
+
+              <p>
+                Please provide your personal
+                information accurately.
+              </p>
+            </div>
           </div>
 
           <form
             onSubmit={handleSubmit}
             noValidate
+            className="step1-form"
           >
 
-            {/* =================================
-                First Name / Last Name
-            ================================= */}
-            <MDBRow className="g-3">
+            {/* ============================= */}
+            {/* Personal Details */}
+            {/* ============================= */}
 
-              <MDBCol md="6">
-                <MDBInput
-                  label="First Name *"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  disabled={loading}
-                  type="text"
-                  maxLength={50}
-                  autoComplete="given-name"
-                />
+            <div className="step1-section">
+              <div className="step1-section-heading">
+                <div className="step1-section-icon">
+                  <FaUser />
+                </div>
 
-                {errors.firstName && (
-                  <div className="text-danger small mt-1">
-                    {errors.firstName}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="6">
-                <MDBInput
-                  label="Last Name *"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  disabled={loading}
-                  type="text"
-                  maxLength={50}
-                  autoComplete="family-name"
-                />
-
-                {errors.lastName && (
-                  <div className="text-danger small mt-1">
-                    {errors.lastName}
-                  </div>
-                )}
-              </MDBCol>
-
-            </MDBRow>
-
-            {/* =================================
-                CNIC / Phone / Email
-            ================================= */}
-            <MDBRow className="g-3 mt-1">
-
-              <MDBCol md="4">
-                <MDBInput
-                  label="CNIC *"
-                  name="cnic"
-                  value={formData.cnic}
-                  onChange={handleCnicChange}
-                  disabled={loading}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={13}
-                  placeholder="1234567890127"
-                />
-
-                {errors.cnic && (
-                  <div className="text-danger small mt-1">
-                    {errors.cnic}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="4">
-                <MDBInput
-                  label="Phone Number *"
-                  name="phoneNo"
-                  value={formData.phoneNo}
-                  onChange={handlePhoneChange}
-                  disabled={loading}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={11}
-                  placeholder="03001234522"
-                />
-
-                {errors.phoneNo && (
-                  <div className="text-danger small mt-1">
-                    {errors.phoneNo}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="4">
-                <MDBInput
-                  label="Email *"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled={loading}
-                  type="email"
-                  autoComplete="email"
-                  maxLength={100}
-                  placeholder="alikahn@example.com"
-                />
-
-                {errors.email && (
-                  <div className="text-danger small mt-1">
-                    {errors.email}
-                  </div>
-                )}
-              </MDBCol>
-
-            </MDBRow>
-
-            {/* =================================
-                Present / Permanent Address
-            ================================= */}
-            <MDBRow className="g-3 mt-1">
-
-              <MDBCol md="6">
-                <MDBTextArea
-                  label="Present Address *"
-                  name="presentAddress"
-                  value={formData.presentAddress}
-                  onChange={handleChange}
-                  disabled={loading}
-                  rows={4}
-                  maxLength={300}
-                />
-
-                {errors.presentAddress && (
-                  <div className="text-danger small mt-1">
-                    {errors.presentAddress}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="6">
-                <MDBTextArea
-                  label="Permanent Address *"
-                  name="permanentAddress"
-                  value={formData.permanentAddress}
-                  onChange={handleChange}
-                  disabled={loading}
-                  rows={4}
-                  maxLength={300}
-                />
-
-                {errors.permanentAddress && (
-                  <div className="text-danger small mt-1">
-                    {errors.permanentAddress}
-                  </div>
-                )}
-              </MDBCol>
-
-            </MDBRow>
-
-            {/* =================================
-                Religion / Gender
-            ================================= */}
-            <MDBRow className="g-3 mt-1">
-
-              <MDBCol md="6">
-                <MDBSelect
-                  label="Religion *"
-                  value={formData.religion}
-                  onValueChange={(value) =>
-                    handleSelectChange(
-                      value,
-                      "religion"
-                    )
-                  }
-                  data={[
-                    {
-                      text: "Islam",
-                      value: "Islam",
-                    },
-                    {
-                      text: "Christianity",
-                      value: "Christianity",
-                    },
-                    {
-                      text: "Hinduism",
-                      value: "Hinduism",
-                    },
-                    {
-                      text: "Sikhism",
-                      value: "Sikhism",
-                    },
-                    {
-                      text: "Other",
-                      value: "Other",
-                    },
-                  ]}
-                  disabled={loading}
-                />
-
-                {errors.religion && (
-                  <div className="text-danger small mt-1">
-                    {errors.religion}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="6">
-                <MDBSelect
-                  label="Gender *"
-                  value={formData.gender}
-                  onValueChange={(value) =>
-                    handleSelectChange(
-                      value,
-                      "gender"
-                    )
-                  }
-                  data={[
-                    {
-                      text: "Male",
-                      value: "Male",
-                    },
-                    {
-                      text: "Female",
-                      value: "Female",
-                    },
-                    {
-                      text: "Other",
-                      value: "Other",
-                    },
-                  ]}
-                  disabled={loading}
-                />
-
-                {errors.gender && (
-                  <div className="text-danger small mt-1">
-                    {errors.gender}
-                  </div>
-                )}
-              </MDBCol>
-
-            </MDBRow>
-
-            {/* =================================
-                Blood / Marital / Nationality
-            ================================= */}
-            <MDBRow className="g-3 mt-1">
-
-              <MDBCol md="4">
-                <MDBSelect
-                  label="Blood Group *"
-                  value={formData.bloodGroup}
-                  onValueChange={(value) =>
-                    handleSelectChange(
-                      value,
-                      "bloodGroup"
-                    )
-                  }
-                  data={[
-                    {
-                      text: "A+",
-                      value: "A+",
-                    },
-                    {
-                      text: "A-",
-                      value: "A-",
-                    },
-                    {
-                      text: "B+",
-                      value: "B+",
-                    },
-                    {
-                      text: "B-",
-                      value: "B-",
-                    },
-                    {
-                      text: "AB+",
-                      value: "AB+",
-                    },
-                    {
-                      text: "AB-",
-                      value: "AB-",
-                    },
-                    {
-                      text: "O+",
-                      value: "O+",
-                    },
-                    {
-                      text: "O-",
-                      value: "O-",
-                    },
-                  ]}
-                  disabled={loading}
-                />
-
-                {errors.bloodGroup && (
-                  <div className="text-danger small mt-1">
-                    {errors.bloodGroup}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="4">
-                <MDBSelect
-                  label="Marital Status *"
-                  value={formData.maritalStatus}
-                  onValueChange={(value) =>
-                    handleSelectChange(
-                      value,
-                      "maritalStatus"
-                    )
-                  }
-                  data={[
-                    {
-                      text: "Single",
-                      value: "Single",
-                    },
-                    {
-                      text: "Married",
-                      value: "Married",
-                    },
-                    {
-                      text: "Divorced",
-                      value: "Divorced",
-                    },
-                    {
-                      text: "Widowed",
-                      value: "Widowed",
-                    },
-                  ]}
-                  disabled={loading}
-                />
-
-                {errors.maritalStatus && (
-                  <div className="text-danger small mt-1">
-                    {errors.maritalStatus}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="4">
-                <MDBInput
-                  label="Nationality *"
-                  name="nationality"
-                  value={formData.nationality}
-                  onChange={handleChange}
-                  disabled={loading}
-                  type="text"
-                  maxLength={50}
-                  placeholder="Pakistani"
-                />
-
-                {errors.nationality && (
-                  <div className="text-danger small mt-1">
-                    {errors.nationality}
-                  </div>
-                )}
-              </MDBCol>
-
-            </MDBRow>
-
-            {/* =================================
-                DOB / Province / Domicile
-            ================================= */}
-            <MDBRow className="g-3 mt-1">
-
-              <MDBCol md="4">
-                <MDBInput
-                  label="Date of Birth *"
-                  name="DOB"
-                  value={formData.DOB}
-                  onChange={handleChange}
-                  disabled={loading}
-                  type="date"
-                  max={
-                    new Date()
-                      .toISOString()
-                      .split("T")[0]
-                  }
-                />
-
-                {errors.DOB && (
-                  <div className="text-danger small mt-1">
-                    {errors.DOB}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="4">
-                <MDBSelect
-                  label="Province *"
-                  value={formData.province}
-                  onValueChange={(value) =>
-                    handleSelectChange(
-                      value,
-                      "province"
-                    )
-                  }
-                  data={[
-                    {
-                      text: "Punjab",
-                      value: "Punjab",
-                    },
-                    {
-                      text: "Sindh",
-                      value: "Sindh",
-                    },
-                    {
-                      text: "Khyber Pakhtunkhwa",
-                      value: "Khyber Pakhtunkhwa",
-                    },
-                    {
-                      text: "Balochistan",
-                      value: "Balochistan",
-                    },
-                    {
-                      text: "Islamabad Capital Territory",
-                      value:
-                        "Islamabad Capital Territory",
-                    },
-                    {
-                      text: "Gilgit-Baltistan",
-                      value: "Gilgit-Baltistan",
-                    },
-                    {
-                      text: "Azad Jammu & Kashmir",
-                      value: "Azad Jammu & Kashmir",
-                    },
-                  ]}
-                  disabled={loading}
-                />
-
-                {errors.province && (
-                  <div className="text-danger small mt-1">
-                    {errors.province}
-                  </div>
-                )}
-              </MDBCol>
-
-              <MDBCol md="4">
-                <MDBInput
-                  label="Domicile *"
-                  name="domicile"
-                  value={formData.domicile}
-                  onChange={handleChange}
-                  disabled={loading}
-                  type="text"
-                  maxLength={100}
-                  placeholder="Multan"
-                />
-
-                {errors.domicile && (
-                  <div className="text-danger small mt-1">
-                    {errors.domicile}
-                  </div>
-                )}
-              </MDBCol>
-
-            </MDBRow>
-
-            {/* =================================
-                Profile Image
-            ================================= */}
-            <div className="mt-4">
-
-              <label className="form-label fw-semibold">
-                Profile Image *
-              </label>
-
-              <MDBFile
-                label="Choose profile image"
-                onChange={handleImageChange}
-                disabled={loading}
-                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-              />
-
-              <div className="small text-muted mt-1">
-                JPG, JPEG, PNG or WEBP. Maximum size:
-                5MB.
+                <div>
+                  <h5>Personal Details</h5>
+                  <span>
+                    Basic information about the student
+                  </span>
+                </div>
               </div>
 
-              {errors.profileImage && (
-                <div className="text-danger small mt-1">
-                  {errors.profileImage}
-                </div>
-              )}
-
-              {imagePreview && (
-                <div className="mt-3">
-                  <img
-                    src={imagePreview}
-                    alt="Profile Preview"
-                    style={{
-                      width: "120px",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "12px",
-                      border: "1px solid #ddd",
-                    }}
+              <MDBRow className="g-3">
+                <MDBCol md="6">
+                  <MDBInput
+                    label="First Name *"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    disabled={loading}
+                    type="text"
+                    maxLength={50}
+                    autoComplete="given-name"
                   />
-                </div>
-              )}
+                  {renderError("firstName")}
+                </MDBCol>
 
+                <MDBCol md="6">
+                  <MDBInput
+                    label="Last Name *"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    disabled={loading}
+                    type="text"
+                    maxLength={50}
+                    autoComplete="family-name"
+                  />
+                  {renderError("lastName")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <MDBInput
+                    label="CNIC *"
+                    name="cnic"
+                    value={formData.cnic}
+                    onChange={handleCnicChange}
+                    disabled={loading}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={13}
+                    placeholder="1234567890127"
+                  />
+                  {renderError("cnic")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <MDBInput
+                    label="Phone Number *"
+                    name="phoneNo"
+                    value={formData.phoneNo}
+                    onChange={handlePhoneChange}
+                    disabled={loading}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={11}
+                    placeholder="03001234522"
+                  />
+                  {renderError("phoneNo")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <MDBInput
+                    label="Email *"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={loading}
+                    type="email"
+                    autoComplete="email"
+                    maxLength={100}
+                    placeholder="alikahn@example.com"
+                  />
+                  {renderError("email")}
+                </MDBCol>
+              </MDBRow>
             </div>
 
-            {/* =================================
-                Submit
-            ================================= */}
-            <div className="d-flex justify-content-end mt-4">
+            {/* ============================= */}
+            {/* Address */}
+            {/* ============================= */}
+
+            <div className="step1-section">
+              <div className="step1-section-heading">
+                <div className="step1-section-icon">
+                  <FaMapMarkerAlt />
+                </div>
+
+                <div>
+                  <h5>Address Information</h5>
+                  <span>
+                    Current and permanent residential details
+                  </span>
+                </div>
+              </div>
+
+              <MDBRow className="g-3">
+                <MDBCol md="6">
+                  <MDBTextArea
+                    label="Present Address *"
+                    name="presentAddress"
+                    value={formData.presentAddress}
+                    onChange={handleChange}
+                    disabled={loading}
+                    rows={4}
+                    maxLength={300}
+                  />
+                  {renderError("presentAddress")}
+                </MDBCol>
+
+                <MDBCol md="6">
+                  <MDBTextArea
+                    label="Permanent Address *"
+                    name="permanentAddress"
+                    value={formData.permanentAddress}
+                    onChange={handleChange}
+                    disabled={loading}
+                    rows={4}
+                    maxLength={300}
+                  />
+                  {renderError("permanentAddress")}
+                </MDBCol>
+              </MDBRow>
+            </div>
+
+            {/* ============================= */}
+            {/* Personal Information */}
+            {/* ============================= */}
+
+            <div className="step1-section">
+              <div className="step1-section-heading">
+                <div className="step1-section-icon">
+                  <FaIdCard />
+                </div>
+
+                <div>
+                  <h5>Additional Information</h5>
+                  <span>
+                    Personal and demographic information
+                  </span>
+                </div>
+              </div>
+
+              <MDBRow className="g-3">
+
+                <MDBCol md="6">
+                  <label className="step1-label">
+                    Religion *
+                  </label>
+
+                  <select
+                    className="step1-select"
+                    name="religion"
+                    value={formData.religion}
+                    onChange={handleSelectChange}
+                    disabled={loading}
+                  >
+                    <option value="">
+                      Select Religion
+                    </option>
+                    <option value="Islam">
+                      Islam
+                    </option>
+                    <option value="Christianity">
+                      Christianity
+                    </option>
+                    <option value="Hinduism">
+                      Hinduism
+                    </option>
+                    <option value="Sikhism">
+                      Sikhism
+                    </option>
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+
+                  {renderError("religion")}
+                </MDBCol>
+
+                <MDBCol md="6">
+                  <label className="step1-label">
+                    Gender *
+                  </label>
+
+                  <select
+                    className="step1-select"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleSelectChange}
+                    disabled={loading}
+                  >
+                    <option value="">
+                      Select Gender
+                    </option>
+                    <option value="Male">
+                      Male
+                    </option>
+                    <option value="Female">
+                      Female
+                    </option>
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+
+                  {renderError("gender")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <label className="step1-label">
+                    Blood Group *
+                  </label>
+
+                  <select
+                    className="step1-select"
+                    name="bloodGroup"
+                    value={formData.bloodGroup}
+                    onChange={handleSelectChange}
+                    disabled={loading}
+                  >
+                    <option value="">
+                      Select Blood Group
+                    </option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+
+                  {renderError("bloodGroup")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <label className="step1-label">
+                    Marital Status *
+                  </label>
+
+                  <select
+                    className="step1-select"
+                    name="maritalStatus"
+                    value={formData.maritalStatus}
+                    onChange={handleSelectChange}
+                    disabled={loading}
+                  >
+                    <option value="">
+                      Select Marital Status
+                    </option>
+                    <option value="Single">
+                      Single
+                    </option>
+                    <option value="Married">
+                      Married
+                    </option>
+                    <option value="Divorced">
+                      Divorced
+                    </option>
+                    <option value="Widowed">
+                      Widowed
+                    </option>
+                  </select>
+
+                  {renderError("maritalStatus")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <MDBInput
+                    label="Nationality *"
+                    name="nationality"
+                    value={formData.nationality}
+                    onChange={handleChange}
+                    disabled={loading}
+                    type="text"
+                    maxLength={50}
+                    placeholder="Pakistani"
+                  />
+                  {renderError("nationality")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <MDBInput
+                    label="Date of Birth *"
+                    name="DOB"
+                    value={formData.DOB}
+                    onChange={handleChange}
+                    disabled={loading}
+                    type="date"
+                    max={
+                      new Date()
+                        .toISOString()
+                        .split("T")[0]
+                    }
+                  />
+                  {renderError("DOB")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <label className="step1-label">
+                    Province *
+                  </label>
+
+                  <select
+                    className="step1-select"
+                    name="province"
+                    value={formData.province}
+                    onChange={handleSelectChange}
+                    disabled={loading}
+                  >
+                    <option value="">
+                      Select Province
+                    </option>
+                    <option value="Punjab">
+                      Punjab
+                    </option>
+                    <option value="Sindh">
+                      Sindh
+                    </option>
+                    <option value="Khyber Pakhtunkhwa">
+                      Khyber Pakhtunkhwa
+                    </option>
+                    <option value="Balochistan">
+                      Balochistan
+                    </option>
+                    <option value="Islamabad Capital Territory">
+                      Islamabad Capital Territory
+                    </option>
+                    <option value="Gilgit-Baltistan">
+                      Gilgit-Baltistan
+                    </option>
+                    <option value="Azad Jammu & Kashmir">
+                      Azad Jammu & Kashmir
+                    </option>
+                  </select>
+
+                  {renderError("province")}
+                </MDBCol>
+
+                <MDBCol md="4">
+                  <MDBInput
+                    label="Domicile *"
+                    name="domicile"
+                    value={formData.domicile}
+                    onChange={handleChange}
+                    disabled={loading}
+                    type="text"
+                    maxLength={100}
+                    placeholder="Multan"
+                  />
+                  {renderError("domicile")}
+                </MDBCol>
+              </MDBRow>
+            </div>
+
+            {/* ============================= */}
+            {/* Profile Image */}
+            {/* ============================= */}
+
+            <div className="step1-section">
+              <div className="step1-section-heading">
+                <div className="step1-section-icon">
+                  <FaImage />
+                </div>
+
+                <div>
+                  <h5>Profile Photo</h5>
+                  <span>
+                    Upload a clear recent profile photograph
+                  </span>
+                </div>
+              </div>
+
+              <div className="step1-upload-box">
+
+                <div className="step1-avatar-area">
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="Profile Preview"
+                      className="step1-avatar-preview"
+                    />
+                  ) : (
+                    <div className="step1-avatar-placeholder">
+                      <FaUserCircle />
+                    </div>
+                  )}
+                </div>
+
+                <div className="step1-upload-content">
+                  <label className="step1-label">
+                    Profile Image *
+                  </label>
+
+                  <MDBFile
+                    label="Choose profile image"
+                    onChange={handleImageChange}
+                    disabled={loading}
+                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                  />
+
+                  <div className="step1-upload-help">
+                    JPG, JPEG, PNG or WEBP • Maximum 5MB
+                  </div>
+
+                  {errors.profileImage && (
+                    <div className="step1-error">
+                      {errors.profileImage}
+                    </div>
+                  )}
+
+                  {imagePreview && (
+                    <div className="step1-photo-status">
+                      <FaCheckCircle />
+                      Profile photo selected
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* ============================= */}
+            {/* Footer */}
+            {/* ============================= */}
+
+            <div className="step1-footer">
+              <div className="step1-required-note">
+                <span>*</span> Required fields
+              </div>
 
               <MDBBtn
                 type="submit"
                 disabled={loading}
-                className="px-4"
+                className="step1-next-btn"
               >
                 {loading ? (
                   <>
-                    <FaSpinner
-                      className="me-2"
-                      style={{
-                        animation:
-                          "spin 1s linear infinite",
-                      }}
-                    />
+                    <FaSpinner className="step1-spinner me-2" />
                     Saving...
                   </>
                 ) : (
@@ -1012,26 +934,11 @@ export default function Step1({
                   </>
                 )}
               </MDBBtn>
-
             </div>
 
           </form>
         </MDBCardBody>
       </MDBCard>
-
-      <style>
-        {`
-          @keyframes spin {
-            from {
-              transform: rotate(0deg);
-            }
-
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}
-      </style>
     </MDBContainer>
   );
 }

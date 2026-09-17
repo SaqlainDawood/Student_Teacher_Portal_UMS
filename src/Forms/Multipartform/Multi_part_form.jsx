@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  MDBContainer,
-  MDBProgress,
-  MDBProgressBar,
-} from "mdb-react-ui-kit";
+import { MDBContainer } from "mdb-react-ui-kit";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
+import Step1 from "../Steps/Step1";
+import Step2 from "../Steps/Step2";
+import Step3 from "../Steps/Step3";
+import Step4 from "../Steps/Step4";
 
-import API from "../../services/api";
+import API from "../../api";
+import "./MultiPartForm.css";
 
 export default function MultiPartForm() {
   const navigate = useNavigate();
@@ -21,11 +18,16 @@ export default function MultiPartForm() {
   const draftId = searchParams.get("draftId");
 
   const [currentStep, setCurrentStep] = useState(1);
+
   const [studentId, setStudentId] = useState(
     localStorage.getItem("studentId") || ""
   );
 
   const [loading, setLoading] = useState(false);
+
+  // ==================================================
+  // Step Data
+  // ==================================================
 
   const [step1Data, setStep1Data] = useState({
     firstName: "",
@@ -50,8 +52,40 @@ export default function MultiPartForm() {
   const [step4Data, setStep4Data] = useState({});
 
   // ==================================================
+  // Step Configuration
+  // ==================================================
+
+  const steps = [
+    {
+      number: 1,
+      title: "Personal Information",
+      shortTitle: "Personal",
+      icon: "fas fa-user",
+    },
+    {
+      number: 2,
+      title: "Parents Information",
+      shortTitle: "Parents",
+      icon: "fas fa-users",
+    },
+    {
+      number: 3,
+      title: "Education Details",
+      shortTitle: "Education",
+      icon: "fas fa-graduation-cap",
+    },
+    {
+      number: 4,
+      title: "Enrollment Information",
+      shortTitle: "Enrollment",
+      icon: "fas fa-university",
+    },
+  ];
+
+  // ==================================================
   // Load Draft
   // ==================================================
+
   useEffect(() => {
     const loadDraft = async () => {
       if (!draftId) {
@@ -61,9 +95,7 @@ export default function MultiPartForm() {
       try {
         setLoading(true);
 
-        const response = await API.get(
-          `/draft/${draftId}`
-        );
+        const response = await API.get(`/draft/${draftId}`);
 
         const data = response.data;
 
@@ -77,50 +109,62 @@ export default function MultiPartForm() {
           return;
         }
 
+        // ----------------------------------------------
+        // Restore Student ID
+        // ----------------------------------------------
+
         if (student._id || student.studentId) {
-          const id =
-            student._id || student.studentId;
+          const id = student._id || student.studentId;
 
           setStudentId(id);
-          localStorage.setItem(
-            "studentId",
-            id
-          );
+
+          localStorage.setItem("studentId", id);
         }
 
         // ----------------------------------------------
         // Restore Step 1
         // ----------------------------------------------
+
         setStep1Data({
           firstName: student.firstName || "",
           lastName: student.lastName || "",
           cnic: student.cnic || "",
           phoneNo: student.phoneNo || "",
           email: student.email || "",
+
           presentAddress:
             student.presentAddress || "",
+
           permanentAddress:
             student.permanentAddress || "",
+
           religion: student.religion || "",
           gender: student.gender || "",
+
           bloodGroup:
             student.bloodGroup || "",
+
           maritalStatus:
             student.maritalStatus || "",
+
           nationality:
             student.nationality || "",
+
           DOB: student.DOB
             ? String(student.DOB).split("T")[0]
             : "",
+
           province: student.province || "",
           domicile: student.domicile || "",
+
           profileImage:
             student.profileImage || null,
         });
 
         // ----------------------------------------------
-        // Restore current step
+        // Restore Current Step
         // ----------------------------------------------
+
         if (student.lastStepCompleted) {
           const nextStep =
             Number(student.lastStepCompleted) + 1;
@@ -129,7 +173,6 @@ export default function MultiPartForm() {
             nextStep > 4 ? 4 : nextStep
           );
         }
-
       } catch (error) {
         console.error(
           "Draft loading error:",
@@ -151,6 +194,7 @@ export default function MultiPartForm() {
   // ==================================================
   // Submit Step
   // ==================================================
+
   const submitStep = async (
     stepNumber,
     data = {},
@@ -162,11 +206,10 @@ export default function MultiPartForm() {
       const formDataToSend = new FormData();
 
       // ----------------------------------------------
-      // Append normal data
+      // Append Normal Data
       // ----------------------------------------------
+
       Object.keys(data).forEach((key) => {
-        // VERY IMPORTANT:
-        // File fields must NOT be appended here.
         if (
           key === "profileImage" ||
           key === "marksheetFile" ||
@@ -203,17 +246,22 @@ export default function MultiPartForm() {
       // ----------------------------------------------
       // Student ID
       // ----------------------------------------------
-      if (studentId) {
+
+      const currentStudentId =
+        localStorage.getItem("studentId") ||
+        studentId;
+
+      if (currentStudentId) {
         formDataToSend.append(
           "studentId",
-          studentId
+          currentStudentId
         );
       }
 
       // ----------------------------------------------
       // Profile Image
-      // Append EXACTLY ONCE
       // ----------------------------------------------
+
       if (
         files?.profileImage instanceof File
       ) {
@@ -226,7 +274,10 @@ export default function MultiPartForm() {
       // ----------------------------------------------
       // Marksheets
       // ----------------------------------------------
-      if (Array.isArray(files?.marksheets)) {
+
+      if (
+        Array.isArray(files?.marksheets)
+      ) {
         files.marksheets.forEach((file) => {
           if (file instanceof File) {
             formDataToSend.append(
@@ -239,11 +290,8 @@ export default function MultiPartForm() {
 
       // ----------------------------------------------
       // API Request
-      // IMPORTANT:
-      // Do NOT manually set Content-Type.
-      // Axios/browser automatically creates the
-      // multipart boundary.
       // ----------------------------------------------
+
       const response = await API.post(
         `/step/${stepNumber}`,
         formDataToSend
@@ -251,10 +299,21 @@ export default function MultiPartForm() {
 
       const result = response.data;
 
+      console.log(
+        "STEP API RESPONSE:",
+        result
+      );
+
       // ----------------------------------------------
-      // Save student ID
+      // Save Student ID
       // ----------------------------------------------
+
       if (result?.studentId) {
+        console.log(
+          "SAVING STUDENT ID:",
+          result.studentId
+        );
+
         setStudentId(result.studentId);
 
         localStorage.setItem(
@@ -264,8 +323,9 @@ export default function MultiPartForm() {
       }
 
       // ----------------------------------------------
-      // Save draft ID if backend returns it
+      // Save Draft ID
       // ----------------------------------------------
+
       if (result?.draftId) {
         localStorage.setItem(
           "studentDraftId",
@@ -274,7 +334,6 @@ export default function MultiPartForm() {
       }
 
       return result;
-
     } catch (error) {
       console.error(
         `Step ${stepNumber} submit error:`,
@@ -290,7 +349,6 @@ export default function MultiPartForm() {
       toast.error(message);
 
       throw error;
-
     } finally {
       setLoading(false);
     }
@@ -299,6 +357,7 @@ export default function MultiPartForm() {
   // ==================================================
   // Step 1 Submit
   // ==================================================
+
   const handleStep1Submit = async (
     fd,
     plainData
@@ -328,7 +387,7 @@ export default function MultiPartForm() {
 
         setCurrentStep(2);
 
-        // Update URL with student ID
+        // Update URL with Student ID
         if (result.studentId) {
           navigate(
             `/student/register?draftId=${result.studentId}`,
@@ -338,7 +397,6 @@ export default function MultiPartForm() {
           );
         }
       }
-
     } catch (error) {
       console.error(
         "Step 1 handler error:",
@@ -350,14 +408,57 @@ export default function MultiPartForm() {
   // ==================================================
   // Step 2 Submit
   // ==================================================
+
   const handleStep2Submit = async (
     data
   ) => {
     try {
-      const result = await submitStep(
-        2,
-        data,
-        {}
+      setLoading(true);
+
+      const currentStudentId =
+        localStorage.getItem("studentId");
+
+      console.log(
+        "Step 2 studentId:",
+        currentStudentId
+      );
+
+      console.log(
+        "Step 2 data:",
+        data
+      );
+
+      if (!currentStudentId) {
+        toast.error(
+          "Student ID not found. Please complete Step 1 first."
+        );
+
+        return;
+      }
+
+      const payload = {
+        studentId: currentStudentId,
+        fatherName: data.fatherName,
+        motherName: data.motherName,
+        fatherCnic: data.fatherCnic,
+        fatherMobile: data.fatherMobile,
+      };
+
+      console.log(
+        "STEP 2 FINAL PAYLOAD:",
+        payload
+      );
+
+      const response = await API.post(
+        "/step/2",
+        payload
+      );
+
+      const result = response.data;
+
+      console.log(
+        "STEP 2 API RESPONSE:",
+        result
       );
 
       if (result?.success) {
@@ -370,54 +471,133 @@ export default function MultiPartForm() {
 
         setCurrentStep(3);
       }
-
     } catch (error) {
       console.error(
         "Step 2 handler error:",
         error
       );
+
+      toast.error(
+        error.response?.data?.message ||
+          "Step 2 submission failed."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   // ==================================================
   // Step 3 Submit
   // ==================================================
+
   const handleStep3Submit = async (
-    data,
-    files = []
+    educationList
   ) => {
     try {
+      setLoading(true);
+
+      // ----------------------------------------------
+      // Get Student ID
+      // ----------------------------------------------
+
+      const currentStudentId =
+        localStorage.getItem("studentId");
+
+      console.log(
+        "STEP 3 STUDENT ID:",
+        currentStudentId
+      );
+
+      if (!currentStudentId) {
+        toast.error(
+          "Student ID not found. Please complete Step 1 first."
+        );
+
+        return;
+      }
+
+      // ----------------------------------------------
+      // Extract Actual File Objects
+      // ----------------------------------------------
+
+      const marksheets =
+        educationList
+          .map(
+            (item) =>
+              item.marksheetFile
+          )
+          .filter(
+            (file) =>
+              file instanceof File
+          );
+
+      console.log(
+        "STEP 3 MARKSHEETS:",
+        marksheets
+      );
+
+      // ----------------------------------------------
+      // Remove File Objects
+      // ----------------------------------------------
+
+      const cleanEducationList =
+        educationList.map(
+          (item) => {
+            const {
+              marksheetFile,
+              marksheet,
+              ...rest
+            } = item;
+
+            return rest;
+          }
+        );
+
+      // ----------------------------------------------
+      // Final Data
+      // ----------------------------------------------
+
       const cleanData = {
-        ...data,
+        studentId: currentStudentId,
+        educationList:
+          cleanEducationList,
       };
 
-      // Do not send file objects as JSON
-      if (
-        Array.isArray(cleanData.educationList)
-      ) {
-        cleanData.educationList =
-          cleanData.educationList.map(
-            (item) => {
-              const {
-                marksheetFile,
-                ...rest
-              } = item;
+      console.log(
+        "STEP 3 EDUCATION DATA:",
+        cleanData
+      );
 
-              return rest;
-            }
-          );
-      }
+      console.log(
+        "STEP 3 FINAL FILES:",
+        marksheets
+      );
+
+      // ----------------------------------------------
+      // Submit
+      // ----------------------------------------------
 
       const result = await submitStep(
         3,
         cleanData,
         {
-          marksheets: files,
+          marksheets,
         }
       );
 
+      console.log(
+        "STEP 3 API RESULT:",
+        result
+      );
+
+      // ----------------------------------------------
+      // Success
+      // ----------------------------------------------
+
       if (result?.success) {
-        setStep3Data(cleanData);
+        setStep3Data(
+          educationList
+        );
 
         toast.success(
           result.message ||
@@ -426,104 +606,309 @@ export default function MultiPartForm() {
 
         setCurrentStep(4);
       }
-
     } catch (error) {
       console.error(
         "Step 3 handler error:",
         error
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   // ==================================================
   // Step 4 Submit
   // ==================================================
+
   const handleStep4Submit = async (
     data
   ) => {
     try {
-      const result = await submitStep(
-        4,
-        data,
-        {}
+      setLoading(true);
+
+      const currentStudentId =
+        localStorage.getItem(
+          "studentId"
+        ) || studentId;
+
+      const payload = {
+        studentId:
+          currentStudentId,
+
+        degreeClassId:
+          data.degreeClassId,
+
+        shiftId:
+          data.shiftId,
+      };
+
+      console.log(
+        "STEP 4 FINAL PAYLOAD:",
+        payload
       );
 
-      if (result?.success) {
-        setStep4Data(data);
-
-        toast.success(
-          result.message ||
-            "Registration completed successfully."
+      const response =
+        await API.post(
+          "/step/4",
+          payload
         );
 
-        if (result.studentId) {
-          localStorage.setItem(
-            "studentId",
-            result.studentId
-          );
-        }
+      const result =
+        response.data;
 
-        navigate("/student/login");
-      }
+      console.log(
+        "STEP 4 API RESPONSE:",
+        result
+      );
 
+   if (result?.success) {
+  setStep4Data(data);
+
+  toast.success(
+    result.message ||
+      "Registration completed successfully."
+  );
+
+  navigate("/std/dashboard");
+}
     } catch (error) {
       console.error(
         "Step 4 handler error:",
         error
       );
+
+      toast.error(
+        error?.response?.data?.message ||
+          "Step 4 submission failed."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   // ==================================================
-  // Progress
+  // Render
   // ==================================================
-  const progress =
-    (currentStep / 4) * 100;
 
   return (
-    <MDBContainer className="py-4">
+    <MDBContainer className="multipart-container py-4">
 
-      {/* ============================================
-          Progress
-      ============================================ */}
-      <div className="mb-4">
+      {/* ==================================================
+          PREMIUM PURPLE REGISTRATION STEPPER
+      ================================================== */}
 
-        <div className="d-flex justify-content-between mb-2">
-          <span className="fw-semibold">
-            Step {currentStep} of 4
-          </span>
+      <div className="registration-stepper">
 
-          <span className="text-muted">
-            {Math.round(progress)}%
-          </span>
+        {/* ----------------------------------------------
+            Stepper Header
+        ---------------------------------------------- */}
+
+        <div className="stepper-top">
+
+          <div className="stepper-heading">
+
+            <span className="stepper-eyebrow">
+              STUDENT REGISTRATION
+            </span>
+
+            <h2 className="stepper-title">
+              Complete Your Application
+            </h2>
+
+            <p className="stepper-subtitle">
+              Follow the steps below to complete
+              your student registration.
+            </p>
+
+          </div>
+
+          <div className="step-counter">
+
+            <span className="step-counter-current">
+              {currentStep}
+            </span>
+
+            <span className="step-counter-divider">
+              /
+            </span>
+
+            <span className="step-counter-total">
+              4
+            </span>
+
+          </div>
+
         </div>
 
-        <MDBProgress height="8">
-          <MDBProgressBar
-            width={progress}
-            valuemin={0}
-            valuemax={100}
-          />
-        </MDBProgress>
+        {/* ----------------------------------------------
+            Steps
+        ---------------------------------------------- */}
+
+        <div className="stepper-wrapper">
+
+          {steps.map(
+            (step, index) => {
+
+              const isCompleted =
+                currentStep >
+                step.number;
+
+              const isActive =
+                currentStep ===
+                step.number;
+
+              const isUpcoming =
+                currentStep <
+                step.number;
+
+              return (
+                <React.Fragment
+                  key={step.number}
+                >
+
+                  {/* Individual Step */}
+
+                  <div
+                    className={`
+                      wizard-step
+                      ${
+                        isCompleted
+                          ? "completed"
+                          : ""
+                      }
+                      ${
+                        isActive
+                          ? "active"
+                          : ""
+                      }
+                      ${
+                        isUpcoming
+                          ? "upcoming"
+                          : ""
+                      }
+                    `}
+                  >
+
+                    <div className="wizard-step-circle">
+
+                      {isCompleted ? (
+                        <i className="fas fa-check"></i>
+                      ) : (
+                        <i
+                          className={
+                            step.icon
+                          }
+                        ></i>
+                      )}
+
+                    </div>
+
+                    <div className="wizard-step-content">
+
+                      <span className="wizard-step-number">
+                        STEP{" "}
+                        {step.number}
+                      </span>
+
+                      <span className="wizard-step-title">
+                        {step.title}
+                      </span>
+
+                      <span className="wizard-step-mobile-title">
+                        {
+                          step.shortTitle
+                        }
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  {/* Connector */}
+
+                  {index <
+                    steps.length -
+                      1 && (
+                    <div
+                      className={`
+                        wizard-connector
+                        ${
+                          currentStep >
+                          step.number
+                            ? "completed"
+                            : ""
+                        }
+                      `}
+                    >
+                      <div className="wizard-connector-fill"></div>
+                    </div>
+                  )}
+
+                </React.Fragment>
+              );
+            }
+          )}
+
+        </div>
+
+        {/* ----------------------------------------------
+            Progress Info
+        ---------------------------------------------- */}
+
+        <div className="stepper-progress-info">
+
+          <div className="progress-status">
+
+            <span className="progress-status-icon">
+              <i className="fas fa-circle-notch"></i>
+            </span>
+
+            <span>
+              Step {currentStep} of 4
+            </span>
+
+          </div>
+
+          <span className="progress-percentage">
+            {Math.round(
+              (currentStep / 4) *
+                100
+            )}
+            % Complete
+          </span>
+
+        </div>
 
       </div>
 
-      {/* ============================================
-          Steps
-      ============================================ */}
+      {/* ==================================================
+          STEP 1
+      ================================================== */}
 
       {currentStep === 1 && (
         <Step1
-          initialData={step1Data}
-          onSubmit={handleStep1Submit}
+          initialData={
+            step1Data
+          }
+          onSubmit={
+            handleStep1Submit
+          }
           loading={loading}
         />
       )}
 
+      {/* ==================================================
+          STEP 2
+      ================================================== */}
+
       {currentStep === 2 && (
         <Step2
-          initialData={step2Data}
-          onSubmit={handleStep2Submit}
+          initialData={
+            step2Data
+          }
+          onSubmit={
+            handleStep2Submit
+          }
           loading={loading}
           onBack={() =>
             setCurrentStep(1)
@@ -531,10 +916,18 @@ export default function MultiPartForm() {
         />
       )}
 
+      {/* ==================================================
+          STEP 3
+      ================================================== */}
+
       {currentStep === 3 && (
         <Step3
-          initialData={step3Data}
-          onSubmit={handleStep3Submit}
+          initialData={
+            step3Data
+          }
+          onSubmit={
+            handleStep3Submit
+          }
           loading={loading}
           onBack={() =>
             setCurrentStep(2)
@@ -542,10 +935,18 @@ export default function MultiPartForm() {
         />
       )}
 
+      {/* ==================================================
+          STEP 4
+      ================================================== */}
+
       {currentStep === 4 && (
         <Step4
-          initialData={step4Data}
-          onSubmit={handleStep4Submit}
+          initialData={
+            step4Data
+          }
+          onSubmit={
+            handleStep4Submit
+          }
           loading={loading}
           onBack={() =>
             setCurrentStep(3)
