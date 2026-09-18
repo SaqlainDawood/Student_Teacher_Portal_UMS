@@ -12,6 +12,7 @@ import {
   FaArrowRight,
   FaSpinner,
   FaInfoCircle,
+  FaBookOpen,
 } from "react-icons/fa";
 import "./Step4.css";
 
@@ -52,6 +53,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
     campusId: "",
     campus: "",
     departmentId: "",
+    programType: "",
     degreeClassId: "",
     batchId: "",
     shiftId: "",
@@ -201,6 +203,15 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
   }, [enrollmentInfo.departmentId]);
 
   // ==================================================
+  // FILTER DEGREE CLASSES BY PROGRAM TYPE
+  // ==================================================
+  const filteredDegreeClasses = degreeClasses.filter(
+    (degreeClass) =>
+      !enrollmentInfo.programType ||
+      degreeClass.programType === enrollmentInfo.programType
+  );
+
+  // ==================================================
   // Degree Class -> Batches
   // ==================================================
   const loadBatches = useCallback(async () => {
@@ -240,7 +251,6 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
 
       // ==================================================
       // Automatically assign first available batch
-      // and extract shiftId for Step 4 API
       // ==================================================
       if (list.length === 1) {
         const batch = list[0];
@@ -334,6 +344,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
         ? campusObj.name
         : "",
       departmentId: "",
+      programType: "",
       degreeClassId: "",
       batchId: "",
       shiftId: "",
@@ -353,12 +364,30 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
     setEnrollmentInfo((prev) => ({
       ...prev,
       departmentId,
+      programType: "",
       degreeClassId: "",
       batchId: "",
       shiftId: "",
     }));
 
     setDegreeClasses([]);
+    setBatches([]);
+  };
+
+  // ==================================================
+  // Program Type Change
+  // ==================================================
+  const handleProgramTypeChange = (e) => {
+    const programType = e.target.value;
+
+    setEnrollmentInfo((prev) => ({
+      ...prev,
+      programType,
+      degreeClassId: "",
+      batchId: "",
+      shiftId: "",
+    }));
+
     setBatches([]);
   };
 
@@ -383,6 +412,13 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
   // ==================================================
   const submit = async (e) => {
     e.preventDefault();
+
+    if (!enrollmentInfo.programType) {
+      toast.error(
+        "Please select a program type."
+      );
+      return;
+    }
 
     if (!enrollmentInfo.degreeClassId) {
       toast.error(
@@ -459,6 +495,19 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
     selectedBatch?.shiftId?.name || "";
 
   // ==================================================
+  // Program Type Label
+  // ==================================================
+  const getProgramTypeLabel = (value) => {
+    const labels = {
+      BS: "BS",
+      ADP: "ADP",
+      POST_ADP: "Post ADP",
+    };
+
+    return labels[value] || value || "Not selected";
+  };
+
+  // ==================================================
   // UI
   // ==================================================
   return (
@@ -484,9 +533,9 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
           </h3>
 
           <p>
-            Choose your campus, department and
-            degree class to complete your
-            registration.
+            Choose your campus, department,
+            program type and degree class to
+            complete your registration.
           </p>
         </div>
       </div>
@@ -502,6 +551,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
 
           <div>
             <h5>Academic Enrollment</h5>
+
             <p>
               Select the academic information
               for your admission.
@@ -513,8 +563,13 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
             Campus + Department
         ================================================== */}
         <MDBRow className="g-4">
+
+          {/* ==================================================
+              Campus
+          ================================================== */}
           <MDBCol md="6">
             <div className="step4-field">
+
               <label>
                 <FaUniversity />
                 Campus
@@ -522,6 +577,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
               </label>
 
               <div className="step4-select-wrapper">
+
                 <select
                   className="step4-select"
                   value={
@@ -535,36 +591,46 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                     isSubmitting
                   }
                 >
+
                   <option value="">
                     {loadingCampuses
                       ? "Loading campuses..."
                       : "Select Campus"}
                   </option>
 
-                  {campuses.map((campus) => (
-                    <option
-                      key={campus._id}
-                      value={campus._id}
-                    >
-                      {campus.name}
-                    </option>
-                  ))}
+                  {campuses.map(
+                    (campus) => (
+                      <option
+                        key={campus._id}
+                        value={campus._id}
+                      >
+                        {campus.name}
+                      </option>
+                    )
+                  )}
+
                 </select>
 
                 {loadingCampuses && (
                   <FaSpinner className="step4-spinner" />
                 )}
+
               </div>
 
               <small>
                 Select the campus where you
                 want to enroll.
               </small>
+
             </div>
           </MDBCol>
 
+          {/* ==================================================
+              Department
+          ================================================== */}
           <MDBCol md="6">
             <div className="step4-field">
+
               <label>
                 <FaBuilding />
                 Department
@@ -572,6 +638,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
               </label>
 
               <div className="step4-select-wrapper">
+
                 <select
                   className="step4-select"
                   value={
@@ -586,6 +653,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                     isSubmitting
                   }
                 >
+
                   <option value="">
                     {loadingDepartments
                       ? "Loading departments..."
@@ -604,17 +672,78 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                       </option>
                     )
                   )}
+
                 </select>
 
                 {loadingDepartments && (
                   <FaSpinner className="step4-spinner" />
                 )}
+
               </div>
 
               <small>
                 Departments are filtered by
                 your selected campus.
               </small>
+
+            </div>
+          </MDBCol>
+
+          {/* ==================================================
+              Program Type
+          ================================================== */}
+          <MDBCol md="6">
+            <div className="step4-field">
+
+              <label>
+                <FaBookOpen />
+                Program Type
+                <span>*</span>
+              </label>
+
+              <div className="step4-select-wrapper">
+
+                <select
+                  className="step4-select"
+                  value={
+                    enrollmentInfo.programType
+                  }
+                  onChange={
+                    handleProgramTypeChange
+                  }
+                  disabled={
+                    !enrollmentInfo.departmentId ||
+                    isSubmitting
+                  }
+                >
+
+                  <option value="">
+                    {!enrollmentInfo.departmentId
+                      ? "Select department first"
+                      : "Select Program Type"}
+                  </option>
+
+                  <option value="BS">
+                    BS
+                  </option>
+
+                  <option value="ADP">
+                    ADP
+                  </option>
+
+                  <option value="POST_ADP">
+                    Post ADP
+                  </option>
+
+                </select>
+
+              </div>
+
+              <small>
+                Select the program type you
+                want to apply for.
+              </small>
+
             </div>
           </MDBCol>
 
@@ -623,6 +752,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
           ================================================== */}
           <MDBCol md="6">
             <div className="step4-field">
+
               <label>
                 <FaGraduationCap />
                 Degree Class
@@ -630,6 +760,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
               </label>
 
               <div className="step4-select-wrapper">
+
                 <select
                   className="step4-select"
                   value={
@@ -639,20 +770,25 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                     handleClassChange
                   }
                   disabled={
-                    !enrollmentInfo.departmentId ||
+                    !enrollmentInfo.programType ||
                     loadingClasses ||
                     isSubmitting
                   }
                 >
+
                   <option value="">
                     {loadingClasses
                       ? "Loading degree classes..."
                       : !enrollmentInfo.departmentId
                       ? "Select department first"
+                      : !enrollmentInfo.programType
+                      ? "Select program type first"
+                      : filteredDegreeClasses.length === 0
+                      ? "No classes available"
                       : "Select Degree Class"}
                   </option>
 
-                  {degreeClasses.map(
+                  {filteredDegreeClasses.map(
                     (degreeClass) => (
                       <option
                         key={degreeClass._id}
@@ -662,17 +798,20 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                       </option>
                     )
                   )}
+
                 </select>
 
                 {loadingClasses && (
                   <FaSpinner className="step4-spinner" />
                 )}
+
               </div>
 
               <small>
-                Choose the degree program you
-                are applying for.
+                Only classes belonging to the
+                selected program type are shown.
               </small>
+
             </div>
           </MDBCol>
 
@@ -681,6 +820,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
           ================================================== */}
           <MDBCol md="6">
             <div className="step4-field">
+
               <label>
                 <FaLayerGroup />
                 Batch
@@ -688,6 +828,7 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
               </label>
 
               <div className="step4-select-wrapper">
+
                 <select
                   className="step4-select step4-readonly-select"
                   value={
@@ -695,30 +836,35 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                   }
                   disabled
                 >
+
                   <option value="">
                     {loadingBatches
                       ? "Loading batches..."
                       : "Batch assigned automatically"}
                   </option>
 
-                  {batches.map((batch) => (
-                    <option
-                      key={batch._id}
-                      value={batch._id}
-                    >
-                      {batch.name ||
-                        batch.batchName ||
-                        `Batch ${batch._id}`}
-                      {batch.shiftId?.name
-                        ? ` — ${batch.shiftId.name}`
-                        : ""}
-                    </option>
-                  ))}
+                  {batches.map(
+                    (batch) => (
+                      <option
+                        key={batch._id}
+                        value={batch._id}
+                      >
+                        {batch.name ||
+                          batch.batchName ||
+                          "Batch"}
+                        {batch.shiftId?.name
+                          ? ` — ${batch.shiftId.name}`
+                          : ""}
+                      </option>
+                    )
+                  )}
+
                 </select>
 
                 {loadingBatches && (
                   <FaSpinner className="step4-spinner" />
                 )}
+
               </div>
 
               {!loadingBatches &&
@@ -728,20 +874,26 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                     Batch assigned automatically
                   </small>
                 )}
+
             </div>
           </MDBCol>
+
         </MDBRow>
 
         {/* ==================================================
             Shift
         ================================================== */}
         <div className="step4-shift-box">
+
           <div className="step4-shift-icon">
             <FaClock />
           </div>
 
           <div className="step4-shift-content">
-            <span>Assigned Shift</span>
+
+            <span>
+              Assigned Shift
+            </span>
 
             <strong>
               {selectedShift ||
@@ -752,62 +904,113 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
               Your shift is determined by the
               available batch.
             </small>
+
           </div>
 
           {selectedShift && (
             <FaCheckCircle className="step4-shift-check" />
           )}
+
         </div>
+
       </div>
 
       {/* ==================================================
           Enrollment Summary
       ================================================== */}
       <div className="step4-summary">
+
         <div className="step4-summary-header">
+
           <div className="step4-summary-icon">
             <FaCheckCircle />
           </div>
 
           <div>
-            <h5>Enrollment Summary</h5>
+
+            <h5>
+              Enrollment Summary
+            </h5>
+
             <p>
               Review your selected academic
               information before submitting.
             </p>
+
           </div>
+
         </div>
 
         <div className="step4-summary-grid">
+
+          {/* Campus */}
           <div className="step4-summary-item">
-            <span>Campus</span>
+
+            <span>
+              Campus
+            </span>
+
             <strong>
               {enrollmentInfo.campus ||
                 "Not selected"}
             </strong>
+
           </div>
 
+          {/* Department */}
           <div className="step4-summary-item">
-            <span>Department</span>
+
+            <span>
+              Department
+            </span>
+
             <strong>
               {departments.find(
                 (item) =>
                   item._id ===
                   enrollmentInfo.departmentId
-              )?.name || "Not selected"}
+              )?.name ||
+                "Not selected"}
             </strong>
+
           </div>
 
+          {/* Program Type */}
           <div className="step4-summary-item">
-            <span>Degree Class</span>
+
+            <span>
+              Program Type
+            </span>
+
+            <strong>
+              {getProgramTypeLabel(
+                enrollmentInfo.programType
+              )}
+            </strong>
+
+          </div>
+
+          {/* Degree Class */}
+          <div className="step4-summary-item">
+
+            <span>
+              Degree Class
+            </span>
+
             <strong>
               {selectedDegreeClass?.name ||
                 "Not selected"}
             </strong>
+
           </div>
 
+          {/* Batch */}
           <div className="step4-summary-item">
-            <span>Batch</span>
+
+            <span>
+              Batch
+            </span>
+
             <strong>
               {selectedBatch?.name ||
                 selectedBatch?.batchName ||
@@ -815,25 +1018,36 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
                   ? "Assigned"
                   : "Not selected")}
             </strong>
+
           </div>
 
+          {/* Shift */}
           <div className="step4-summary-item">
-            <span>Shift</span>
+
+            <span>
+              Shift
+            </span>
+
             <strong>
               {selectedShift ||
                 "Assigned automatically"}
             </strong>
+
           </div>
+
         </div>
+
       </div>
 
       {/* ==================================================
           Information Notice
       ================================================== */}
       <div className="step4-notice">
+
         <FaInfoCircle />
 
         <div>
+
           <strong>
             Almost there!
           </strong>
@@ -843,13 +1057,16 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
             information carefully. Once submitted,
             your registration will be completed.
           </p>
+
         </div>
+
       </div>
 
       {/* ==================================================
           Buttons
       ================================================== */}
       <div className="step4-actions">
+
         <MDBBtn
           type="button"
           className="step4-back-btn"
@@ -866,11 +1083,13 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
           disabled={
             isSubmitting ||
             loadingBatches ||
+            !enrollmentInfo.programType ||
             !enrollmentInfo.degreeClassId ||
             !enrollmentInfo.shiftId ||
             !enrollmentInfo.batchId
           }
         >
+
           {isSubmitting ? (
             <>
               <FaSpinner className="step4-button-spinner" />
@@ -882,8 +1101,11 @@ const Step4 = ({ onSubmit, onBack, initialData, loading }) => {
               <FaArrowRight />
             </>
           )}
+
         </MDBBtn>
+
       </div>
+
     </form>
   );
 };

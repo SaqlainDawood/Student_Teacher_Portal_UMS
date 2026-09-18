@@ -51,27 +51,56 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
 
   const [markSheet, setMarkSheet] = useState(null);
 
-  // ==================================================
-  // MARKSHEET
-  // ==================================================
+  const ALLOWED_MARKSHEET_EXTENSIONS = [
+    ".pdf",
+    ".doc",
+    ".docx",
+  ];
+
+  const ALLOWED_MARKSHEET_TYPES = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
 
   const handleMarkSheet = (e) => {
-    setMarkSheet(e.target.files[0]);
-  };
+    const file = e.target.files?.[0];
 
-  // ==================================================
-  // RESTORE INITIAL DATA
-  // ==================================================
+    if (!file) {
+      return;
+    }
+
+    const fileName = file.name.toLowerCase();
+
+    const extension = fileName.includes(".")
+      ? fileName.slice(fileName.lastIndexOf("."))
+      : "";
+
+    const isValidExtension =
+      ALLOWED_MARKSHEET_EXTENSIONS.includes(extension);
+
+    const isValidType =
+      ALLOWED_MARKSHEET_TYPES.includes(file.type);
+
+    if (!isValidExtension || !isValidType) {
+      setMarkSheet(null);
+
+      toast.error(
+        "Invalid file. Only PDF, DOC or DOCX documents are allowed."
+      );
+
+      e.target.value = "";
+      return;
+    }
+
+    setMarkSheet(file);
+  };
 
   useEffect(() => {
     if (initialData && Array.isArray(initialData)) {
       setEducationList(initialData);
     }
   }, [initialData]);
-
-  // ==================================================
-  // MODAL
-  // ==================================================
 
   const toggleOpen = () => {
     setBasicModal(!basicModal);
@@ -80,10 +109,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
   const closeModal = () => {
     setBasicModal(false);
   };
-
-  // ==================================================
-  // SAVE EDUCATION
-  // ==================================================
 
   const handleSave = () => {
     if (!educationData.degreeLevel) {
@@ -133,9 +158,7 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
       percentage: educationData.percentage
         ? String(educationData.percentage)
         : "0",
-      marksheet: markSheet
-        ? URL.createObjectURL(markSheet)
-        : null,
+      marksheet: URL.createObjectURL(markSheet),
       marksheetFile: markSheet,
     };
 
@@ -162,10 +185,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
       "Education record added successfully!"
     );
   };
-
-  // ==================================================
-  // FORM CHANGE
-  // ==================================================
 
   const handleEduChange = (e) => {
     const { name, value } = e.target;
@@ -204,10 +223,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
     });
   };
 
-  // ==================================================
-  // SUBMIT STEP
-  // ==================================================
-
   const submit = (e) => {
     e.preventDefault();
 
@@ -218,12 +233,19 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
       return;
     }
 
+    const invalidRecord = educationList.find(
+      (item) => !(item.marksheetFile instanceof File)
+    );
+
+    if (invalidRecord) {
+      toast.error(
+        "Please upload a valid PDF, DOC or DOCX marksheet for every education record."
+      );
+      return;
+    }
+
     onSubmit(educationList);
   };
-
-  // ==================================================
-  // REMOVE
-  // ==================================================
 
   const removeEducation = (index) => {
     const updated = educationList.filter(
@@ -234,10 +256,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
 
     toast.success("Record removed");
   };
-
-  // ==================================================
-  // DEGREE LABEL
-  // ==================================================
 
   const getDegreeLabel = (value) => {
     const labels = {
@@ -259,10 +277,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
       onSubmit={submit}
       className="step3-wrapper"
     >
-      {/* ==================================================
-          HEADER
-      ================================================== */}
-
       <div className="step3-header">
         <div className="step3-header-icon">
           <FaGraduationCap />
@@ -281,10 +295,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
           </p>
         </div>
       </div>
-
-      {/* ==================================================
-          INSTRUCTION BANNER
-      ================================================== */}
 
       <div className="step3-info-banner">
         <div className="step3-info-icon">
@@ -306,10 +316,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
           </p>
         </div>
       </div>
-
-      {/* ==================================================
-          ADD EDUCATION CARD
-      ================================================== */}
 
       <div className="step3-add-card">
         <div className="step3-add-content">
@@ -338,10 +344,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
           Add Education Record
         </MDBBtn>
       </div>
-
-      {/* ==================================================
-          EDUCATION TABLE
-      ================================================== */}
 
       {educationList.length > 0 ? (
         <div className="step3-record-card">
@@ -416,6 +418,7 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                           <strong>
                             {edu.obtainMarks}
                           </strong>
+
                           <span>
                             / {edu.totalMarks}
                           </span>
@@ -464,9 +467,7 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                           type="button"
                           className="step3-delete-btn"
                           onClick={() =>
-                            removeEducation(
-                              index
-                            )
+                            removeEducation(index)
                           }
                           title="Remove record"
                         >
@@ -506,10 +507,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
         </div>
       )}
 
-      {/* ==================================================
-          MODAL
-      ================================================== */}
-
       <MDBModal
         open={basicModal}
         onClose={closeModal}
@@ -521,8 +518,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
           centered
         >
           <MDBModalContent className="step3-modal-content">
-            {/* HEADER */}
-
             <MDBModalHeader className="step3-modal-header">
               <div className="step3-modal-title-wrap">
                 <div className="step3-modal-icon">
@@ -551,11 +546,7 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
               </MDBBtn>
             </MDBModalHeader>
 
-            {/* BODY */}
-
             <MDBModalBody className="step3-modal-body">
-              {/* Degree Level */}
-
               <div className="step3-form-group">
                 <label>
                   <FaGraduationCap />
@@ -614,8 +605,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                 </div>
               </div>
 
-              {/* Qualification */}
-
               <div className="step3-form-group">
                 <label>
                   <FaBook />
@@ -665,8 +654,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                   </select>
                 </div>
               </div>
-
-              {/* Marks */}
 
               <div className="step3-modal-row">
                 <div className="step3-form-group">
@@ -720,8 +707,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                 </div>
               </div>
 
-              {/* Percentage */}
-
               {educationData.percentage && (
                 <div className="step3-percentage-preview">
                   <div className="step3-percentage-icon">
@@ -739,8 +724,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                   </div>
                 </div>
               )}
-
-              {/* Passing Year + Roll */}
 
               <div className="step3-modal-row">
                 <div className="step3-form-group">
@@ -810,8 +793,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                   </div>
                 </div>
               </div>
-
-              {/* Board */}
 
               <div className="step3-form-group">
                 <label>
@@ -899,8 +880,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                 </div>
               </div>
 
-              {/* Marksheet */}
-
               <div className="step3-form-group">
                 <label>
                   <FaFileImage />
@@ -913,7 +892,7 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
 
                   <input
                     type="file"
-                    accept="image/*"
+                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     onChange={handleMarkSheet}
                   />
                 </div>
@@ -929,13 +908,10 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
                 )}
 
                 <small className="step3-file-help">
-                  Upload a clear image of your
-                  marks sheet or result card.
+                  PDF, DOC or DOCX only.
                 </small>
               </div>
             </MDBModalBody>
-
-            {/* FOOTER */}
 
             <MDBModalFooter className="step3-modal-footer">
               <MDBBtn
@@ -959,10 +935,6 @@ const Step3 = ({ onSubmit, onBack, initialData }) => {
           </MDBModalContent>
         </MDBModalDialog>
       </MDBModal>
-
-      {/* ==================================================
-          NAVIGATION
-      ================================================== */}
 
       <div className="step3-actions">
         <MDBBtn

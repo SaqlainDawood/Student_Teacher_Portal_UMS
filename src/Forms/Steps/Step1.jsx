@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   MDBBtn,
@@ -175,11 +174,30 @@ export default function Step1({
       return;
     }
 
-    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    const allowedExtensions = [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+    ];
+
+    const fileExtension = file.name
+      .split(".")
+      .pop()
+      ?.toLowerCase();
+
+    const isValidType =
+      ALLOWED_IMAGE_TYPES.includes(file.type) &&
+      allowedExtensions.includes(fileExtension);
+
+    if (!isValidType) {
+      setProfileImage(null);
+      setImagePreview(null);
+
       setErrors((prev) => ({
         ...prev,
         profileImage:
-          "Only JPG, JPEG, PNG or WEBP image is allowed.",
+          "Invalid file. Only JPG, JPEG, PNG or WEBP images are allowed.",
       }));
 
       e.target.value = "";
@@ -187,6 +205,9 @@ export default function Step1({
     }
 
     if (file.size > MAX_IMAGE_SIZE) {
+      setProfileImage(null);
+      setImagePreview(null);
+
       setErrors((prev) => ({
         ...prev,
         profileImage:
@@ -452,9 +473,7 @@ export default function Step1({
                 STEP 1 OF 4
               </div>
 
-              <h3>
-                Personal Information
-              </h3>
+              <h3>Personal Information</h3>
 
               <p>
                 Please provide your personal
@@ -488,9 +507,13 @@ export default function Step1({
               </div>
 
               <MDBRow className="g-3">
+
                 <MDBCol md="6">
+                  <label className="step1-label">
+                    First Name <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="First Name *"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
@@ -498,13 +521,18 @@ export default function Step1({
                     type="text"
                     maxLength={50}
                     autoComplete="given-name"
+                    placeholder="Enter first name"
                   />
+
                   {renderError("firstName")}
                 </MDBCol>
 
                 <MDBCol md="6">
+                  <label className="step1-label">
+                    Last Name <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="Last Name *"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
@@ -512,13 +540,18 @@ export default function Step1({
                     type="text"
                     maxLength={50}
                     autoComplete="family-name"
+                    placeholder="Enter last name"
                   />
+
                   {renderError("lastName")}
                 </MDBCol>
 
                 <MDBCol md="4">
+                  <label className="step1-label">
+                    CNIC <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="CNIC *"
                     name="cnic"
                     value={formData.cnic}
                     onChange={handleCnicChange}
@@ -526,14 +559,18 @@ export default function Step1({
                     type="text"
                     inputMode="numeric"
                     maxLength={13}
-                    placeholder="1234567890127"
+                    placeholder="3520212345671"
                   />
+
                   {renderError("cnic")}
                 </MDBCol>
 
                 <MDBCol md="4">
+                  <label className="step1-label">
+                    Phone Number <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="Phone Number *"
                     name="phoneNo"
                     value={formData.phoneNo}
                     onChange={handlePhoneChange}
@@ -541,14 +578,18 @@ export default function Step1({
                     type="text"
                     inputMode="numeric"
                     maxLength={11}
-                    placeholder="03001234522"
+                    placeholder="03001234567"
                   />
+
                   {renderError("phoneNo")}
                 </MDBCol>
 
                 <MDBCol md="4">
+                  <label className="step1-label">
+                    Email <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="Email *"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -556,10 +597,12 @@ export default function Step1({
                     type="email"
                     autoComplete="email"
                     maxLength={100}
-                    placeholder="alikahn@example.com"
+                    placeholder="student@example.com"
                   />
+
                   {renderError("email")}
                 </MDBCol>
+
               </MDBRow>
             </div>
 
@@ -582,36 +625,48 @@ export default function Step1({
               </div>
 
               <MDBRow className="g-3">
+
                 <MDBCol md="6">
+                  <label className="step1-label">
+                    Present Address <span>*</span>
+                  </label>
+
                   <MDBTextArea
-                    label="Present Address *"
                     name="presentAddress"
                     value={formData.presentAddress}
                     onChange={handleChange}
                     disabled={loading}
                     rows={4}
                     maxLength={300}
+                    placeholder="Enter present residential address"
                   />
+
                   {renderError("presentAddress")}
                 </MDBCol>
 
                 <MDBCol md="6">
+                  <label className="step1-label">
+                    Permanent Address <span>*</span>
+                  </label>
+
                   <MDBTextArea
-                    label="Permanent Address *"
                     name="permanentAddress"
                     value={formData.permanentAddress}
                     onChange={handleChange}
                     disabled={loading}
                     rows={4}
                     maxLength={300}
+                    placeholder="Enter permanent residential address"
                   />
+
                   {renderError("permanentAddress")}
                 </MDBCol>
+
               </MDBRow>
             </div>
 
             {/* ============================= */}
-            {/* Personal Information */}
+            {/* Additional Information */}
             {/* ============================= */}
 
             <div className="step1-section">
@@ -632,7 +687,7 @@ export default function Step1({
 
                 <MDBCol md="6">
                   <label className="step1-label">
-                    Religion *
+                    Religion <span>*</span>
                   </label>
 
                   <select
@@ -667,7 +722,7 @@ export default function Step1({
 
                 <MDBCol md="6">
                   <label className="step1-label">
-                    Gender *
+                    Gender <span>*</span>
                   </label>
 
                   <select
@@ -696,7 +751,7 @@ export default function Step1({
 
                 <MDBCol md="4">
                   <label className="step1-label">
-                    Blood Group *
+                    Blood Group <span>*</span>
                   </label>
 
                   <select
@@ -724,7 +779,7 @@ export default function Step1({
 
                 <MDBCol md="4">
                   <label className="step1-label">
-                    Marital Status *
+                    Marital Status <span>*</span>
                   </label>
 
                   <select
@@ -755,8 +810,11 @@ export default function Step1({
                 </MDBCol>
 
                 <MDBCol md="4">
+                  <label className="step1-label">
+                    Nationality <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="Nationality *"
                     name="nationality"
                     value={formData.nationality}
                     onChange={handleChange}
@@ -765,12 +823,16 @@ export default function Step1({
                     maxLength={50}
                     placeholder="Pakistani"
                   />
+
                   {renderError("nationality")}
                 </MDBCol>
 
                 <MDBCol md="4">
+                  <label className="step1-label">
+                    Date of Birth <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="Date of Birth *"
                     name="DOB"
                     value={formData.DOB}
                     onChange={handleChange}
@@ -782,12 +844,13 @@ export default function Step1({
                         .split("T")[0]
                     }
                   />
+
                   {renderError("DOB")}
                 </MDBCol>
 
                 <MDBCol md="4">
                   <label className="step1-label">
-                    Province *
+                    Province <span>*</span>
                   </label>
 
                   <select
@@ -827,8 +890,11 @@ export default function Step1({
                 </MDBCol>
 
                 <MDBCol md="4">
+                  <label className="step1-label">
+                    Domicile <span>*</span>
+                  </label>
+
                   <MDBInput
-                    label="Domicile *"
                     name="domicile"
                     value={formData.domicile}
                     onChange={handleChange}
@@ -837,8 +903,10 @@ export default function Step1({
                     maxLength={100}
                     placeholder="Multan"
                   />
+
                   {renderError("domicile")}
                 </MDBCol>
+
               </MDBRow>
             </div>
 
@@ -878,7 +946,7 @@ export default function Step1({
 
                 <div className="step1-upload-content">
                   <label className="step1-label">
-                    Profile Image *
+                    Profile Image <span>*</span>
                   </label>
 
                   <MDBFile
@@ -905,6 +973,7 @@ export default function Step1({
                     </div>
                   )}
                 </div>
+
               </div>
             </div>
 

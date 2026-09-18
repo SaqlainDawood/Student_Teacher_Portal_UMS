@@ -132,8 +132,7 @@ export default function MultiPartForm() {
           phoneNo: student.phoneNo || "",
           email: student.email || "",
 
-          presentAddress:
-            student.presentAddress || "",
+          presentAddress: student.presentAddress || "",
 
           permanentAddress:
             student.permanentAddress || "",
@@ -275,17 +274,62 @@ export default function MultiPartForm() {
       // Marksheets
       // ----------------------------------------------
 
-      if (
-        Array.isArray(files?.marksheets)
-      ) {
-        files.marksheets.forEach((file) => {
-          if (file instanceof File) {
-            formDataToSend.append(
-              "marksheets",
-              file
+      if (Array.isArray(files?.marksheets)) {
+        files.marksheets.forEach(
+          (file, index) => {
+            if (file instanceof File) {
+              formDataToSend.append(
+                `marksheet_${index}`,
+                file
+              );
+            }
+          }
+        );
+      }
+
+      // ==================================================
+      // STEP 3 DEBUG
+      // ==================================================
+
+      if (stepNumber === 3) {
+        console.log(
+          "=========================================="
+        );
+
+        console.log(
+          "STEP 3 - FINAL FORMDATA BEFORE REQUEST"
+        );
+
+        console.log(
+          "=========================================="
+        );
+
+        for (
+          const [key, value]
+          of formDataToSend.entries()
+        ) {
+          if (value instanceof File) {
+            console.log(
+              `${key} => FILE`,
+              {
+                name: value.name,
+                type: value.type,
+                size: value.size,
+                lastModified:
+                  value.lastModified,
+              }
+            );
+          } else {
+            console.log(
+              `${key} =>`,
+              value
             );
           }
-        });
+        }
+
+        console.log(
+          "=========================================="
+        );
       }
 
       // ----------------------------------------------
@@ -300,7 +344,7 @@ export default function MultiPartForm() {
       const result = response.data;
 
       console.log(
-        "STEP API RESPONSE:",
+        `STEP ${stepNumber} API RESPONSE:`,
         result
       );
 
@@ -338,6 +382,16 @@ export default function MultiPartForm() {
       console.error(
         `Step ${stepNumber} submit error:`,
         error
+      );
+
+      console.error(
+        `Step ${stepNumber} response data:`,
+        error?.response?.data
+      );
+
+      console.error(
+        `Step ${stepNumber} response status:`,
+        error?.response?.status
       );
 
       const message =
@@ -387,7 +441,6 @@ export default function MultiPartForm() {
 
         setCurrentStep(2);
 
-        // Update URL with Student ID
         if (result.studentId) {
           navigate(
             `/student/register?draftId=${result.studentId}`,
@@ -490,131 +543,112 @@ export default function MultiPartForm() {
   // Step 3 Submit
   // ==================================================
 
-  const handleStep3Submit = async (
-    educationList
-  ) => {
-    try {
-      setLoading(true);
+const handleStep3Submit = async (educationList) => {
+  try {
+    setLoading(true);
 
-      // ----------------------------------------------
-      // Get Student ID
-      // ----------------------------------------------
+    const currentStudentId = localStorage.getItem("studentId");
 
-      const currentStudentId =
-        localStorage.getItem("studentId");
-
-      console.log(
-        "STEP 3 STUDENT ID:",
-        currentStudentId
+    if (!currentStudentId) {
+      toast.error(
+        "Student ID not found. Please complete Step 1 first."
       );
-
-      if (!currentStudentId) {
-        toast.error(
-          "Student ID not found. Please complete Step 1 first."
-        );
-
-        return;
-      }
-
-      // ----------------------------------------------
-      // Extract Actual File Objects
-      // ----------------------------------------------
-
-      const marksheets =
-        educationList
-          .map(
-            (item) =>
-              item.marksheetFile
-          )
-          .filter(
-            (file) =>
-              file instanceof File
-          );
-
-      console.log(
-        "STEP 3 MARKSHEETS:",
-        marksheets
-      );
-
-      // ----------------------------------------------
-      // Remove File Objects
-      // ----------------------------------------------
-
-      const cleanEducationList =
-        educationList.map(
-          (item) => {
-            const {
-              marksheetFile,
-              marksheet,
-              ...rest
-            } = item;
-
-            return rest;
-          }
-        );
-
-      // ----------------------------------------------
-      // Final Data
-      // ----------------------------------------------
-
-      const cleanData = {
-        studentId: currentStudentId,
-        educationList:
-          cleanEducationList,
-      };
-
-      console.log(
-        "STEP 3 EDUCATION DATA:",
-        cleanData
-      );
-
-      console.log(
-        "STEP 3 FINAL FILES:",
-        marksheets
-      );
-
-      // ----------------------------------------------
-      // Submit
-      // ----------------------------------------------
-
-      const result = await submitStep(
-        3,
-        cleanData,
-        {
-          marksheets,
-        }
-      );
-
-      console.log(
-        "STEP 3 API RESULT:",
-        result
-      );
-
-      // ----------------------------------------------
-      // Success
-      // ----------------------------------------------
-
-      if (result?.success) {
-        setStep3Data(
-          educationList
-        );
-
-        toast.success(
-          result.message ||
-            "Step 3 saved successfully."
-        );
-
-        setCurrentStep(4);
-      }
-    } catch (error) {
-      console.error(
-        "Step 3 handler error:",
-        error
-      );
-    } finally {
-      setLoading(false);
+      return;
     }
-  };
+
+    const cleanEducationList = educationList.map((item) => {
+      const {
+        marksheetFile,
+        marksheet,
+        ...rest
+      } = item;
+
+      return rest;
+    });
+
+    const formData = new FormData();
+
+    formData.append("studentId", currentStudentId);
+
+    formData.append(
+      "educationList",
+      JSON.stringify(cleanEducationList)
+    );
+
+    educationList.forEach((item, index) => {
+      if (item.marksheetFile instanceof File) {
+        formData.append(
+          `marksheet_${index}`,
+          item.marksheetFile,
+          item.marksheetFile.name
+        );
+      }
+    });
+
+    console.log("STEP 3 FORM DATA");
+
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}:`, {
+          name: value.name,
+          type: value.type,
+          size: value.size,
+        });
+      } else {
+        console.log(`${key}:`, value);
+      }
+    }
+
+    const response = await API.post(
+      "/step/3",
+      formData
+    );
+
+    console.log(
+      "STEP 3 RESPONSE:",
+      response.data
+    );
+
+    if (response.data?.success) {
+      setStep3Data(educationList);
+
+      toast.success(
+        response.data.message ||
+          "Step 3 saved successfully."
+      );
+
+      setCurrentStep(4);
+      return;
+    }
+
+    toast.error(
+      response.data?.message ||
+        "Failed to save Step 3."
+    );
+  } catch (error) {
+    console.error(
+      "STEP 3 ERROR:",
+      error
+    );
+
+    console.error(
+      "STEP 3 RESPONSE:",
+      error?.response?.data
+    );
+
+    console.error(
+      "STEP 3 STATUS:",
+      error?.response?.status
+    );
+
+    toast.error(
+      error?.response?.data?.message ||
+        "Failed to save Step 3."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   // ==================================================
   // Step 4 Submit
@@ -661,16 +695,16 @@ export default function MultiPartForm() {
         result
       );
 
-   if (result?.success) {
-  setStep4Data(data);
+      if (result?.success) {
+        setStep4Data(data);
 
-  toast.success(
-    result.message ||
-      "Registration completed successfully."
-  );
+        toast.success(
+          result.message ||
+            "Registration completed successfully."
+        );
 
-  navigate("/std/dashboard");
-}
+        navigate("/std/dashboard");
+      }
     } catch (error) {
       console.error(
         "Step 4 handler error:",
@@ -698,10 +732,6 @@ export default function MultiPartForm() {
       ================================================== */}
 
       <div className="registration-stepper">
-
-        {/* ----------------------------------------------
-            Stepper Header
-        ---------------------------------------------- */}
 
         <div className="stepper-top">
 
@@ -740,10 +770,6 @@ export default function MultiPartForm() {
 
         </div>
 
-        {/* ----------------------------------------------
-            Steps
-        ---------------------------------------------- */}
-
         <div className="stepper-wrapper">
 
           {steps.map(
@@ -765,8 +791,6 @@ export default function MultiPartForm() {
                 <React.Fragment
                   key={step.number}
                 >
-
-                  {/* Individual Step */}
 
                   <div
                     className={`
@@ -824,8 +848,6 @@ export default function MultiPartForm() {
 
                   </div>
 
-                  {/* Connector */}
-
                   {index <
                     steps.length -
                       1 && (
@@ -850,10 +872,6 @@ export default function MultiPartForm() {
           )}
 
         </div>
-
-        {/* ----------------------------------------------
-            Progress Info
-        ---------------------------------------------- */}
 
         <div className="stepper-progress-info">
 
