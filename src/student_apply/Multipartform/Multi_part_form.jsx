@@ -42,7 +42,7 @@ export default function MultiPartForm() {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const res = await API.get("/student/profile");
+        const res = await API.get("/students/steps/profile");
         if (res.data?.success && res.data.student) {
           const s = res.data.student;
 
@@ -70,7 +70,7 @@ export default function MultiPartForm() {
       } catch (err) {
         if (err.response?.status === 401) {
           toast.error("Session expired. Please login again.");
-          navigate("/student/login");
+          navigate("/students/auth/login");
         }
       } finally {
         setInitialLoading(false);
@@ -94,7 +94,7 @@ export default function MultiPartForm() {
         }
       });
 
-      const res = await API.post("/student/step/1", fd, {
+      const res = await API.post("/students/steps/step/1", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -116,7 +116,7 @@ export default function MultiPartForm() {
   const handleStep2Submit = async (data) => {
     try {
       setLoading(true);
-      const res = await API.post("/student/step/2", data);
+      const res = await API.post("/students/steps/step/2", data);
       if (res.data?.success) {
         toast.success(res.data.message || "Step 2 saved");
         setStep2Data(data);
@@ -150,7 +150,7 @@ export default function MultiPartForm() {
         }
       });
 
-      const res = await API.post("/student/step/3", formData, {
+      const res = await API.post("/students/steps/step/3", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -172,7 +172,7 @@ export default function MultiPartForm() {
   const handleStep4Submit = async (data) => {
     try {
       setLoading(true);
-      const res = await API.post("/student/step/4", {
+     const res = await API.post("/students/steps/step/4", {
         degreeClassId: data.degreeClassId,
         shiftId: data.shiftId,
       });
