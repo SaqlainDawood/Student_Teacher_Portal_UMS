@@ -11,6 +11,12 @@ import StudentApplyLayout, {
   StudentApplyIndex,
 } from "./student_apply/StudentApplyLayout";
 
+import StaffLayout, {
+  PublicRoute as StaffPublicRoute,
+  ProtectedRoute as StaffProtectedRoute,
+  StaffIndex,
+} from "./staff_apply/StaffLayout";
+
 // Public
 import Hero from './Components/HeroSection/Hero'
 
@@ -25,6 +31,13 @@ import ResetPassword from './student_apply/student_auth/ResetPassword'
 import MultiPartForm from './student_apply/Multipartform/Multi_part_form'
 import Dashboard from './student_apply/Dashboard'
 
+// Staff / Job Portal Pages
+import StaffLogin from './pages/staff/Login'
+import StaffSignup from './pages/staff/Signup'
+import StaffForgotPassword from './pages/staff/ForgotPassword'
+import StaffJobListing from './pages/staff/JobListing'
+import StaffDashboard from './pages/staff/Dashboard'
+import VarifyMail from "./pages/staff/verify-email";
 // Faculty
 import FacultyLogin from './FacultyDashboard/Form/Login'
 import FacultyDashboard from './FacultyDashboard/Pages/FacultyDashboard'
@@ -103,6 +116,53 @@ function App() {
             <Route path="/student/login" element={<Navigate to="/student/apply/login" replace />} />
             <Route path="/student/register" element={<Navigate to="/student/apply/steps" replace />} />
             <Route path="/student/dashboard" element={<Navigate to="/student/apply/profile" replace />} />
+
+            {/* ============================================== */}
+            {/* STAFF / JOB PORTAL — nested routes */}
+            {/* ============================================== */}
+            <Route path="/staff/apply" element={<StaffLayout />}>
+
+              {/* /staff/apply — smart redirect */}
+              <Route index element={<StaffIndex />} />
+
+              {/* Public routes */}
+              <Route
+                path="signup"
+                element={
+                  <StaffPublicRoute>
+                    <StaffSignup />
+                  </StaffPublicRoute>
+                }
+              />
+              <Route
+                path="login"
+                element={
+                  <StaffPublicRoute>
+                    <StaffLogin />
+                  </StaffPublicRoute>
+                }
+              />
+              <Route path="forgot-password" element={<StaffForgotPassword />} />
+              <Route path="varify-email" element={< VarifyMail/>} />
+              {/* Protected routes */}
+              <Route
+                path="jobs"
+                element={
+                  <StaffProtectedRoute>
+                    <StaffJobListing />
+                  </StaffProtectedRoute>
+                }
+              />
+              <Route
+                path="dashboard"
+                element={
+                  <StaffProtectedRoute>
+                    <StaffDashboard />
+                  </StaffProtectedRoute>
+                }
+              />
+
+            </Route>
 
             {/* ============================================== */}
             {/* FACULTY */}
