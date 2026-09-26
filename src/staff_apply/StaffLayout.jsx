@@ -5,7 +5,7 @@ import StaffAPI from "../services/staffApi";
 export const isStaffAuthenticated = () => !!sessionStorage.getItem("staffToken");
 export function PublicRoute({ children }) {
   if (isStaffAuthenticated()) {
-    return <Navigate to="/staff/dashboard" replace />;
+    return <Navigate to="/staff/apply/dashboard" replace />;
   }
   return children;
 }
@@ -15,7 +15,7 @@ export function ProtectedRoute({ children }) {
   if (!isStaffAuthenticated()) {
     return (
       <Navigate
-        to="/staff/login"
+        to="/staff/apply/login"
         state={{ from: location.pathname }}
         replace
       />
@@ -25,7 +25,7 @@ export function ProtectedRoute({ children }) {
 }
 export function StaffIndex() {
   const [checking, setChecking] = useState(true);
-  const [target, setTarget] = useState("/staff/login");
+  const [target, setTarget] = useState("/staff/apply/login");
 
   useEffect(() => {
     const decide = async () => {
@@ -40,17 +40,17 @@ export function StaffIndex() {
         const staff = res.data?.staff;
 
         if (staff?.isSubmitted) {
-          setTarget("/staff/dashboard");
+          setTarget("/staff/apply/dashboard");
         } else if (!staff?.step6_applyFor?.jobPost) {
-          setTarget("/staff/jobs");
+          setTarget("/staff/apply/jobs");
         } else {
-          setTarget("/staff/application");
+          setTarget("/staff/apply/application");
         }
       } catch (err) {
         if (err.response?.status === 401) {
-          setTarget("/staff/login");
+          setTarget("/staff/apply/login");
         } else {
-          setTarget("/staff/dashboard");
+          setTarget("/staff/apply/dashboard");
         }
       } finally {
         setChecking(false);

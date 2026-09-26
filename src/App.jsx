@@ -143,7 +143,7 @@ function App() {
                 }
               />
               <Route path="forgot-password" element={<StaffForgotPassword />} />
-              <Route path="varify-email" element={< VarifyMail/>} />
+              <Route path="varify-email/:token" element={<VarifyMail />} />
               {/* Protected routes */}
               <Route
                 path="jobs"

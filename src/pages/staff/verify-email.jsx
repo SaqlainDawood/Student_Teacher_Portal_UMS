@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import StaffAPI from "../../services/staffApi";
 
 export default function VarifyMail() {
+  const { token: routeToken } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -13,7 +14,7 @@ export default function VarifyMail() {
 
   useEffect(() => {
     const verifyEmail = async () => {
-      const token = searchParams.get("token");
+      const token = routeToken || searchParams.get("token");
 
       // ----------------------------------------------------
       // TOKEN MISSING
@@ -63,7 +64,7 @@ export default function VarifyMail() {
     };
 
     verifyEmail();
-  }, [searchParams, navigate]);
+  }, [routeToken, searchParams, navigate]);
 
   // ======================================================
   // LOADING / VERIFYING
