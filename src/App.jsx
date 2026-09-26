@@ -36,6 +36,7 @@ import StaffLogin from './pages/staff/Login'
 import StaffSignup from './pages/staff/Signup'
 import StaffForgotPassword from './pages/staff/ForgotPassword'
 import StaffJobListing from './pages/staff/JobListing'
+import StaffApplicationForm from './pages/staff/StaffApplicationForm'
 import StaffDashboard from './pages/staff/Dashboard'
 import VarifyMail from "./pages/staff/verify-email";
 // Faculty
@@ -144,12 +145,21 @@ function App() {
               />
               <Route path="forgot-password" element={<StaffForgotPassword />} />
               <Route path="varify-email/:token" element={<VarifyMail />} />
+
               {/* Protected routes */}
               <Route
                 path="jobs"
                 element={
                   <StaffProtectedRoute>
                     <StaffJobListing />
+                  </StaffProtectedRoute>
+                }
+              />
+              <Route
+                path="application"
+                element={
+                  <StaffProtectedRoute>
+                    <StaffApplicationForm />
                   </StaffProtectedRoute>
                 }
               />
