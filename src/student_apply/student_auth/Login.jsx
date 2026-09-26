@@ -4,14 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../../services/api";
 import { useStudentAuth } from "../../context/StudentAuthContext";
-import {
-  FaEnvelope,
-  FaLock,
-  FaEye,
-  FaEyeSlash,
-  FaSignInAlt,
-  FaSpinner,
-} from "react-icons/fa";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -59,104 +52,144 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-4 py-10">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-8 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur mb-4">
-              <FaSignInAlt className="text-white text-3xl" />
-            </div>
-            <h1 className="text-2xl font-bold text-white">Student Login</h1>
-            <p className="text-indigo-100 text-sm mt-2">
-              Welcome back! Login to continue
-            </p>
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-950">
+      {/* ============================================== */}
+      {/* LEFT — Welcome panel (no logo, text only) */}
+      {/* ============================================== */}
+      <div className="relative md:w-1/2 flex flex-col justify-between px-8 py-10 md:px-16 md:py-16 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-800/20 blur-3xl"
+          aria-hidden="true"
+        />
+
+        <div className="relative">
+          <span className="text-xs font-semibold tracking-wide text-blue-300/80">
+            University Management System
+          </span>
+        </div>
+
+        <div className="relative max-w-md">
+          <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
+            Welcome to the University Management System
+          </h1>
+          <p className="mt-5 text-slate-300 text-base leading-relaxed">
+            Manage your admission, track your application status, and stay
+            connected with your university — all from one place.
+          </p>
+
+          <p className="mt-10 text-slate-300 text-sm">
+            New here?{" "}
+            <Link
+              to="/student/apply/signup"
+              className="text-white font-semibold underline decoration-blue-400 underline-offset-4 hover:text-blue-300"
+            >
+              Create an account
+            </Link>
+          </p>
+        </div>
+
+        <div className="relative text-xs text-slate-500">
+          Contact:{" "}
+          <a href="mailto:admissions@university.edu" className="text-slate-400 hover:text-slate-200">
+            admissions@university.edu
+          </a>
+        </div>
+      </div>
+
+      {/* ============================================== */}
+      {/* RIGHT — Form panel */}
+      {/* ============================================== */}
+      <div className="md:w-1/2 flex items-center justify-center bg-white px-6 py-12 md:py-0">
+        <div className="w-full max-w-sm">
+          {/* Tabs */}
+          <div className="flex items-baseline justify-between mb-8">
+            <h2 className="text-2xl font-semibold text-slate-900">Sign in</h2>
+            <Link
+              to="/student/apply/signup"
+              className="text-sm font-medium text-blue-700 hover:text-blue-800"
+            >
+              Create account
+            </Link>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="px-8 py-8 space-y-5">
-            {/* Email */}
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">
                 Email
               </label>
               <div className="relative">
-                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <FaEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
                 <input
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="student@example.com"
-                  className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
+                  placeholder="you@example.com"
+                  className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition"
                   required
                 />
               </div>
             </div>
 
-            {/* Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <FaLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={form.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full pl-11 pr-12 py-3 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
+                  className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-lg text-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  tabIndex={-1}
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
             </div>
 
-            {/* Forgot */}
-            <div className="text-right">
-              <Link
-                to="/student/forgot-password"
-                className="text-sm text-indigo-600 hover:underline"
-              >
-                Forgot Password?
-              </Link>
-            </div>
-
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3 rounded-xl font-semibold shadow-lg shadow-indigo-200 disabled:opacity-60 transition"
+              className="w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-lg text-sm font-semibold disabled:opacity-60 transition"
             >
               {loading ? (
                 <>
-                  <FaSpinner className="animate-spin" /> Signing In...
+                  <FaSpinner className="animate-spin" /> Signing in...
                 </>
               ) : (
-                <>
-                  <FaSignInAlt /> Login
-                </>
+                "Sign in"
               )}
             </button>
+          </form>
 
-            <p className="text-center text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link
-                to="/student/apply/signup"
-                className="text-indigo-600 font-semibold hover:underline"
-              >
-                Sign Up
+          <div className="mt-6 space-y-2 text-sm">
+            <p className="text-slate-600">
+              Didn't receive a verification email?{" "}
+              <Link to="/student/apply/resend-verification" className="text-blue-700 font-medium hover:text-blue-800">
+                Resend email
               </Link>
             </p>
-          </form>
+            <p className="text-slate-600">
+              Forgot your password?{" "}
+              <Link to="/student/apply/forgot-password" className="text-blue-700 font-medium hover:text-blue-800">
+                Reset it here
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

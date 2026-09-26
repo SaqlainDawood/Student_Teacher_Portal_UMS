@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../../services/api";
-import { FaEnvelope, FaPaperPlane, FaSpinner } from "react-icons/fa";
+import { FaEnvelope, FaSpinner } from "react-icons/fa";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -31,42 +31,98 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-4">
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-md w-full overflow-hidden">
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-8 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-4">
-            <FaEnvelope className="text-white text-3xl" />
-          </div>
-          <h1 className="text-2xl font-bold text-white">Forgot Password?</h1>
-          <p className="text-indigo-100 text-sm mt-2">
-            Enter your email and we'll send a reset link
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-950">
+      {/* ============================================== */}
+      {/* LEFT — Welcome panel (no logo, text only) */}
+      {/* ============================================== */}
+      <div className="relative md:w-1/2 flex flex-col justify-between px-8 py-10 md:px-16 md:py-16 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-800/20 blur-3xl"
+          aria-hidden="true"
+        />
+
+        <div className="relative">
+          <span className="text-xs font-semibold tracking-wide text-blue-300/80">
+            University Management System
+          </span>
+        </div>
+
+        <div className="relative max-w-md">
+          <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
+            Welcome to the University Management System
+          </h1>
+          <p className="mt-5 text-slate-300 text-base leading-relaxed">
+            Lost access to your account? We'll send a secure link to your
+            email so you can set a new password.
+          </p>
+
+          <p className="mt-10 text-slate-300 text-sm">
+            Remembered it after all?{" "}
+            <Link
+              to="/student/apply/login"
+              className="text-white font-semibold underline decoration-blue-400 underline-offset-4 hover:text-blue-300"
+            >
+              Back to sign in
+            </Link>
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-8 py-8 space-y-5">
+        <div className="relative text-xs text-slate-500">
+          Contact:{" "}
+          <a href="mailto:admissions@university.edu" className="text-slate-400 hover:text-slate-200">
+            admissions@university.edu
+          </a>
+        </div>
+      </div>
+
+      {/* ============================================== */}
+      {/* RIGHT — Form panel */}
+      {/* ============================================== */}
+      <div className="md:w-1/2 flex items-center justify-center bg-white px-6 py-12 md:py-0">
+        <div className="w-full max-w-sm">
+          {/* Tabs */}
+          <div className="flex items-baseline justify-between mb-8">
+            <h2 className="text-2xl font-semibold text-slate-900">Forgot password</h2>
+            <Link
+              to="/student/apply/login"
+              className="text-sm font-medium text-blue-700 hover:text-blue-800"
+            >
+              Sign in
+            </Link>
+          </div>
+
           {sent ? (
-            <div className="text-center py-4">
-              <p className="text-green-600 font-medium">
-                ✅ Reset link sent to your email
+            <div className="py-6">
+              <p className="text-slate-900 font-medium">Check your inbox</p>
+              <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+                If an account exists for that email, a reset link is on its
+                way. Follow it to set a new password.
               </p>
-              <p className="text-sm text-gray-500 mt-2">
-                Check your inbox and follow the link
-              </p>
+              <Link
+                to="/student/apply/login"
+                className="inline-block mt-6 text-sm font-medium text-blue-700 hover:text-blue-800"
+              >
+                ← Back to sign in
+              </Link>
             </div>
           ) : (
-            <>
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  Email
                 </label>
                 <div className="relative">
-                  <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <FaEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="student@example.com"
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
+                    placeholder="you@example.com"
+                    className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition"
                     required
                   />
                 </div>
@@ -75,30 +131,19 @@ export default function ForgotPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3 rounded-xl font-semibold shadow-lg shadow-indigo-200 disabled:opacity-60"
+                className="w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-lg text-sm font-semibold disabled:opacity-60 transition"
               >
                 {loading ? (
                   <>
                     <FaSpinner className="animate-spin" /> Sending...
                   </>
                 ) : (
-                  <>
-                    <FaPaperPlane /> Send Reset Link
-                  </>
+                  "Send reset link"
                 )}
               </button>
-            </>
+            </form>
           )}
-
-          <p className="text-center text-sm text-gray-600">
-            <Link
-              to="/student/login"
-              className="text-indigo-600 font-semibold hover:underline"
-            >
-              ← Back to Login
-            </Link>
-          </p>
-        </form>
+        </div>
       </div>
     </div>
   );
