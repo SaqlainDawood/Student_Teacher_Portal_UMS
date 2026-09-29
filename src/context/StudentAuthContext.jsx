@@ -49,7 +49,8 @@ export const StudentAuthProvider = ({ children }) => {
       if (!studentToken) return;
 
       try {
-        const res = await API.get("/students/me");
+        // API path updated: /students/auth/me
+        const res = await API.get("/students/auth/me");
         if (res.data?.success) {
           setStudent(res.data.student);
           sessionStorage.setItem(

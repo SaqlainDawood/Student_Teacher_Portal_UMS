@@ -1,8 +1,8 @@
-// src/pages/student/ForgotPassword.jsx
+// src/pages/staff/ForgotPassword.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import API from "../../services/api";
+import StaffAPI from "../../services/staffApi";
 import { FaEnvelope, FaSpinner } from "react-icons/fa";
 
 export default function ForgotPassword() {
@@ -16,7 +16,7 @@ export default function ForgotPassword() {
 
     setLoading(true);
     try {
-      const res = await API.post("/students/auth/forgot-password", {
+      const res = await StaffAPI.post("/staff/forgot-password", {
         email: email.toLowerCase().trim(),
       });
       if (res.data?.success) {
@@ -33,27 +33,27 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-slate-950">
       {/* ============================================== */}
-      {/* LEFT — Welcome panel (no logo, text only) */}
+      {/* LEFT — Welcome panel */}
       {/* ============================================== */}
       <div className="relative md:w-1/2 flex flex-col justify-between px-8 py-10 md:px-16 md:py-16 overflow-hidden">
         <div
-          className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950"
+          className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950"
           aria-hidden="true"
         />
         <div
-          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-800/20 blur-3xl"
+          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-emerald-800/20 blur-3xl"
           aria-hidden="true"
         />
 
         <div className="relative">
-          <span className="text-xs font-semibold tracking-wide text-blue-300/80">
-            University Management System
+          <span className="text-xs font-semibold tracking-wide text-emerald-300/80">
+            University Careers Portal
           </span>
         </div>
 
         <div className="relative max-w-md">
           <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
-            Welcome to the University Management System
+            Build your career with the university
           </h1>
           <p className="mt-5 text-slate-300 text-base leading-relaxed">
             Lost access to your account? We'll send a secure link to your
@@ -63,8 +63,8 @@ export default function ForgotPassword() {
           <p className="mt-10 text-slate-300 text-sm">
             Remembered it after all?{" "}
             <Link
-              to="/student/apply/login"
-              className="text-white font-semibold underline decoration-blue-400 underline-offset-4 hover:text-blue-300"
+              to="/staff/apply/login"
+              className="text-white font-semibold underline decoration-emerald-400 underline-offset-4 hover:text-emerald-300"
             >
               Back to sign in
             </Link>
@@ -73,8 +73,8 @@ export default function ForgotPassword() {
 
         <div className="relative text-xs text-slate-500">
           Contact:{" "}
-          <a href="mailto:admissions@university.edu" className="text-slate-400 hover:text-slate-200">
-            admissions@university.edu
+          <a href="mailto:careers@university.edu" className="text-slate-400 hover:text-slate-200">
+            careers@university.edu
           </a>
         </div>
       </div>
@@ -84,12 +84,11 @@ export default function ForgotPassword() {
       {/* ============================================== */}
       <div className="md:w-1/2 flex items-center justify-center bg-white px-6 py-12 md:py-0">
         <div className="w-full max-w-sm">
-          {/* Tabs */}
           <div className="flex items-baseline justify-between mb-8">
             <h2 className="text-2xl font-semibold text-slate-900">Forgot password</h2>
             <Link
-              to="/student/apply/login"
-              className="text-sm font-medium text-blue-700 hover:text-blue-800"
+              to="/staff/apply/login"
+              className="text-sm font-medium text-emerald-700 hover:text-emerald-800"
             >
               Sign in
             </Link>
@@ -103,8 +102,8 @@ export default function ForgotPassword() {
                 way. Follow it to set a new password.
               </p>
               <Link
-                to="/student/apply/login"
-                className="inline-block mt-6 text-sm font-medium text-blue-700 hover:text-blue-800"
+                to="/staff/apply/login"
+                className="inline-block mt-6 text-sm font-medium text-emerald-700 hover:text-emerald-800"
               >
                 ← Back to sign in
               </Link>
@@ -122,7 +121,7 @@ export default function ForgotPassword() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition"
+                    className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none transition"
                     required
                   />
                 </div>
@@ -131,7 +130,7 @@ export default function ForgotPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-lg text-sm font-semibold disabled:opacity-60 transition"
+                className="w-full flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-lg text-sm font-semibold disabled:opacity-60 transition"
               >
                 {loading ? (
                   <>
