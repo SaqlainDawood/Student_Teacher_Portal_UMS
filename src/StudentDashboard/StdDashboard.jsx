@@ -54,8 +54,9 @@ export const StdDashboard = () => {
   const menuItems = [
     { path: "/std/dashboard", name: "Dashboard", icon: "chalkboard" },
     { path: "/std/profile", name: "Profile", icon: "user-graduate" },
-    { path: "/std/activities", name: "My Activities", icon: "tasks" }, // 🆕
-    { path: "/std/grades", name: "My Grades", icon: "chart-bar" },  
+    { path: "/std/credit-summary", name: "Credit Summary", icon: "book-open" },
+    { path: "/std/activities", name: "My Activities", icon: "tasks" },
+    { path: "/std/grades", name: "My Grades", icon: "chart-bar" },
     { path: "/std/feehistory", name: "Fee History", icon: "history" },
     { path: "/std/attendance", name: "My Attendance", icon: "calendar-check" },
     { path: "/std/result", name: "Result", icon: "poll-h" },
@@ -118,3 +119,5 @@ export const StdDashboard = () => {
     </div>
   );
 };
+
+export default StdDashboard;

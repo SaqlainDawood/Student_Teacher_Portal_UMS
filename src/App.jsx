@@ -51,6 +51,12 @@ import AttendanceReport from './FacultyDashboard/Pages/Attendance/AttendanceRepo
 import Activities from './FacultyDashboard/Pages/Activities'
 import MarkingList from './FacultyDashboard/Pages/MarkingList'
 
+// Student Dashboard
+import StdDashboard from './StudentDashboard/StdDashboard'
+import DashboardHome from './StudentDashboard/DashboardHome'
+import StudentProfile from './StudentDashboard/StudentProfile'
+import StudentCreditSummary from './StudentDashboard/StudentCreditSummary'
+
 function App() {
   return (
     <>
@@ -172,6 +178,16 @@ function App() {
                 }
               />
 
+            </Route>
+
+            {/* ============================================== */}
+            {/* STUDENT DASHBOARD */}
+            {/* ============================================== */}
+            <Route path="/std" element={<StdDashboard />}>
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<DashboardHome />} />
+              <Route path="profile" element={<StudentProfile />} />
+              <Route path="credit-summary" element={<StudentCreditSummary />} />
             </Route>
 
             {/* ============================================== */}
